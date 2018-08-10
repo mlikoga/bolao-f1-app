@@ -6,8 +6,20 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       pole: '',
-      bets: ['Hamilton', 'Bottas', 'Vettel', 'Raikkonen', 'Verstappen', 'Ricciardo'],
-    };
+      bets: [{ name: 'Hamilton' },
+             { name: 'Bottas' },
+             { name: 'Vettel' },
+             { name: 'Raikkonen' },
+             { name: 'Ricciardo' },
+             { name: 'Verstappen' },
+             { name: 'Alonso' }]
+    }
+  }
+
+  _setPolePosition(index) {
+    this.setState(previousState => {
+      return { pole: previousState.bets[index].name}
+    });
   }
 
   _onPressButtonUp(index) {
@@ -41,12 +53,19 @@ export default class App extends React.Component {
         <Text>Changes you make will automatically reload.</Text>
         <Text>Pole: {this.state.pole}</Text>
 
-        <FlatList
+        <FlatList style={styles.list}
           data={this.state.bets}
           extraData={this.state}
+          keyExtractor={(item) => item.name}
           renderItem={({item, index}) =>
             <View style={styles.listitem}>
-              <Text>{item}</Text>
+              <Text>{index + 1}. {item.name}</Text>
+              <TouchableOpacity onPress={() => this._setPolePosition(index)}>
+                <Image
+                  style={styles.button}
+                  source={require('./img/f1-helmet.png')}
+                />
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => this._onPressButtonUp(index)}>
                 <Image
                   style={styles.button}
@@ -73,6 +92,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  list: {
+    alignSelf: 'stretch',
   },
   listitem: {
     flex: 1,

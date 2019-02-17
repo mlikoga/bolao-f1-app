@@ -10,6 +10,7 @@ export class BetPage {
 
   positions: Array<Number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   drivers: Array<Driver> = [];
+  poleBet: number;
   
   constructor() {
     this.drivers = [
@@ -23,5 +24,10 @@ export class BetPage {
       { id:  8, name: 'Romain Grosjean' },
       { id: 20, name: 'Kevin Magnussen' }
     ];
+  }
+
+  onSubmitClicked() {
+    console.log("Submeter aposta");
+    console.log(`Pole: ${this.poleBet}`);
   }
  }

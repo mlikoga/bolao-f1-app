@@ -8,6 +8,15 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'bet',
+        children: [
+          {
+            path: '',
+            loadChildren: '../bet/bet.module#BetPageModule'
+          }
+        ]
+      },
+      {
         path: 'tab1',
         children: [
           {

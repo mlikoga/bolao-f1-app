@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Aposta
+    </ion-title>
+  </ion-toolbar>
+</ion-header> 
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let pos of positions">
+      <ion-label>{{ pos }}</ion-label>
+      <ion-select (ionChange)="driverSelected($value)" placeholder="Select driver">
+        <ion-select-option *ngFor="let driver of drivers; index as idx" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>

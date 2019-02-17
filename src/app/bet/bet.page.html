@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item *ngFor="let pos of positions">
       <ion-label>{{ pos }}</ion-label>
-      <ion-select (ionChange)="driverSelected($value)" placeholder="Select driver">
+      <ion-select placeholder="Select driver">
         <ion-select-option *ngFor="let driver of drivers; index as idx" value="{{driver.id}}">
           {{ driver.name }}
         </ion-select-option>

@@ -28,7 +28,21 @@ export class BetPage {
   }
 
   onPositionChanged(pos: number) {
-    console.log(`onPositionChanged: ${pos}`);
+    let bet = this.betPositions[pos];
+    console.log(`onPositionChanged: pos ${pos} -> ${bet}`);
+    
+    if (!bet) return;
+
+    // Unique driver in each position
+    let idx1 = this.betPositions.indexOf(bet);
+    let idx2 = this.betPositions.lastIndexOf(bet);
+    if (idx1 != idx2) {
+      if (idx1 != pos) {
+        this.betPositions[idx1] = null;
+      } else {
+        this.betPositions[idx2] = null;
+      }
+    }
   }
 
   onSubmitClicked() {

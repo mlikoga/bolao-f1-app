@@ -8,9 +8,10 @@ import { Driver } from '../model/driver';
 })
 export class BetPage {
 
-  positions: Array<Number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   drivers: Array<Driver> = [];
   poleBet: number;
+  betPositions: Array<number> = new Array(10);
   
   constructor() {
     this.drivers = [
@@ -26,8 +27,13 @@ export class BetPage {
     ];
   }
 
+  onPositionChanged(pos: number) {
+    console.log(`onPositionChanged: ${pos}`);
+  }
+
   onSubmitClicked() {
     console.log("Submeter aposta");
     console.log(`Pole: ${this.poleBet}`);
+    console.log(this.betPositions);
   }
  }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
-
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 @Component({
   selector: 'app-bet',
   templateUrl: 'bet.page.html',
@@ -14,17 +15,21 @@ export class BetPage {
   betPositions: Array<number> = new Array(10);
   
   constructor() {
-    this.drivers = [
-      { id: 44, name: 'Lewis Hamilton' },
-      { id: 77, name: 'Valtteri Bottas' },
-      { id:  5, name: 'Sebstian Vettel' },
-      { id: 16, name: 'Charles Leclerc' },
-      { id: 35, name: 'Max Verstappen' },
-      { id:  3, name: 'Daniel Ricciardo' },
-      { id: 27, name: 'Nico Hulkenberg' },
-      { id:  8, name: 'Romain Grosjean' },
-      { id: 20, name: 'Kevin Magnussen' }
-    ];
+    var config = {
+      apiKey: "AIzaSyBHRH42XCQA7PArHGHT-kB5D6K6p7mbUlE",
+      authDomain: "bolao-f1-2019.firebaseapp.com",
+      databaseURL: "https://bolao-f1-2019.firebaseio.com",
+      projectId: "bolao-f1-2019",
+      storageBucket: "bolao-f1-2019.appspot.com",
+      messagingSenderId: "639944233757"
+    };
+    firebase.initializeApp(config);
+    var db = firebase.firestore();
+    db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          this.drivers.push(doc.data() as Driver);
+      });
+    });
   }
 
   onPositionChanged(pos: number) {

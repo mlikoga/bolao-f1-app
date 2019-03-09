@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Aposta
+    </ion-title>
+  </ion-toolbar>
+</ion-header> 
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Pole Position</ion-label>
+      <ion-select [(ngModel)]="poleBet" placeholder="Select driver">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngFor="let pos of positions">
+      <ion-label>{{ pos + 1 }}</ion-label>
+      <ion-select [(ngModel)]="betPositions[pos]" placeholder="Select driver" (ionChange)="onPositionChanged(pos)">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-button (click)="onSubmitClicked()">
+    Enviar aposta
+  </ion-button>
+</ion-content>

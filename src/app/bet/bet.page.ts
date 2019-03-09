@@ -13,6 +13,7 @@ export class BetPage {
   drivers: Array<Driver> = [];
   poleBet: number;
   betPositions: Array<number> = new Array(10);
+  db: firebase.firestore.Firestore;
   
   constructor() {
     var config = {
@@ -24,8 +25,8 @@ export class BetPage {
       messagingSenderId: "639944233757"
     };
     firebase.initializeApp(config);
-    var db = firebase.firestore();
-    db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
+    this.db = firebase.firestore();
+    this.db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           this.drivers.push(doc.data() as Driver);
       });
@@ -54,5 +55,14 @@ export class BetPage {
     console.log("Submeter aposta");
     console.log(`Pole: ${this.poleBet}`);
     console.log(this.betPositions);
+
+    this.db.collection("bets").add({
+      user: 1,
+      race: 1,
+      pole: this.poleBet,
+      positions: this.betPositions,
+    })
+    .then(doc => console.log("Bet registered! Id: ", doc.id))
+    .catch(error => console.error("Error on submitting bet: ", error));
   }
  }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
+import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 @Component({
@@ -11,11 +13,17 @@ export class BetPage {
 
   positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   drivers: Array<Driver> = [];
-  poleBet: number;
-  betPositions: Array<number> = new Array(10);
+  betPole: number;
+  betPositions: Array<number>;
   db: firebase.firestore.Firestore;
+
+  customAlertOptions: any = {
+    backdropDismiss: true,
+    translucent: true
+  };
   
-  constructor() {
+  constructor(public alertController: AlertController, public toastController: ToastController) {
+    this.betPositions = new Array(this.positions.length);
     var config = {
       apiKey: "AIzaSyBHRH42XCQA7PArHGHT-kB5D6K6p7mbUlE",
       authDomain: "bolao-f1-2019.firebaseapp.com",
@@ -51,18 +59,44 @@ export class BetPage {
     }
   }
 
-  onSubmitClicked() {
-    console.log("Submeter aposta");
-    console.log(`Pole: ${this.poleBet}`);
+  canSubmit() {
+    return !!this.betPole && !this.betPositions.some(x => !x);
+  }
+
+  async onSubmitClicked() {
+    console.log(`Pole: ${this.betPole}`);
     console.log(this.betPositions);
+    console.log(`Can submit: ${this.canSubmit()}`);
+
+    if(!this.canSubmit()) {
+      const alert = await this.alertController.create({
+        message: "Preencha todos os campos.",
+        buttons: ["OK"],
+      });
+      await alert.present();
+      return;
+    }
 
     this.db.collection("bets").add({
       user: 1,
       race: 1,
-      pole: this.poleBet,
+      pole: this.betPole,
       positions: this.betPositions,
     })
-    .then(doc => console.log("Bet registered! Id: ", doc.id))
-    .catch(error => console.error("Error on submitting bet: ", error));
+    .then(doc => { 
+      console.log("Bet registered! Id: ", doc.id);
+      this.toastController.create({
+        message: "Aposta enviada com sucesso!",
+        color: "success",
+        position: "middle",
+        duration: 5000,
+      })
+      .then(toast => toast.present());
+    })
+    .catch(error => {
+      console.error("Error on submitting bet: ", error);
+      this.toastController.create({message: `Erro ao enviar aposta :( ${error}`})
+      .then(toast => toast.present());
+    });
   }
  }

@@ -14,6 +14,7 @@ export class BetPage {
   positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   drivers: Array<Driver> = [];
   betPole: number;
+  betFastestLap: number;
   betPositions: Array<number>;
   db: firebase.firestore.Firestore;
 
@@ -51,7 +52,9 @@ export class BetPage {
   }
 
   canSubmit() {
-    return !!this.betPole && !this.betPositions.some(x => !x);
+    return !!this.betPole && 
+      !!this.betFastestLap &&
+      !this.betPositions.includes(undefined);
   }
 
   async onSubmitClicked() {
@@ -72,6 +75,7 @@ export class BetPage {
       user: 1,
       race: 1,
       pole: this.betPole,
+      fastestLap: this.betFastestLap,
       positions: this.betPositions,
     })
     .then(doc => { 

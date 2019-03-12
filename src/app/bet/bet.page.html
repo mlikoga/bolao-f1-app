@@ -16,6 +16,14 @@
         </ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-label>Volta mais rápida</ion-label>
+      <ion-select [(ngModel)]="betFastestLap" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
     <ion-item *ngFor="let pos of positions">
       <ion-label>{{ pos + 1 }}</ion-label>
       <ion-select [(ngModel)]="betPositions[pos]" placeholder="Select driver" (ionChange)="onPositionChanged(pos)"

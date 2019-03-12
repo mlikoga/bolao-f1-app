@@ -24,15 +24,6 @@ export class BetPage {
   
   constructor(public alertController: AlertController, public toastController: ToastController) {
     this.betPositions = new Array(this.positions.length);
-    var config = {
-      apiKey: "AIzaSyBHRH42XCQA7PArHGHT-kB5D6K6p7mbUlE",
-      authDomain: "bolao-f1-2019.firebaseapp.com",
-      databaseURL: "https://bolao-f1-2019.firebaseio.com",
-      projectId: "bolao-f1-2019",
-      storageBucket: "bolao-f1-2019.appspot.com",
-      messagingSenderId: "639944233757"
-    };
-    firebase.initializeApp(config);
     this.db = firebase.firestore();
     this.db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {

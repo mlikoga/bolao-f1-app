@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
+import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 @Component({
@@ -9,27 +12,33 @@ import 'firebase/firestore';
 })
 export class BetPage {
 
-  positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+positions: Array<number> = [0, 1, 2 /*, 3, 4, 5, 6, 7, 8, 9*/];
   drivers: Array<Driver> = [];
-  poleBet: number;
-  betPositions: Array<number> = new Array(10);
+  betPole: number;
+  betFastestLap: number;
+  betPositions: Array<number>;
   db: firebase.firestore.Firestore;
+  user: string;
+
+  customAlertOptions: any = {
+    backdropDismiss: true,
+    translucent: true
+  };
   
-  constructor() {
-    var config = {
-      apiKey: "AIzaSyBHRH42XCQA7PArHGHT-kB5D6K6p7mbUlE",
-      authDomain: "bolao-f1-2019.firebaseapp.com",
-      databaseURL: "https://bolao-f1-2019.firebaseio.com",
-      projectId: "bolao-f1-2019",
-      storageBucket: "bolao-f1-2019.appspot.com",
-      messagingSenderId: "639944233757"
-    };
-    firebase.initializeApp(config);
+  constructor(
+      public alertController: AlertController, 
+      public toastController: ToastController,
+      private storage: Storage) {
+    
+    this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
     this.db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           this.drivers.push(doc.data() as Driver);
       });
+    });
+    this.storage.get('login').then(value => {
+      this.user = value;
     });
   }
 
@@ -51,18 +60,48 @@ export class BetPage {
     }
   }
 
-  onSubmitClicked() {
-    console.log("Submeter aposta");
-    console.log(`Pole: ${this.poleBet}`);
+  canSubmit() {
+    return !!this.betPole && 
+      !!this.betFastestLap &&
+      !this.betPositions.includes(undefined);
+  }
+
+  async onSubmitClicked() {
+    console.log(`Pole: ${this.betPole}`);
     console.log(this.betPositions);
+    console.log(`Can submit: ${this.canSubmit()}`);
+
+    if(!this.canSubmit()) {
+      const alert = await this.alertController.create({
+        message: "Preencha todos os campos.",
+        buttons: ["OK"],
+      });
+      await alert.present();
+      return;
+    }
 
     this.db.collection("bets").add({
-      user: 1,
+      user: this.user,
       race: 1,
-      pole: this.poleBet,
+      pole: this.betPole,
+      fastestLap: this.betFastestLap,
       positions: this.betPositions,
+      createdAt: new Date(),
     })
-    .then(doc => console.log("Bet registered! Id: ", doc.id))
-    .catch(error => console.error("Error on submitting bet: ", error));
+    .then(doc => { 
+      console.log("Bet registered! Id: ", doc.id);
+      this.toastController.create({
+        message: "Aposta enviada com sucesso!",
+        color: "success",
+        position: "middle",
+        duration: 5000,
+      })
+      .then(toast => toast.present());
+    })
+    .catch(error => {
+      console.error("Error on submitting bet: ", error);
+      this.toastController.create({message: `Erro ao enviar aposta :( ${error}`})
+      .then(toast => toast.present());
+    });
   }
  }

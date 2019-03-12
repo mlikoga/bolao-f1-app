@@ -10,7 +10,15 @@
   <ion-list>
     <ion-item>
       <ion-label>Pole Position</ion-label>
-      <ion-select [(ngModel)]="poleBet" placeholder="Select driver">
+      <ion-select [(ngModel)]="betPole" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Volta mais rápida</ion-label>
+      <ion-select [(ngModel)]="betFastestLap" placeholder="Select driver" interface="alert">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
           {{ driver.name }}
         </ion-select-option>
@@ -18,14 +26,15 @@
     </ion-item>
     <ion-item *ngFor="let pos of positions">
       <ion-label>{{ pos + 1 }}</ion-label>
-      <ion-select [(ngModel)]="betPositions[pos]" placeholder="Select driver" (ionChange)="onPositionChanged(pos)">
+      <ion-select [(ngModel)]="betPositions[pos]" placeholder="Select driver" (ionChange)="onPositionChanged(pos)"
+      interface="action-sheet" [interfaceOptions]="{ header: pos + 1 }">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
           {{ driver.name }}
         </ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>
-  <ion-button (click)="onSubmitClicked()">
+  <ion-button expand="block" (click)="onSubmitClicked()">
     Enviar aposta
   </ion-button>
 </ion-content>

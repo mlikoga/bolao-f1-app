@@ -1,0 +1,9 @@
+<ion-content padding>
+  <ion-item>
+    <ion-label>Display name</ion-label>
+    <ion-input type="text" placeholder="Digite seu nome" [(ngModel)]="login"></ion-input>
+  </ion-item>
+  <ion-button expand="block" routerLink="/tabs" routerDirection="root" (click)="loginClicked()">
+    Login
+  </ion-button>
+</ion-content>

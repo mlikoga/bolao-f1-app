@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 @Component({
@@ -17,19 +18,27 @@ export class BetPage {
   betFastestLap: number;
   betPositions: Array<number>;
   db: firebase.firestore.Firestore;
+  user: string;
 
   customAlertOptions: any = {
     backdropDismiss: true,
     translucent: true
   };
   
-  constructor(public alertController: AlertController, public toastController: ToastController) {
+  constructor(
+      public alertController: AlertController, 
+      public toastController: ToastController,
+      private storage: Storage) {
+    
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
     this.db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           this.drivers.push(doc.data() as Driver);
       });
+    });
+    this.storage.get('login').then(value => {
+      this.user = value;
     });
   }
 
@@ -72,7 +81,7 @@ export class BetPage {
     }
 
     this.db.collection("bets").add({
-      user: 1,
+      user: this.user,
       race: 1,
       pole: this.betPole,
       fastestLap: this.betFastestLap,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
 import { AlertController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import * as firebase from 'firebase';
@@ -27,6 +28,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   
   constructor(
       public alertController: AlertController, 
+      public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService) {
     
@@ -77,9 +79,16 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       return;
     }
 
+    const loading = await this.loadingController.create({
+      spinner: "circles",
+      translucent: true,
+    });
+    loading.present();
+
     let username = this.authService.currentUser();
     let race = 1;
-    let docId = `${username}.${race}`
+    let docId = `${username}.${race}`;
+    console.log(`BetId: ${docId}`);
     this.db.collection("bets").doc(docId).set({
       user: username,
       race: race,
@@ -102,6 +111,9 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       console.error("Error on submitting bet: ", error);
       this.toastController.create({message: `Erro ao enviar aposta :( ${error}`})
       .then(toast => toast.present());
+    })
+    .finally(() => {
+      loading.dismiss();
     });
   }
  }

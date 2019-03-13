@@ -77,16 +77,19 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       return;
     }
 
-    this.db.collection("bets").add({
-      user: this.authService.currentUser(),
-      race: 1,
+    let username = this.authService.currentUser();
+    let race = 1;
+    let docId = `${username}.${race}`
+    this.db.collection("bets").doc(docId).set({
+      user: username,
+      race: race,
       pole: this.betPole,
       fastestLap: this.betFastestLap,
       positions: this.betPositions,
       createdAt: new Date(),
     })
-    .then(doc => { 
-      console.log("Bet registered! Id: ", doc.id);
+    .then(() => { 
+      console.log("Bet registered!");
       this.toastController.create({
         message: "Aposta enviada com sucesso!",
         color: "success",

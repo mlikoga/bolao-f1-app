@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +11,17 @@ export class LoginPage implements OnInit {
 
   login: string;
 
-  constructor(private storage: Storage) { }
+  constructor(public authService: AuthService, private router: Router) {
+    if (authService.authenticated()) {
+      this.router.navigate(['tabs']);
+    }
+  }
 
   ngOnInit() {
   }
 
   loginClicked() {
-    this.storage.set('login', this.login);
-    console.log("Login successful!");
+    this.authService.login(this.login);
   }
 
 }

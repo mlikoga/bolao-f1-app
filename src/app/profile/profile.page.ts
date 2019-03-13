@@ -11,10 +11,13 @@ export class ProfilePage implements OnInit {
   username: string;
 
   constructor(public authService: AuthService) { 
-    this.username = authService.currentUser();
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.username = this.authService.currentUser();
   }
 
 }

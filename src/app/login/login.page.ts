@@ -20,6 +20,12 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillEnter() {
+    if (this.authService.authenticated()) {
+      this.router.navigate(['tabs']);
+    }
+  }
+
   loginClicked() {
     this.authService.login(this.login);
   }

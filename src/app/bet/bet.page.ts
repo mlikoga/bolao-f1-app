@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
 import { AlertController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { AuthService } from '../auth.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 @Component({
@@ -27,8 +28,9 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   
   constructor(
       public alertController: AlertController, 
+      public loadingController: LoadingController,
       public toastController: ToastController,
-      private storage: Storage) {
+      public authService: AuthService) {
     
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
@@ -36,9 +38,6 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       querySnapshot.forEach((doc) => {
           this.drivers.push(doc.data() as Driver);
       });
-    });
-    this.storage.get('login').then(value => {
-      this.user = value;
     });
   }
 
@@ -80,16 +79,26 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       return;
     }
 
-    this.db.collection("bets").add({
-      user: this.user,
-      race: 1,
+    const loading = await this.loadingController.create({
+      spinner: "circles",
+      translucent: true,
+    });
+    loading.present();
+
+    let username = this.authService.currentUser();
+    let race = 1;
+    let docId = `${username}.${race}`;
+    console.log(`BetId: ${docId}`);
+    this.db.collection("bets").doc(docId).set({
+      user: username,
+      race: race,
       pole: this.betPole,
       fastestLap: this.betFastestLap,
       positions: this.betPositions,
       createdAt: new Date(),
     })
-    .then(doc => { 
-      console.log("Bet registered! Id: ", doc.id);
+    .then(() => { 
+      console.log("Bet registered!");
       this.toastController.create({
         message: "Aposta enviada com sucesso!",
         color: "success",
@@ -102,6 +111,9 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       console.error("Error on submitting bet: ", error);
       this.toastController.create({message: `Erro ao enviar aposta :( ${error}`})
       .then(toast => toast.present());
+    })
+    .finally(() => {
+      loading.dismiss();
     });
   }
  }

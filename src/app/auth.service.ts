@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 @Injectable({
@@ -8,9 +9,11 @@ export class AuthService {
 
   currentUsername: string;
 
-  constructor(private storage: Storage) {
-    this.storage.get('login').then(value => {
-      this.currentUsername = value;
+  constructor(private storage: Storage, private platform: Platform) {
+    this.platform.ready().then(() => {
+      this.storage.get('login').then(value => {
+        this.currentUsername = value;
+      })
     });
   }
 

@@ -12,7 +12,7 @@ import 'firebase/firestore';
 })
 export class BetPage {
 
-positions: Array<number> = [0, 1, 2 /*, 3, 4, 5, 6, 7, 8, 9*/];
+positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   drivers: Array<Driver> = [];
   betPole: number;
   betFastestLap: number;

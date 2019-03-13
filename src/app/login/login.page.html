@@ -1,9 +1,11 @@
 <ion-content padding>
+  <ion-img src="assets/f1-logo.png"></ion-img>
   <ion-item>
-    <ion-label>Display name</ion-label>
-    <ion-input type="text" placeholder="Digite seu nome" [(ngModel)]="login"></ion-input>
+    <ion-label position="stacked">Qual seu nome de usuário?</ion-label>
+    <ion-input type="text" placeholder="Digite aqui" [(ngModel)]="login"></ion-input>
   </ion-item>
-  <ion-button expand="block" routerLink="/tabs" routerDirection="root" (click)="loginClicked()">
-    Login
+  <ion-button expand="block" routerLink="/tabs" routerDirection="root" 
+    (click)="loginClicked()" [disabled]="!login">
+    Começar
   </ion-button>
 </ion-content>

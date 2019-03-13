@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Driver } from '../model/driver';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { AuthService } from '../auth.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 @Component({
@@ -28,7 +28,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   constructor(
       public alertController: AlertController, 
       public toastController: ToastController,
-      private storage: Storage) {
+      public authService: AuthService) {
     
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
@@ -36,9 +36,6 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       querySnapshot.forEach((doc) => {
           this.drivers.push(doc.data() as Driver);
       });
-    });
-    this.storage.get('login').then(value => {
-      this.user = value;
     });
   }
 
@@ -81,7 +78,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
 
     this.db.collection("bets").add({
-      user: this.user,
+      user: this.authService.currentUser(),
       race: 1,
       pole: this.betPole,
       fastestLap: this.betFastestLap,

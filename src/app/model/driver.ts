@@ -1,4 +1,5 @@
 export class Driver {
-  id: number;
+  id: string;
   name: string;
+  number: number;
 }

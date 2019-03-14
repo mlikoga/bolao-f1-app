@@ -6,8 +6,8 @@ import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
 import { Driver } from '../model/driver';
-import { AuthService } from '../auth.service';
-import { TimeService } from '../time/time.service';
+import { AuthService } from '../services/auth.service';
+import { TimeService } from '../services/time.service';
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -49,7 +49,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   }
 
   ionViewWillEnter() {
-    if (this.timeService.bettingEnabled()) {
+    if (!this.timeService.bettingEnabled()) {
       this.router.navigate(['tabs/bet/partials']);
     }
   }

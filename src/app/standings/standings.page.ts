@@ -14,13 +14,19 @@ export class StandingsPage {
   users: Array<User> = [];
   constructor() { 
     this.db = firebase.firestore();
+    this.refresh();
   }
 
   ionViewWillEnter() {
+    
+  }
+
+  refresh(event?) : void {
     this.users = [];
     this.db.collection("users").orderBy("username", "asc").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
           this.users.push(doc.data() as User);
+          if (event) event.target.complete();
       });
     });
   }

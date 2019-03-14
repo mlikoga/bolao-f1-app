@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
-import { Driver } from '../model/driver';
+import { Router } from '@angular/router';
+
 import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+
+import { Driver } from '../model/driver';
 import { AuthService } from '../auth.service';
+import { TimeService } from '../time/time.service';
+
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 @Component({
@@ -30,7 +35,9 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       public alertController: AlertController, 
       public loadingController: LoadingController,
       public toastController: ToastController,
-      public authService: AuthService) {
+      public authService: AuthService,
+      public timeService: TimeService,
+      private router: Router) {
     
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
@@ -39,6 +46,12 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
           this.drivers.push(doc.data() as Driver);
       });
     });
+  }
+
+  ionViewWillEnter() {
+    if (this.timeService.bettingEnabled()) {
+      this.router.navigate(['tabs/bet/partials']);
+    }
   }
 
   onPositionChanged(pos: number) {

@@ -13,6 +13,10 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../bet/bet.module#BetPageModule'
+          },
+          {
+            path: 'partials',
+            loadChildren: '../partials/partials.module#PartialsPageModule'
           }
         ]
       },

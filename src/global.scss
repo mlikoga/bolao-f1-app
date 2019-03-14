@@ -9,3 +9,12 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+.alert-title.sc-ion-alert-md,
+.alert-title.sc-ion-alert-ios {
+  color: #262626;
+}
+
+.alert-radio-label.sc-ion-alert-ios {
+  color: #262626;
+}

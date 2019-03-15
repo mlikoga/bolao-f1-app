@@ -13,7 +13,8 @@ import { BetService } from '../services/bet.service';
 })
 export class BetViewPage implements OnInit {
   bet$: Observable<Bet>;
-  
+  username: string;
+
   constructor(
     private route: ActivatedRoute,
     private betService: BetService
@@ -21,9 +22,10 @@ export class BetViewPage implements OnInit {
 
   ngOnInit() {
     this.bet$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        this.betService.getCurrentBet(params.get('username')))
-      );
+      switchMap((params: ParamMap) => {
+        this.username = params.get('username');
+        return this.betService.getCurrentBet(this.username);
+      }));
   }
 
 }

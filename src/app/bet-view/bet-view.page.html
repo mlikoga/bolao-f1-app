@@ -3,23 +3,26 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Aposta {{username}}</ion-title>
+    <ion-title>Aposta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="bet$ | async as bet">
-    <ion-item>
-      <ion-label>Pole Position</ion-label>
-      <ion-label>{{ bet.pole }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Volta mais rápida</ion-label>
-      <ion-label>{{ bet.fastestLap }}</ion-label>
-    </ion-item>
-    <ion-item *ngFor="let betPos of bet.positions; index as pos">
-      <ion-label>{{ pos + 1 }}</ion-label>
-      <ion-label>{{ betPos }}</ion-label>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="bet$ | async as bet">
+    <div padding>Usuário: {{ bet.user }}</div>
+    <ion-list>
+      <ion-item>
+        <ion-label>Pole Position</ion-label>
+        <ion-label text-right>{{ bet.pole }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Volta mais rápida</ion-label>
+        <ion-label text-right>{{ bet.fastestLap }}</ion-label>
+      </ion-item>
+      <ion-item *ngFor="let betPos of bet.positions; index as pos">
+        <ion-label>{{ pos + 1 }}</ion-label>
+        <ion-label text-right>{{ betPos }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

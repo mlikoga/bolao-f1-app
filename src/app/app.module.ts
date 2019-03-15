@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AuthService } from './services/auth.service';
+import { BetService } from './services/bet.service';
 import { TimeService } from './services/time.service';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { TimeService } from './services/time.service';
     StatusBar,
     SplashScreen,
     AuthService,
+    BetService,
     TimeService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

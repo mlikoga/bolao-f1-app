@@ -17,6 +17,10 @@ const routes: Routes = [
           {
             path: 'partials',
             loadChildren: '../partials/partials.module#PartialsPageModule'
+          },
+          {
+            path: 'partials/:username',
+            loadChildren: '../bet-view/bet-view.module#BetViewPageModule'
           }
         ]
       },

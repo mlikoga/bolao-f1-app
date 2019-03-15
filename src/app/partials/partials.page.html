@@ -6,7 +6,7 @@
 
 <ion-content padding>
 <ion-list>
-  <ion-item *ngFor="let user of users" (click)="userClicked(user)" type="button">
+  <ion-item *ngFor="let user of users" [routerLink]="['/tabs/bet/partials', user.username]" type="button">
     <ion-label>{{ user.username }}</ion-label>
   </ion-item>
 </ion-list>

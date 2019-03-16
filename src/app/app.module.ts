@@ -12,6 +12,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AuthService } from './services/auth.service';
 import { BetService } from './services/bet.service';
+import { CacheService } from './services/cache.service';
 import { TimeService } from './services/time.service';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { TimeService } from './services/time.service';
     SplashScreen,
     AuthService,
     BetService,
+    CacheService,
     TimeService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

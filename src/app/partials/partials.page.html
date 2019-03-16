@@ -4,8 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <div>Apostas para o GP {{ currentRace.name }}</div>
+<ion-content>
+  <div padding>Apostas para o GP {{ currentRace.name }}</div>
   <ion-list>
     <ion-item *ngFor="let user of users" [routerLink]="['/tabs/bet/partials', user.username]" type="button">
       <ion-label>{{ user.username }}</ion-label>

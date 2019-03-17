@@ -28,7 +28,6 @@ export class BetPage {
 
   customAlertOptions: any = {
     backdropDismiss: true,
-    translucent: true
   };
 
   constructor(

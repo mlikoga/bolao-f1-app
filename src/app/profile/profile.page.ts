@@ -9,15 +9,17 @@ import { AuthService } from '../services/auth.service';
 export class ProfilePage implements OnInit {
 
   username: string;
+  version: string;
 
-  constructor(public authService: AuthService) { 
+  constructor(public authService: AuthService) {
+    this.version = "1.3";
   }
 
   ngOnInit() {
   }
 
-  ionViewWillEnter() {
-    this.username = this.authService.currentUser();
+  async ionViewWillEnter() {
+    this.username = await this.authService.getCurrentUser();
   }
 
 }

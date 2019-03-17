@@ -92,7 +92,7 @@ export class BetPage {
     });
     loading.present();
 
-    let username = this.authService.currentUser();
+    let username = await this.authService.getCurrentUser();
     let race = 1;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);

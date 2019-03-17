@@ -12,18 +12,17 @@ export class LoginPage implements OnInit {
   login: string;
 
   constructor(public authService: AuthService, private router: Router) {
-    if (authService.authenticated()) {
-      this.router.navigate(['tabs']);
-    }
   }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    if (this.authService.authenticated()) {
-      this.router.navigate(['tabs']);
-    }
+    this.authService.authenticated().then(authenticated => {
+      if(authenticated) {
+        this.router.navigate(['tabs'])
+      }
+    });
   }
 
   loginClicked() {

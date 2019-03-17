@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Bolão F1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h4 class="race__title">GP {{ currentRace.name }}</h4>
+  <ion-list>
+    <ion-item>
+      <ion-label>Pole Position</ion-label>
+      <ion-select [(ngModel)]="resultPole" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Volta mais rápida</ion-label>
+      <ion-select [(ngModel)]="resultFastestLap" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-reorder-group (ionItemReorder)="itemReorder($event)" disabled="false">
+      <ion-item *ngFor="let driver of positions; index as idx">
+        <ion-label class="position">{{ idx + 1}}</ion-label>
+        <ion-label>{{ driver.name }}</ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+</ion-content>

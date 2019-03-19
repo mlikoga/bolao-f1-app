@@ -6,6 +6,7 @@ import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
 import { Driver } from '../model/driver';
+import { Race } from '../model/race';
 import { AuthService } from '../services/auth.service';
 import { TimeService } from '../services/time.service';
 
@@ -25,6 +26,7 @@ export class BetPage {
   betPositions: Array<number>;
   db: firebase.firestore.Firestore;
   user: string;
+  currentRace: Race;
 
   customAlertOptions: any = {
     backdropDismiss: true,
@@ -40,6 +42,7 @@ export class BetPage {
 
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
+    this.currentRace = timeService.currentRace();
   }
 
   ionViewWillEnter() {

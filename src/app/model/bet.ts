@@ -1,4 +1,4 @@
-export class Bet {
+export interface Bet {
   pole: string;
   fastestLap: string;
   positions: Array<string>;

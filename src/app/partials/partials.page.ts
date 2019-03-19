@@ -35,9 +35,4 @@ export class PartialsPage implements OnInit {
       this.router.navigate(['tabs/bet']);
     }
   }
-
-  userClicked(user) {
-    console.log(user);
-  }
-
 }

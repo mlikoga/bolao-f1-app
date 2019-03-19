@@ -6,6 +6,7 @@ import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
 import { Driver } from '../model/driver';
+import { Race } from '../model/race';
 import { AuthService } from '../services/auth.service';
 import { TimeService } from '../services/time.service';
 
@@ -18,13 +19,14 @@ import 'firebase/firestore';
 })
 export class BetPage {
 
-positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   drivers: Array<Driver> = [];
   betPole: number;
   betFastestLap: number;
   betPositions: Array<number>;
   db: firebase.firestore.Firestore;
   user: string;
+  currentRace: Race;
 
   customAlertOptions: any = {
     backdropDismiss: true,
@@ -43,9 +45,10 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     this.db = firebase.firestore();
     this.db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-          this.drivers.push(doc.data() as Driver);
+        this.drivers.push(doc.data() as Driver);
       });
     });
+    this.currentRace = timeService.currentRace();
   }
 
   ionViewWillEnter() {

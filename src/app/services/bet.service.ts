@@ -27,7 +27,7 @@ export class BetService {
   }
 
   async getRaceBets(race: Race): Promise<Array<Bet>> {
-    let bets = await this.db.collection('bets').get();
+    let bets = await this.db.collection('bets').where('race', '==', race.id).get();
     return bets.docs.map(querySnap => querySnap.data() as Bet);
   }
 }

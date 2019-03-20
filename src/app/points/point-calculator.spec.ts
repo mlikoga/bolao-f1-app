@@ -4,7 +4,7 @@ describe("Australia GP 2019", function() {
   let result = {
     pole: "HAM",
     fastestLap: "BOT",
-    positions: ["BOT", "HAM", "VER", "VET", "LEC", "MAG", "HUL", "RAI", "STR", "KVY"],
+    positions: ["BOT", "HAM", "VER", "VET", "LEC", "MAG", "HUL", "RAI", "STR", "KVY", "GAS"],
     user: "m",
     race: 1,
   };
@@ -51,6 +51,17 @@ describe("Australia GP 2019", function() {
       race: 1,
     };
     expect(PointCalculator.calculatePoints(result, bet)).toBe(17);
+  });
+
+  it("Yuri bet", function() {
+    let bet = {
+      pole: "LEC",
+      fastestLap: "HAM",
+      positions: ["VET", "LEC", "HAM", "RAI", "BOT", "VER", "HUL", "GAS", "RIC", "MAG"],
+      user: "Yuri",
+      race: 1,
+    };
+    expect(PointCalculator.calculatePoints(result, bet)).toBeCloseTo(36.5);
   });
 });
 

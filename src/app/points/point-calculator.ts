@@ -12,7 +12,7 @@ export class PointCalculator {
     if(result.fastestLap === bet.fastestLap) {
       points += 10;
     }
-    for (let i = 0; i < result.positions.length; i++) {
+    for (let i = 0; i < 10; i++) {
       let result_i = result.positions[i];
       if (result_i === bet.positions[i]) {
         points += this.racePoints[i];

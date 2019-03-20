@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="title">Apostas para o GP {{ currentRace.name }}</div>
+  <div class="title">GP {{ currentRace.name }}</div>
   <ion-list>
     <ion-item *ngFor="let user of users" [routerLink]="['/tabs/bet/partials', user.username]" type="button">
       <ion-label>{{ user.username }}</ion-label>

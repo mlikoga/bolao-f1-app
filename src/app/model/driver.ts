@@ -22,7 +22,7 @@ export class Driver {
       {id: "RAI", name: "Kimi Raikkonen", number: 7},
       {id: "GIO", name: "Antonio Giovinazzi", number: 99},
       {id: "ALB", name: "Alexander Albon", number: 23},
-      {id: "KYV", name: "Daniil Kvyat", number: 26},
+      {id: "KVY", name: "Daniil Kvyat", number: 26},
       {id: "RUS", name: "George Russell", number: 63},
       {id: "KUB", name: "Robert Kubica", number: 88},
     ]

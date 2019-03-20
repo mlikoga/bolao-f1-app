@@ -27,4 +27,8 @@ export class Driver {
       {id: "KUB", name: "Robert Kubica", number: 88},
     ]
   }
+
+  static fromId(id: string): Driver {
+    return Driver.all().find(driver => driver.id === id);
+  }
 }

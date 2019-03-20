@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { TimeService } from './time.service';
 import { Bet } from '../model/bet';
+import { Race } from '../model/race';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -23,5 +24,10 @@ export class BetService {
       let doc = await this.db.collection('bets').doc(docId).get();
       return doc.data() as Bet;
     });
+  }
+
+  async getRaceBets(race: Race): Promise<Array<Bet>> {
+    let bets = await this.db.collection('bets').get();
+    return bets.docs.map(querySnap => querySnap.data() as Bet);
   }
 }

@@ -14,7 +14,7 @@ import { TimeService } from '../services/time.service';
 export class RacePage {
   drivers: Array<Driver> = Driver.all();
   result: Result;
-  positions: Array<Driver> = Driver.all();
+  positions: Array<Driver>;
   currentRace: Race;
   isAdmin: boolean;
 
@@ -23,10 +23,15 @@ export class RacePage {
     private resultService: ResultService,
     private timeService: TimeService) {
 
-    this.currentRace = timeService.currentRace();
+    this.currentRace = this.timeService.currentRace();
     this.result = new Result(this.currentRace.id);
     this.positions = Driver.all();
-    authService.isAdmin().then(value => this.isAdmin = value);
+    this.authService.isAdmin().then(value => this.isAdmin = value);
+    this.resultService.getResult(this.currentRace)
+      .then(result => {
+        this.result = result;
+        this.positions = result.positions.map(id => Driver.fromId(id));
+      });
   }
 
   itemReorder(ev) {

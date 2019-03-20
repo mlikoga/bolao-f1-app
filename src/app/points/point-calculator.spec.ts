@@ -5,7 +5,6 @@ describe("Australia GP 2019", function() {
     pole: "HAM",
     fastestLap: "BOT",
     positions: ["BOT", "HAM", "VER", "VET", "LEC", "MAG", "HUL", "RAI", "STR", "KVY", "GAS"],
-    user: "m",
     race: 1,
   };
 

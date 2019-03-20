@@ -1,10 +1,11 @@
 import { Bet } from '../model/bet';
+import { Result } from '../model/result';
 
 export class PointCalculator {
 
   static racePoints = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
-  static calculatePoints(result: Bet, bet: Bet): number {
+  static calculatePoints(result: Result, bet: Bet): number {
     let points = 0;
     if(result.pole === bet.pole) {
       points += 10;

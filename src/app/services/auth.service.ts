@@ -34,7 +34,7 @@ export class AuthService {
   async isAdmin() : Promise<boolean> {
     let username = await this.getCurrentUser();
     console.log(`current user: ${username}`);
-    return ['Koga', 'mat', 'Possebon'].includes(username);
+    return ['Koga'].includes(username);
   }
 
   async authenticated() : Promise<boolean> {

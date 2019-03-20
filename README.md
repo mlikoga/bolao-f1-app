@@ -4,6 +4,11 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.3
+- Submit race results
+- Standings
+- Shows current GP on top of most pages
+
 1.2
 - Caching
 

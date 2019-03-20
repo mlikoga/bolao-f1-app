@@ -14,7 +14,7 @@
     <ion-item *ngFor="let user of users; index as idx">
       <ion-label class="standings__position">{{ idx + 1 }}</ion-label>
       <ion-label>{{ user.username }}</ion-label>
-      <ion-label text-right>{{ user.points }}</ion-label>
+      <ion-label text-right>{{ user.points | number }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

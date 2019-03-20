@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from '../model/user';
+import { ResultService } from '../services/result.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -12,7 +13,7 @@ export class StandingsPage {
 
   db: firebase.firestore.Firestore;
   users: Array<User> = [];
-  constructor() { 
+  constructor(private resultService: ResultService) { 
     this.db = firebase.firestore();
     this.refresh();
   }
@@ -23,9 +24,12 @@ export class StandingsPage {
 
   refresh(event?) : void {
     this.users = [];
-    this.db.collection("users").orderBy("username", "asc").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          this.users.push(doc.data() as User);
+    this.db.collection("users").get().then((querySnapshot) => {
+      querySnapshot.forEach(async (doc) => {
+          let user = doc.data() as User;
+          user.points = await this.resultService.getTotalPoints(user.username);
+          this.users.push(user);
+          this.users.sort((u1, u2) => u2.points - u1.points);
           if (event) event.target.complete();
       });
     });

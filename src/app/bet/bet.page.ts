@@ -6,6 +6,7 @@ import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
 import { Driver } from '../model/driver';
+import { Race } from '../model/race';
 import { AuthService } from '../services/auth.service';
 import { TimeService } from '../services/time.service';
 
@@ -18,34 +19,30 @@ import 'firebase/firestore';
 })
 export class BetPage {
 
-positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  drivers: Array<Driver> = [];
+  positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  drivers: Array<Driver> = Driver.all();
   betPole: number;
   betFastestLap: number;
   betPositions: Array<number>;
   db: firebase.firestore.Firestore;
   user: string;
+  currentRace: Race;
 
   customAlertOptions: any = {
     backdropDismiss: true,
-    translucent: true
   };
-  
+
   constructor(
-      public alertController: AlertController, 
+      public alertController: AlertController,
       public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService,
       public timeService: TimeService,
       private router: Router) {
-    
+
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
-    this.db.collection("drivers").orderBy("pos").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          this.drivers.push(doc.data() as Driver);
-      });
-    });
+    this.currentRace = timeService.currentRace();
   }
 
   ionViewWillEnter() {
@@ -57,7 +54,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   onPositionChanged(pos: number) {
     let bet = this.betPositions[pos];
     console.log(`onPositionChanged: pos ${pos} -> ${bet}`);
-    
+
     if (!bet) return;
 
     // Unique driver in each position
@@ -73,7 +70,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   }
 
   canSubmit() {
-    return !!this.betPole && 
+    return !!this.betPole &&
       !!this.betFastestLap &&
       !this.betPositions.includes(undefined);
   }
@@ -98,7 +95,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     });
     loading.present();
 
-    let username = this.authService.currentUser();
+    let username = await this.authService.getCurrentUser();
     let race = 1;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);
@@ -110,7 +107,7 @@ positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
       positions: this.betPositions,
       createdAt: new Date(),
     })
-    .then(() => { 
+    .then(() => {
       console.log("Bet registered!");
       this.toastController.create({
         message: "Aposta enviada com sucesso!",

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -9,19 +8,16 @@ import 'firebase/firestore';
 export class AuthService {
 
   db: firebase.firestore.Firestore;
-  currentUsername: string;
 
-  constructor(private storage: Storage, private platform: Platform) {
-    this.platform.ready().then(() => {
-      this.storage.get('login').then(value => {
-        this.currentUsername = value;
-      })
-    });
+  constructor(private storage: Storage) {
     this.db = firebase.firestore();
   }
 
+  async getCurrentUser(): Promise<string> {
+    return this.storage.get('login');
+  }
+
   login(username: string) : void {
-    this.currentUsername = username;
     this.storage.set('login', username);
     this.db.collection('users').doc(username).set({
       username: username,
@@ -29,18 +25,20 @@ export class AuthService {
     });
     console.log("Login successful!");
   }
-  
+
   logout() : void {
-    this.currentUsername = null;
     this.storage.set('login', null);
     console.log("Logout");
   }
 
-  currentUser() : string {
-    return this.currentUsername;
+  async isAdmin() : Promise<boolean> {
+    let username = await this.getCurrentUser();
+    console.log(`current user: ${username}`);
+    return ['Koga'].includes(username);
   }
 
-  authenticated() : boolean {
-    return !!this.currentUsername;
+  async authenticated() : Promise<boolean> {
+    let username = await this.getCurrentUser();
+    return !!username;
   }
 }

@@ -4,9 +4,10 @@
       Bolão F1
     </ion-title>
   </ion-toolbar>
-</ion-header> 
+</ion-header>
 
 <ion-content>
+  <div class="title">GP {{ currentRace.name }}</div>
   <ion-list>
     <ion-item>
       <ion-label>Pole Position</ion-label>
@@ -27,7 +28,7 @@
     <ion-item *ngFor="let pos of positions">
       <ion-label>{{ pos + 1 }}</ion-label>
       <ion-select [(ngModel)]="betPositions[pos]" placeholder="Select driver" (ionChange)="onPositionChanged(pos)"
-        interface="alert">
+        interface="alert" [interfaceOptions]="customAlertOptions">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
           {{ driver.name }}
         </ion-select-option>

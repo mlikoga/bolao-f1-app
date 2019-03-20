@@ -25,11 +25,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'tab2',
+        path: 'race',
         children: [
           {
             path: '',
-            loadChildren: '../tab2/tab2.module#Tab2PageModule'
+            loadChildren: '../race/race.module#RacePageModule'
           }
         ]
       },

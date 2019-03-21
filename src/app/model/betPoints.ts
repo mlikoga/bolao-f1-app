@@ -6,7 +6,7 @@ export class BetPoints {
   user: string;
   race: number; 
 
-  constructor(user: string, race: number) {
+  constructor(user?: string, race?: number) {
     this.user = user;
     this.race = race;
     this.pole = 0;

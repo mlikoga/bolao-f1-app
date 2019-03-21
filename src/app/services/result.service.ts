@@ -4,6 +4,7 @@ import { Race } from '../model/race';
 import { Result } from '../model/result';
 import { PointCalculator } from '../points/point-calculator';
 import { BetService } from '../services/bet.service';
+import { CacheService } from './cache.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -14,15 +15,21 @@ export class ResultService {
 
   db: firebase.firestore.Firestore;
 
-  constructor(private betService: BetService) {
+  constructor(private betService: BetService, private cache : CacheService) {
     this.db = firebase.firestore();
   }
 
   async getResult(race: Race): Promise<Result> {
     let docId = `${race.id}.${race.name}`;
+    let cached_result = await this.cache.get(docId);
+    if (cached_result) {
+      return cached_result;
+    }
     let doc = await this.db.collection('results').doc(docId).get();
     if (doc) {
-      return doc.data() as Result;
+      let result = doc.data() as Result;
+      this.cache.set(docId, result);
+      return result;
     }
     Promise.reject("Result not found");
   }

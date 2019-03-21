@@ -5,6 +5,10 @@ import { Observable } from 'rxjs';
 
 import { Bet } from '../model/bet';
 import { BetService } from '../services/bet.service';
+import { ResultService } from '../services/result.service';
+import { TimeService } from '../services/time.service';
+import { PointCalculator } from '../points/point-calculator';
+import { BetPoints } from '../model/betPoints';
 
 @Component({
   selector: 'app-bet-view',
@@ -13,10 +17,13 @@ import { BetService } from '../services/bet.service';
 })
 export class BetViewPage implements OnInit {
   bet$: Observable<Bet>;
+  betPoints: BetPoints = new BetPoints();
 
   constructor(
     private route: ActivatedRoute,
-    private betService: BetService
+    private betService: BetService,
+    private resultService: ResultService,
+    private timeService: TimeService
   ) {}
 
   ngOnInit() {
@@ -24,6 +31,15 @@ export class BetViewPage implements OnInit {
       switchMap((params: ParamMap) =>
         this.betService.getCurrentBet(params.get('username')))
     );
+    let currentRace = this.timeService.currentRace();
+    this.bet$.subscribe(
+      bet => {
+        this.resultService.getResult(currentRace).then(result => {
+          if (result) {
+            this.betPoints = PointCalculator.calculatePoints(result, bet);
+          }
+        })
+      });
   }
 
 }

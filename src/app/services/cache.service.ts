@@ -22,7 +22,8 @@ export class CacheService {
       return cachedValue;
 
     let value = await retrieveFn.call(key);
-    this.set(key, value);
+    if (value)
+      this.set(key, value);
 
     return value;
   }

@@ -32,7 +32,7 @@ export class ResultService {
     this.db.collection('results').doc(docId).set(Object.assign({}, result));
     let bets = await this.betService.getRaceBets(race);
     console.log(bets);
-    bets.forEach(bet => this.setPoints(bet, PointCalculator.calculatePoints(result, bet)));
+    bets.forEach(bet => this.setPoints(bet, PointCalculator.calculatePoints(result, bet).total()));
   }
 
   setPoints(bet: Bet, points: number): void {

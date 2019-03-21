@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { CacheService } from '../services/cache.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +13,9 @@ export class ProfilePage implements OnInit {
   username: string;
   version: string;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, private cache: CacheService,
+    public toastController: ToastController) {
+      
     this.version = "1.4";
   }
 
@@ -22,4 +26,15 @@ export class ProfilePage implements OnInit {
     this.username = await this.authService.getCurrentUser();
   }
 
+  clearCache() {
+    this.cache.clear().then(() => {
+      this.toastController.create({
+        message: "Cache limpo",
+        color: "success",
+        position: "middle",
+        duration: 3000,
+      })
+      .then(toast => toast.present());
+    });
+  }
 }

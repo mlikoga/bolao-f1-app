@@ -27,4 +27,12 @@ export class CacheService {
 
     return value;
   }
+
+  clear(): Promise<void> {
+    return this.storage.forEach((_value, key) => {
+      if (key !== 'login') {
+        this.storage.remove(key);
+      }
+    });
+  }
 }

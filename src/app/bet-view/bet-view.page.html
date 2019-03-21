@@ -9,19 +9,28 @@
 
 <ion-content>
   <div *ngIf="bet$ | async as bet">
-    <div class="title">Usuário: {{ bet.user }}</div>
+    <div class="title">
+      <div>Usuário: {{ bet.user }}</div>
+      <div class="total" text-right>{{ betPoints.total() | number }}</div>
+    </div>
     <ion-list>
       <ion-item>
         <ion-label>Pole Position</ion-label>
-        <ion-label text-right>{{ bet.pole }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ bet.pole }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ betPoints.pole }}</ion-label>
+        <ion-label class="col-sm" text-right>-</ion-label>
       </ion-item>
       <ion-item>
         <ion-label>Volta mais rápida</ion-label>
-        <ion-label text-right>{{ bet.fastestLap }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ bet.fastestLap }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ betPoints.fastestLap }}</ion-label>
+        <ion-label class="col-sm" text-right>-</ion-label>
       </ion-item>
       <ion-item *ngFor="let betPos of bet.positions; index as pos">
         <ion-label>{{ pos + 1 }}</ion-label>
-        <ion-label text-right>{{ betPos }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ betPos }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ betPoints.positions[pos] | number }}</ion-label>
+        <ion-label class="col-sm" text-right>{{ betPoints.extra[pos] }}</ion-label>
       </ion-item>
     </ion-list>
   </div>

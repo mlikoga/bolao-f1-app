@@ -16,7 +16,7 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBe(0);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBe(0);
   });
 
   it("pole and fastest lap - 20 pts", function() {
@@ -27,7 +27,7 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBe(20);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBe(20);
   });
 
   it("Just winner - 25 pts + 2", function() {
@@ -38,7 +38,7 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBe(27);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBe(27);
   });
 
   it("60% winner - 15 pts + 2", function() {
@@ -49,7 +49,7 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBe(17);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBe(17);
   });
 
   it("Yuri bet", function() {
@@ -60,7 +60,7 @@ describe("Australia GP 2019", function() {
       user: "Yuri",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBeCloseTo(36.5);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBeCloseTo(36.5);
   });
 });
 
@@ -81,7 +81,7 @@ describe("Exemplo do regulamento", function() {
       user: "user",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBeCloseTo(61);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBeCloseTo(61);
   });
 
   it("Apostador 2", function() {
@@ -92,7 +92,7 @@ describe("Exemplo do regulamento", function() {
       user: "user",
       race: 1,
     };
-    expect(PointCalculator.calculatePoints(result, bet)).toBeCloseTo(72.6);
+    expect(PointCalculator.calculatePoints(result, bet).total()).toBeCloseTo(72.6);
   });
 });
 

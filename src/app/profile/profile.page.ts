@@ -12,7 +12,7 @@ export class ProfilePage implements OnInit {
   version: string;
 
   constructor(public authService: AuthService) {
-    this.version = "1.3";
+    this.version = "1.4";
   }
 
   ngOnInit() {

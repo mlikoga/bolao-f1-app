@@ -6,9 +6,12 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
-1.4 - upcoming
+1.5 - upcoming
 - Submit race results
 - Partial results
+
+1.4 - 2019.03.21
+- Detailed points
 
 1.3 - 2019.03.20
 - Standings

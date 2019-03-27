@@ -6,9 +6,12 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
-1.5 - upcoming
+1.6 - upcoming
 - Submit race results
 - Partial results
+
+1.5 - 2019.03.26
+- Current race automatically selected
 
 1.4 - 2019.03.21
 - Detailed points

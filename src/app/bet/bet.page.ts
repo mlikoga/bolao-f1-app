@@ -47,7 +47,7 @@ export class BetPage {
 
   ionViewWillEnter() {
     if (!this.timeService.bettingEnabled()) {
-      this.router.navigate(['tabs/bet/partials']);
+      this.router.navigate(['tabs/bet/bet-list']);
     }
   }
 

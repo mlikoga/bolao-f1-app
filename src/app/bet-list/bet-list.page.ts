@@ -7,11 +7,11 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 @Component({
-  selector: 'app-partials',
-  templateUrl: './partials.page.html',
-  styleUrls: ['./partials.page.scss'],
+  selector: 'app-bet-list',
+  templateUrl: './bet-list.page.html',
+  styleUrls: ['./bet-list.page.scss'],
 })
-export class PartialsPage implements OnInit {
+export class BetListPage implements OnInit {
 
   db: firebase.firestore.Firestore;
   users: Array<User> = [];

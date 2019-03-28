@@ -19,7 +19,7 @@ const routes: Routes = [
             loadChildren: '../bet-list/bet-list.module#BetListPageModule'
           },
           {
-            path: 'bet-list/:username/:race',
+            path: 'bet-view/:username/:race',
             loadChildren: '../bet-view/bet-view.module#BetViewPageModule'
           }
         ]

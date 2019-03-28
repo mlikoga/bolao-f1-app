@@ -12,16 +12,16 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            loadChildren: '../bet-list/bet-list.module#BetListPageModule'
+          },
+          {
+            path: 'bet',
             loadChildren: '../bet/bet.module#BetPageModule'
           },
           {
-            path: 'partials',
-            loadChildren: '../partials/partials.module#PartialsPageModule'
-          },
-          {
-            path: 'partials/:username',
+            path: 'bet-view/:username/:race',
             loadChildren: '../bet-view/bet-view.module#BetViewPageModule'
-          }
+          },
         ]
       },
       {

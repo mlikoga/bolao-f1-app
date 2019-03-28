@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
@@ -37,18 +36,11 @@ export class BetPage {
       public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService,
-      public timeService: TimeService,
-      private router: Router) {
+      public timeService: TimeService) {
 
     this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
     this.currentRace = timeService.currentRace();
-  }
-
-  ionViewWillEnter() {
-    if (!this.timeService.bettingEnabled()) {
-      this.router.navigate(['tabs/bet/partials']);
-    }
   }
 
   onPositionChanged(pos: number) {
@@ -96,7 +88,7 @@ export class BetPage {
     loading.present();
 
     let username = await this.authService.getCurrentUser();
-    let race = 1;
+    let race = this.currentRace.id;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);
     this.db.collection("bets").doc(docId).set({
@@ -106,7 +98,7 @@ export class BetPage {
       fastestLap: this.betFastestLap,
       positions: this.betPositions,
       createdAt: new Date(),
-    })
+    }, { merge: true })
     .then(() => {
       console.log("Bet registered!");
       this.toastController.create({

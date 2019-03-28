@@ -9,15 +9,27 @@ export class TimeService {
 
   constructor() { }
 
-  // Betting enabled from wednesday to friday
-  bettingEnabled() : boolean {
-    let now = moment();
-    console.log(now.format('DD/MM, dddd, HH:mm:ss'));
-    return false;
-    //return (now.weekday() >= 3 && now.weekday() < 6);
+  // Betting enabled from wednesday to friday before the GP
+  bettingEnabled(time: moment.Moment = moment()): boolean {
+    let daysToRace = this.daysToRace(time, this.currentRace(time));
+    console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
+    return (daysToRace >= -4 && daysToRace < -1);
   }
 
-  currentRace() : Race {
-    return { id: 1, name: 'Austrália' } as Race;
+  currentRace(time: moment.Moment = moment()): Race {
+    let races = Race.all().reverse(); // Iterates from last to first
+    for(var race of races) {
+      if (this.daysToRace(time, race) >= -4) {
+        return race;
+      }
+    }
+    return races[races.length - 1];
   }
+
+  daysToRace(time: moment.Moment, race: Race) {
+    let t1 = time.startOf('day');
+    let t2 = moment(race.raceStartsAt).startOf('day');
+    return t1.diff(t2, 'days');
+  }
+
 }

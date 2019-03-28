@@ -8,9 +8,16 @@
   <ion-select class="title" [(ngModel)]="raceSelected" interface="popover">
     <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
   </ion-select>
-  <ion-list>
-    <ion-item *ngFor="let user of users" [routerLink]="['/tabs/bet/bet-view', user.username, raceSelected]" type="button">
-      <ion-label>{{ user.username }}</ion-label>
-    </ion-item>
-  </ion-list>
+  <div padding class="bet-list__betting" *ngIf="bettingEnabled && raceSelected == currentRaceId; else userList"> 
+    <div class="bet-list__message">Estamos no período de apostas<br/>Lista de apostas aparecerá aqui sábado</div>
+    <ion-button size="large" shape="round" routerLink="/tabs/bet/bet">Fazer aposta</ion-button>
+    <div></div>
+  </div>
+  <ng-template #userList>
+    <ion-list>
+      <ion-item *ngFor="let user of users" [routerLink]="['/tabs/bet/bet-view', user.username, raceSelected]" type="button">
+        <ion-label>{{ user.username }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
 </ion-content>

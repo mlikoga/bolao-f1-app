@@ -13,7 +13,7 @@ export class TimeService {
   bettingEnabled(time: moment.Moment = moment()): boolean {
     let daysToRace = this.daysToRace(time, this.currentRace(time));
     console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
-    return (daysToRace >= -3 && daysToRace < -1);
+    return (daysToRace >= -4 && daysToRace < -1);
   }
 
   currentRace(time: moment.Moment = moment()): Race {

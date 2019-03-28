@@ -12,21 +12,16 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: '/tabs/bet/bet-list',
-            pathMatch: 'full'
+            loadChildren: '../bet-list/bet-list.module#BetListPageModule'
           },
           {
             path: 'bet',
             loadChildren: '../bet/bet.module#BetPageModule'
           },
           {
-            path: 'bet-list',
-            loadChildren: '../bet-list/bet-list.module#BetListPageModule'
-          },
-          {
             path: 'bet-view/:username/:race',
             loadChildren: '../bet-view/bet-view.module#BetViewPageModule'
-          }
+          },
         ]
       },
       {

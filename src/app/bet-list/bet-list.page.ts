@@ -15,8 +15,10 @@ export class BetListPage implements OnInit {
 
   db: firebase.firestore.Firestore;
   users: Array<User> = [];
-  races: Array<Race> = Race.all();
+  races: Array<Race> = [];
   raceSelected: number = 1;
+  currentRaceId: number;
+  bettingEnabled: boolean;
 
   constructor(private timeService : TimeService, private router: Router) { 
     this.db = firebase.firestore();
@@ -26,14 +28,11 @@ export class BetListPage implements OnInit {
       });
     });
   }
-
+  
   ngOnInit() {
-    this.raceSelected = this.timeService.currentRace().id;
-  }
-
-  ionViewWillEnter() {
-    if (this.timeService.bettingEnabled()) {
-      this.router.navigate(['tabs/bet']);
-    }
+    this.currentRaceId = this.timeService.currentRace().id;
+    this.raceSelected = this.currentRaceId;
+    this.races = Race.all().filter(race => race.id <= this.currentRaceId);
+    this.bettingEnabled = this.timeService.bettingEnabled();
   }
 }

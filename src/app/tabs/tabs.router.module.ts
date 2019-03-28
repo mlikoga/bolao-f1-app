@@ -12,6 +12,11 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            redirectTo: '/tabs/bet/bet-list',
+            pathMatch: 'full'
+          },
+          {
+            path: 'bet',
             loadChildren: '../bet/bet.module#BetPageModule'
           },
           {

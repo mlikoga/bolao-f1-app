@@ -15,7 +15,8 @@ export class BetListPage implements OnInit {
 
   db: firebase.firestore.Firestore;
   users: Array<User> = [];
-  currentRace: Race;
+  races: Array<Race> = Race.all();
+  raceSelected: number = 1;
 
   constructor(private timeService : TimeService, private router: Router) { 
     this.db = firebase.firestore();
@@ -24,10 +25,10 @@ export class BetListPage implements OnInit {
           this.users.push(doc.data() as User);
       });
     });
-    this.currentRace = timeService.currentRace();
   }
 
   ngOnInit() {
+    this.raceSelected = this.timeService.currentRace().id;
   }
 
   ionViewWillEnter() {

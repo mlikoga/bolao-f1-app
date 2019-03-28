@@ -11,6 +11,7 @@ Using Firebase Firestore and Firebase Hosting
 - Partial results
 
 1.5 - 2019.03.26
+- Race selection on Bet list
 - Current race automatically selected
 
 1.4 - 2019.03.21

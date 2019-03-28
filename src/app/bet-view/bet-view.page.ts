@@ -4,9 +4,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Bet } from '../model/bet';
+import { Race } from '../model/race';
 import { BetService } from '../services/bet.service';
 import { ResultService } from '../services/result.service';
-import { TimeService } from '../services/time.service';
 import { PointCalculator } from '../points/point-calculator';
 import { BetPoints } from '../model/betPoints';
 
@@ -18,23 +18,26 @@ import { BetPoints } from '../model/betPoints';
 export class BetViewPage implements OnInit {
   bet$: Observable<Bet>;
   betPoints: BetPoints = new BetPoints();
+  race: Race;
 
   constructor(
     private route: ActivatedRoute,
     private betService: BetService,
-    private resultService: ResultService,
-    private timeService: TimeService
+    private resultService: ResultService
   ) {}
 
   ngOnInit() {
     this.bet$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        this.betService.getCurrentBet(params.get('username')))
+      switchMap((params: ParamMap) => {
+        let username = params.get('username');
+        let raceId = parseInt(params.get('race'));
+        this.race = Race.withId(raceId);
+        return this.betService.getUserBet(username, raceId);
+      })
     );
-    let currentRace = this.timeService.currentRace();
     this.bet$.subscribe(
       bet => {
-        this.resultService.getResult(currentRace).then(result => {
+        this.resultService.getResult(this.race).then(result => {
           if (result) {
             this.betPoints = PointCalculator.calculatePoints(result, bet);
           }

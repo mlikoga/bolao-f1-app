@@ -7,15 +7,18 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 @Component({
-  selector: 'app-partials',
-  templateUrl: './partials.page.html',
-  styleUrls: ['./partials.page.scss'],
+  selector: 'app-bet-list',
+  templateUrl: './bet-list.page.html',
+  styleUrls: ['./bet-list.page.scss'],
 })
-export class PartialsPage implements OnInit {
+export class BetListPage implements OnInit {
 
   db: firebase.firestore.Firestore;
   users: Array<User> = [];
-  currentRace: Race;
+  races: Array<Race> = [];
+  raceSelected: number = 1;
+  currentRaceId: number;
+  bettingEnabled: boolean;
 
   constructor(private timeService : TimeService, private router: Router) { 
     this.db = firebase.firestore();
@@ -24,15 +27,12 @@ export class PartialsPage implements OnInit {
           this.users.push(doc.data() as User);
       });
     });
-    this.currentRace = timeService.currentRace();
   }
-
+  
   ngOnInit() {
-  }
-
-  ionViewWillEnter() {
-    if (this.timeService.bettingEnabled()) {
-      this.router.navigate(['tabs/bet']);
-    }
+    this.currentRaceId = this.timeService.currentRace().id;
+    this.raceSelected = this.currentRaceId;
+    this.races = Race.all().filter(race => race.id <= this.currentRaceId);
+    this.bettingEnabled = this.timeService.bettingEnabled();
   }
 }

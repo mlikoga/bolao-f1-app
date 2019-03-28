@@ -19,7 +19,11 @@ export class BetService {
 
   async getCurrentBet(username: string): Promise<Bet> {
     let race = this.timeService.currentRace();
-    let docId = `${username}.${race.id}`;
+    return this.getUserBet(username, race.id);
+  }
+
+  async getUserBet(username: string, raceId: number) {
+    let docId = `${username}.${raceId}`;
     return this.cache.get_and_save(docId, async (key) => {
       let doc = await this.db.collection('bets').doc(docId).get();
       return doc.data() as Bet;

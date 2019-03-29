@@ -11,6 +11,7 @@ import { TimeService } from '../services/time.service';
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { Bet } from '../model/bet';
 @Component({
   selector: 'app-bet',
   templateUrl: 'bet.page.html',
@@ -20,12 +21,10 @@ export class BetPage {
 
   positions: Array<number> = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   drivers: Array<Driver> = Driver.all();
-  betPole: number;
-  betFastestLap: number;
-  betPositions: Array<number>;
   db: firebase.firestore.Firestore;
   user: string;
   currentRace: Race;
+  currentBet: Bet = new Bet();
 
   customAlertOptions: any = {
     backdropDismiss: true,
@@ -38,38 +37,49 @@ export class BetPage {
       public authService: AuthService,
       public timeService: TimeService) {
 
-    this.betPositions = new Array(this.positions.length);
     this.db = firebase.firestore();
     this.currentRace = timeService.currentRace();
   }
 
+  async ngOnInit() {
+    let username = await this.authService.getCurrentUser();
+    let race = this.currentRace.id;
+    let docId = `${username}.${race}`;
+    console.log(`BetId: ${docId}`);
+    this.db.collection("bets").doc(docId).get().then(doc => {
+      if(doc.exists) {
+        this.currentBet = doc.data() as Bet;
+      }
+    });
+  }
+
   onPositionChanged(pos: number) {
-    let bet = this.betPositions[pos];
+    let bet = this.currentBet.positions[pos];
     console.log(`onPositionChanged: pos ${pos} -> ${bet}`);
 
     if (!bet) return;
 
     // Unique driver in each position
-    let idx1 = this.betPositions.indexOf(bet);
-    let idx2 = this.betPositions.lastIndexOf(bet);
+    let idx1 = this.currentBet.positions.indexOf(bet);
+    let idx2 = this.currentBet.positions.lastIndexOf(bet);
     if (idx1 != idx2) {
       if (idx1 != pos) {
-        this.betPositions[idx1] = null;
+        this.currentBet.positions[idx1] = null;
       } else {
-        this.betPositions[idx2] = null;
+        this.currentBet.positions[idx2] = null;
       }
     }
   }
 
   canSubmit() {
-    return !!this.betPole &&
-      !!this.betFastestLap &&
-      !this.betPositions.includes(undefined);
+    return !!this.currentBet.pole &&
+      !!this.currentBet.fastestLap &&
+      this.currentBet.positions.every(x => !!x);
   }
 
   async onSubmitClicked() {
-    console.log(`Pole: ${this.betPole}`);
-    console.log(this.betPositions);
+    console.log(`Pole: ${this.currentBet.pole}`);
+    console.log(this.currentBet.positions);
     console.log(`Can submit: ${this.canSubmit()}`);
 
     if(!this.canSubmit()) {
@@ -94,9 +104,9 @@ export class BetPage {
     this.db.collection("bets").doc(docId).set({
       user: username,
       race: race,
-      pole: this.betPole,
-      fastestLap: this.betFastestLap,
-      positions: this.betPositions,
+      pole: this.currentBet.pole,
+      fastestLap: this.currentBet.fastestLap,
+      positions: this.currentBet.positions,
       createdAt: new Date(),
     }, { merge: true })
     .then(() => {

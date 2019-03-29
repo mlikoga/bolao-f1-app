@@ -6,9 +6,8 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
-1.6 - upcoming
-- Submit race results
-- Partial results
+1.6 - 2019.03.28
+- PWA
 
 1.5 - 2019.03.26
 - Race selection on Bet list

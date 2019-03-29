@@ -14,6 +14,8 @@ import { AuthService } from './services/auth.service';
 import { BetService } from './services/bet.service';
 import { CacheService } from './services/cache.service';
 import { TimeService } from './services/time.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,8 @@ import { TimeService } from './services/time.service';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     StatusBar,

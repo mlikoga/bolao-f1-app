@@ -6,6 +6,9 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.7 - 2019.03.29
+- Current bet appears on bet page
+
 1.6 - 2019.03.28
 - PWA
 

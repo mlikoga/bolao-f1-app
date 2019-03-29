@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
+import { Bet } from '../model/bet';
 import { Driver } from '../model/driver';
 import { Race } from '../model/race';
 import { AuthService } from '../services/auth.service';
@@ -11,7 +12,7 @@ import { TimeService } from '../services/time.service';
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { Bet } from '../model/bet';
+
 @Component({
   selector: 'app-bet',
   templateUrl: 'bet.page.html',

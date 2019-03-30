@@ -25,8 +25,15 @@ export class BetService {
   async getUserBet(username: string, raceId: number) {
     let docId = `${username}.${raceId}`;
     return this.cache.get_and_save(docId, async (key) => {
-      let doc = await this.db.collection('bets').doc(docId).get();
-      return doc.data() as Bet;
+      let doc = await this.db.collection('bets')
+        .where("user", "==", username)
+        .where("race", "<=", raceId)
+        .orderBy("race", "desc")
+        .limit(1)
+        .get();
+      let bet = doc.docs.pop().data() as Bet;
+      console.log(bet);
+      return bet;
     });
   }
 

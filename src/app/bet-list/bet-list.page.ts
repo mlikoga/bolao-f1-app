@@ -29,13 +29,12 @@ export class BetListPage implements OnInit {
   }
   
   ngOnInit() {
-    
-  }
-
-  ionViewWillEnter() {
     this.currentRaceId = this.timeService.currentRace().id;
     this.raceSelected = this.currentRaceId;
     this.races = Race.all().filter(race => race.id <= this.currentRaceId);
+  }
+
+  ionViewWillEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
   }
 }

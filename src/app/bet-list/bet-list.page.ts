@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { TimeService } from '../services/time.service';
 import { Race } from '../model/race';
 import { User } from '../model/user';
@@ -20,7 +19,7 @@ export class BetListPage implements OnInit {
   currentRaceId: number;
   bettingEnabled: boolean;
 
-  constructor(private timeService : TimeService, private router: Router) { 
+  constructor(private timeService : TimeService) { 
     this.db = firebase.firestore();
     this.db.collection("users").orderBy("username").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -33,6 +32,9 @@ export class BetListPage implements OnInit {
     this.currentRaceId = this.timeService.currentRace().id;
     this.raceSelected = this.currentRaceId;
     this.races = Race.all().filter(race => race.id <= this.currentRaceId);
+  }
+
+  ionViewWillEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
   }
 }

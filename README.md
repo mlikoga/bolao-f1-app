@@ -7,6 +7,10 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+1.9 - 2019.03.31
+- Total points for each user on bet list
+- Highlight current user on standings
+
 1.8 - 2019.03.30
 - Use last race bet if someone did not bet on current race
 

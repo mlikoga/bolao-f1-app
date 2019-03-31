@@ -31,7 +31,7 @@
       </ion-select>
     </ion-item>
     <ion-reorder-group (ionItemReorder)="itemReorder($event)" disabled="false">
-      <ion-item *ngFor="let driver of positions; index as idx">
+      <ion-item *ngFor="let driver of driversOrdered; index as idx">
         <ion-label class="position">{{ idx + 1}}</ion-label>
         <ion-label>{{ driver.name }}</ion-label>
         <ion-reorder slot="end"></ion-reorder>

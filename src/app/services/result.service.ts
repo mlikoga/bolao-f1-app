@@ -26,15 +26,17 @@ export class ResultService {
     let docId = `${race.id}.${race.name}`;
     let cached_result = await this.cache.get(docId);
     if (cached_result) {
+      console.log('Got cached result!');
+      console.log(cached_result);
       return cached_result;
     }
-    let doc = await this.db.collection('results').doc(docId).get();
-    if (doc) {
-      let result = doc.data() as Result;
+    let queryResult = await this.db.collection('results').where("race", "==", race.id).limit(1).get();
+    if (!queryResult.empty) {
+      let result = queryResult.docs.pop().data() as Result;
       this.cache.set(docId, result);
       return result;
     }
-    Promise.reject("Result not found");
+    throw new Error('Result not found');
   }
 
   async setRaceResult(race: Race, result: Result): Promise<void> {

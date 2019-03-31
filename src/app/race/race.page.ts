@@ -13,8 +13,8 @@ import { TimeService } from '../services/time.service';
 })
 export class RacePage {
   drivers: Array<Driver> = Driver.all();
-  result: Result;
-  positions: Array<Driver>;
+  result: Result = new Result();
+  driversOrdered: Array<Driver>;
   currentRace: Race;
   isAdmin: boolean;
 
@@ -22,27 +22,32 @@ export class RacePage {
     private authService: AuthService,
     private resultService: ResultService,
     private timeService: TimeService) {
+    
+  }
 
+  async ngOnInit() {
+    this.authService.isAdmin().then(value => this.isAdmin = value);
     this.currentRace = this.timeService.currentRace();
     this.result = new Result(this.currentRace.id);
-    this.positions = Driver.all();
-    this.authService.isAdmin().then(value => this.isAdmin = value);
-    this.resultService.getResult(this.currentRace)
-      .then(result => {
-        this.result = result;
-        this.positions = result.positions.map(id => Driver.fromId(id));
-      });
+    this.driversOrdered = Driver.all();
+    console.log(`Current race: ${this.currentRace.name}`);
+    try {
+      this.result = await this.resultService.getResult(this.currentRace);
+      this.driversOrdered = this.result.positions.map(id => Driver.fromId(id));
+    } catch(e) {
+      console.log('Result not found');
+    }
   }
 
   itemReorder(ev) {
     console.log(`Moving item from ${ev.detail.from} to ${ev.detail.to}`);
-    this.positions = ev.detail.complete(this.positions);
+    this.driversOrdered = ev.detail.complete(this.driversOrdered);
   }
 
   uploadResult() {
     console.log('Uploading result...');
     console.log(this.result);
-    this.result.positions = this.positions.map(driver => driver.id);
+    this.result.positions = this.driversOrdered.map(driver => driver.id);
     this.resultService.setRaceResult(this.currentRace, this.result);
   }
 }

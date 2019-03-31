@@ -3,6 +3,7 @@ import { User } from '../model/user';
 import { ResultService } from '../services/result.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-standings',
@@ -13,13 +14,18 @@ export class StandingsPage {
 
   db: firebase.firestore.Firestore;
   users: Array<User> = [];
-  constructor(private resultService: ResultService) { 
-    this.db = firebase.firestore();
-    this.refresh();
-  }
+  currentUser: string;
 
+  constructor(private authService: AuthService, private resultService: ResultService) { 
+    this.db = firebase.firestore();
+  }
+  
   ionViewWillEnter() {
-    
+  }
+  
+  async ngOnInit() {
+    this.currentUser = await this.authService.getCurrentUser();
+    this.refresh();
   }
 
   refresh(event?) : void {

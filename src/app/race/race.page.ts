@@ -13,7 +13,7 @@ import { TimeService } from '../services/time.service';
 })
 export class RacePage {
   drivers: Array<Driver> = Driver.all();
-  result: Result = new Result();
+  result: Result;
   driversOrdered: Array<Driver>;
   currentRace: Race;
   isAdmin: boolean;

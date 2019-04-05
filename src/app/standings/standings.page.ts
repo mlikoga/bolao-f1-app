@@ -27,11 +27,7 @@ export class StandingsPage {
   }
 
   async refresh(event?) : Promise<void> {
-    this.users = await this.userService.getUsers();
-    this.users.forEach(async (user) => {
-        user.points = await this.resultService.getTotalPoints(user.username);
-    });
-    this.users.sort((u1, u2) => u2.points - u1.points);
+    this.users = await this.resultService.getUserStandings();
     if (event) event.target.complete();
   }
 }

@@ -3,12 +3,13 @@ import { Bet } from '../model/bet';
 import { Race } from '../model/race';
 import { RacePoints } from '../model/racePoints';
 import { Result } from '../model/result';
+import { User } from '../model/user';
 import { PointCalculator } from '../points/point-calculator';
 import { BetService } from '../services/bet.service';
 import { CacheService } from './cache.service';
+import { UserService } from './user.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -71,11 +72,37 @@ export class ResultService {
     return racePoints;
   }
 
-  async getTotalPoints(username: string): Promise<number> {
-    let userPoints = await this.db.collection("points")
+  async getPointsPerRace(username: string): Promise<Array<number>> {
+    const userPoints = await this.db.collection("points")
                        .where("user", "==", username)
+                       .orderBy("race", "asc")
                        .get();
-    return userPoints.docs.map(querySnap => querySnap.data()["points"])
-      .reduce((acc, value) => acc + value, 0);
+
+    return userPoints.docs.map(querySnap => querySnap.data()["points"]);
+  }
+
+  async getTotalPoints(username: string): Promise<number> {
+    const userPoints = await this.getPointsPerRace(username);
+    return userPoints.reduce((acc, value) => acc + value, 0);
+  }
+
+  async getUserStandings(): Promise<Array<User>> {
+    let users = await this.userService.getUsers();
+    const userPoints = await Promise.all(users.map(async user => {
+      const pointsPerRace = await this.getPointsPerRace(user.username);
+      const total = pointsPerRace.reduce((acc, value) => acc + value, 0);
+      const untilNow = total - pointsPerRace[pointsPerRace.length - 1];
+      return { user, untilNow, total };
+    }));
+    const lastStandings = [...userPoints].sort((u1, u2) => u2.untilNow - u1.untilNow).map(up => up.user.username);
+    const standings = [...userPoints].sort((u1, u2) => u2.total - u1.total).map(up => up.user.username);
+    const result = userPoints.map( ({user, total}) => {
+      return {
+        ...user,
+        points: total,
+        diff: lastStandings.findIndex(username => username === user.username) - standings.findIndex(username => username === user.username)
+      };
+    }).sort((u1, u2) => u2.points - u1.points);
+    return result;
   }
 }

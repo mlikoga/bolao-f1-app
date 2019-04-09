@@ -6,6 +6,8 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.10 - 2019.04.08
+- Up/down positions on standings page
 
 1.9 - 2019.03.31
 - Total points for each user on bet list

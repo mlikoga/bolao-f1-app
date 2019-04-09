@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { User } from '../model/user';
 import { ResultService } from '../services/result.service';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-standings',
@@ -14,8 +13,7 @@ export class StandingsPage {
   users: Array<User> = [];
   currentUser: string;
 
-  constructor(private authService: AuthService, private resultService: ResultService,
-    private userService: UserService) { 
+  constructor(private authService: AuthService, private resultService: ResultService) { 
   }
   
   ionViewWillEnter() {
@@ -29,5 +27,17 @@ export class StandingsPage {
   async refresh(event?) : Promise<void> {
     this.users = await this.resultService.getUserStandings();
     if (event) event.target.complete();
+  }
+
+  diffClass(diff: number) {
+    if (diff < 0) return "down";
+    if (diff > 0) return "up";
+    return "equal";
+  }
+
+  diffIcon(diff: number) {
+    if (diff < 0) return "arrow-dropdown";
+    if (diff > 0) return "arrow-dropup";
+    return "remove";
   }
 }

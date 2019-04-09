@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StandingsPage } from './standings.page';
+import { AbsPipe } from '../abs.pipe';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { StandingsPage } from './standings.page';
     FormsModule,
     RouterModule.forChild([{ path: '', component: StandingsPage }])
   ],
-  declarations: [StandingsPage]
+  declarations: [StandingsPage, AbsPipe]
 })
 export class StandingsPageModule {}

@@ -10,8 +10,8 @@ describe('nextRace', () => {
     expect(timeService.currentRace(date).name).toBe('Austrália');
   });
 
-  it('still returns Australia at 2019-03-26', () => {
-    let date = moment('2019-03-26T12:00:00Z');
+  it('still returns Australia at 2019-03-25', () => {
+    let date = moment('2019-03-25T12:00:00Z');
     expect(timeService.currentRace(date).name).toBe('Austrália');
   });
 
@@ -29,8 +29,8 @@ describe('bettingEnabled', () => {
     expect(timeService.bettingEnabled(date)).toBeFalsy();
   });
 
-  it('return false at Tuesday before GP', () => {
-    let date = moment('2019-03-26T12:00:00Z');
+  it('return false at Monday before GP', () => {
+    let date = moment('2019-03-25T12:00:00Z');
     expect(timeService.bettingEnabled(date)).toBeFalsy();
   });
 

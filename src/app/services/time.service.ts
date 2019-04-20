@@ -13,13 +13,13 @@ export class TimeService {
   bettingEnabled(time: moment.Moment = moment()): boolean {
     let daysToRace = this.daysToRace(time, this.currentRace(time));
     console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
-    return (daysToRace >= -4 && daysToRace < -1);
+    return (daysToRace >= -5 && daysToRace < -1);
   }
 
   currentRace(time: moment.Moment = moment()): Race {
     let races = Race.all().reverse(); // Iterates from last to first
     for(var race of races) {
-      if (this.daysToRace(time, race) >= -4) {
+      if (this.daysToRace(time, race) >= -5) {
         return race;
       }
     }

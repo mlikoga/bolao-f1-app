@@ -6,6 +6,9 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.11 - 2019.04.28
+- Race results upload
+
 1.10 - 2019.04.08
 - Up/down positions on standings page
 

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Bet } from '../model/bet';
 import { Race } from '../model/race';
+import { RacePoints } from '../model/racePoints';
 import { Result } from '../model/result';
+import { User } from '../model/user';
 import { PointCalculator } from '../points/point-calculator';
 import { BetService } from '../services/bet.service';
 import { CacheService } from './cache.service';
+import { UserService } from './user.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -15,7 +18,8 @@ export class ResultService {
 
   db: firebase.firestore.Firestore;
 
-  constructor(private betService: BetService, private cache : CacheService) {
+  constructor(private betService: BetService, private cache : CacheService,
+      private userService: UserService) {
     this.db = firebase.firestore();
   }
 
@@ -23,15 +27,17 @@ export class ResultService {
     let docId = `${race.id}.${race.name}`;
     let cached_result = await this.cache.get(docId);
     if (cached_result) {
+      console.log('Got cached result!');
+      console.log(cached_result);
       return cached_result;
     }
-    let doc = await this.db.collection('results').doc(docId).get();
-    if (doc) {
-      let result = doc.data() as Result;
+    let queryResult = await this.db.collection('results').where("race", "==", race.id).limit(1).get();
+    if (!queryResult.empty) {
+      let result = queryResult.docs.pop().data() as Result;
       this.cache.set(docId, result);
       return result;
     }
-    Promise.reject("Result not found");
+    throw new Error('Result not found');
   }
 
   async setRaceResult(race: Race, result: Result): Promise<void> {
@@ -50,11 +56,53 @@ export class ResultService {
     });
   }
 
-  async getTotalPoints(username: string): Promise<number> {
-    let racePoints = await this.db.collection("points")
-                       .where("user", "==", username)
+  async getPoints(raceId: number): Promise<Array<RacePoints>> {
+    let queryResult = await this.db.collection("points")
+                       .where("race", "==", raceId)
+                       .orderBy("points", "desc")
                        .get();
-    return racePoints.docs.map(querySnap => querySnap.data()["points"])
-      .reduce((acc, value) => acc + value);
+    let racePoints = queryResult.docs.map(querySnap => querySnap.data() as RacePoints);
+    if (racePoints.length == 0) {
+      // Se não tem ainda, cria array de RacePoints zerados
+      let users = await this.userService.getUsers();
+      for (var user of users) {
+        racePoints.push(new RacePoints(user.username, raceId));
+      }
+    }
+    return racePoints;
+  }
+
+  async getPointsPerRace(username: string): Promise<Array<number>> {
+    const userPoints = await this.db.collection("points")
+                       .where("user", "==", username)
+                       .orderBy("race", "asc")
+                       .get();
+
+    return userPoints.docs.map(querySnap => querySnap.data()["points"]);
+  }
+
+  async getTotalPoints(username: string): Promise<number> {
+    const userPoints = await this.getPointsPerRace(username);
+    return userPoints.reduce((acc, value) => acc + value, 0);
+  }
+
+  async getUserStandings(): Promise<Array<User>> {
+    let users = await this.userService.getUsers();
+    const userPoints = await Promise.all(users.map(async user => {
+      const pointsPerRace = await this.getPointsPerRace(user.username);
+      const total = pointsPerRace.reduce((acc, value) => acc + value, 0);
+      const untilNow = total - pointsPerRace[pointsPerRace.length - 1];
+      return { user, untilNow, total };
+    }));
+    const lastStandings = [...userPoints].sort((u1, u2) => u2.untilNow - u1.untilNow).map(up => up.user.username);
+    const standings = [...userPoints].sort((u1, u2) => u2.total - u1.total).map(up => up.user.username);
+    const result = userPoints.map( ({user, total}) => {
+      return {
+        ...user,
+        points: total,
+        diff: lastStandings.findIndex(username => username === user.username) - standings.findIndex(username => username === user.username)
+      };
+    }).sort((u1, u2) => u2.points - u1.points);
+    return result;
   }
 }

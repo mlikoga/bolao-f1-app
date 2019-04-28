@@ -6,10 +6,10 @@
       <ion-label>Apostas</ion-label>
     </ion-tab-button>
 
-    <!-- <ion-tab-button tab="race">
+    <ion-tab-button tab="race" *ngIf="isAdmin">
       <ion-icon name="speedometer"></ion-icon>
       <ion-label>Corrida</ion-label>
-    </ion-tab-button> -->
+    </ion-tab-button>
 
     <ion-tab-button tab="standings">
       <ion-icon name="trophy"></ion-icon>

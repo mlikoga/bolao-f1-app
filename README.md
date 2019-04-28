@@ -6,6 +6,19 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.11 - 2019.04.28
+- Race results upload
+
+1.10 - 2019.04.08
+- Up/down positions on standings page
+
+1.9 - 2019.03.31
+- Total points for each user on bet list
+- Highlight current user on standings
+
+1.8 - 2019.03.30
+- Use last race bet if someone did not bet on current race
+
 1.7 - 2019.03.29
 - Current bet appears on bet page
 

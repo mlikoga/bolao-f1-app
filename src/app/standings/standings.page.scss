@@ -1,3 +1,42 @@
 .standings__position {
   max-width: 2rem;
 }
+
+.standings__user {
+  color: yellow;
+}
+
+.standings__updown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.standings__updown--up {
+  color: lime;
+}
+
+.standings__updown--equal {
+  color: gray;
+  font-size: 10px;
+}
+
+.standings__updown--down {
+  color: red;
+}
+
+.standings__updown-number {
+  font-size: 14px;
+}
+
+.standings__updown-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.standings__points {
+  max-width: 3rem;
+}

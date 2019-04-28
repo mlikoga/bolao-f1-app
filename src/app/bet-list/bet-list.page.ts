@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ResultService } from '../services/result.service';
 import { TimeService } from '../services/time.service';
 import { Race } from '../model/race';
+import { RacePoints } from '../model/racePoints';
 import { User } from '../model/user';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
 
 @Component({
   selector: 'app-bet-list',
@@ -13,26 +12,33 @@ import 'firebase/firestore';
 })
 export class BetListPage implements OnInit {
 
-  db: firebase.firestore.Firestore;
-  users: Array<User> = [];
   races: Array<Race> = [];
-  raceSelected: number = 1;
+  racePoints: Array<RacePoints> = []
+
+  selectedRaceId: number = 1;
   currentRaceId: number;
   bettingEnabled: boolean;
 
-  constructor(private timeService : TimeService, private router: Router) { 
-    this.db = firebase.firestore();
-    this.db.collection("users").orderBy("username").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          this.users.push(doc.data() as User);
-      });
-    });
+  constructor(private resultService: ResultService, private timeService : TimeService) { 
   }
   
   ngOnInit() {
     this.currentRaceId = this.timeService.currentRace().id;
-    this.raceSelected = this.currentRaceId;
+    this.selectedRaceId = this.currentRaceId;
     this.races = Race.all().filter(race => race.id <= this.currentRaceId);
+    this.resultService.getPoints(this.currentRaceId).then(racePoints => {
+      this.racePoints = racePoints;
+    });
+  }
+
+  ionViewWillEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
+  }
+
+  onRaceChanged() {
+    console.log(`Race changed to: ${this.selectedRaceId}`);
+    this.resultService.getPoints(this.selectedRaceId).then(racePoints => {
+      this.racePoints = racePoints;
+    });
   }
 }

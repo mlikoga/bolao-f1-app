@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from '../model/user';
 import { ResultService } from '../services/result.service';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-standings',
@@ -11,27 +10,34 @@ import 'firebase/firestore';
 })
 export class StandingsPage {
 
-  db: firebase.firestore.Firestore;
   users: Array<User> = [];
-  constructor(private resultService: ResultService) { 
-    this.db = firebase.firestore();
+  currentUser: string;
+
+  constructor(private authService: AuthService, private resultService: ResultService) { 
+  }
+  
+  ionViewWillEnter() {
+  }
+  
+  async ngOnInit() {
+    this.currentUser = await this.authService.getCurrentUser();
     this.refresh();
   }
 
-  ionViewWillEnter() {
-    
+  async refresh(event?) : Promise<void> {
+    this.users = await this.resultService.getUserStandings();
+    if (event) event.target.complete();
   }
 
-  refresh(event?) : void {
-    this.users = [];
-    this.db.collection("users").get().then((querySnapshot) => {
-      querySnapshot.forEach(async (doc) => {
-          let user = doc.data() as User;
-          user.points = await this.resultService.getTotalPoints(user.username);
-          this.users.push(user);
-          this.users.sort((u1, u2) => u2.points - u1.points);
-          if (event) event.target.complete();
-      });
-    });
+  diffClass(diff: number) {
+    if (diff < 0) return "down";
+    if (diff > 0) return "up";
+    return "equal";
+  }
+
+  diffIcon(diff: number) {
+    if (diff < 0) return "arrow-dropdown";
+    if (diff > 0) return "arrow-dropup";
+    return "remove";
   }
 }

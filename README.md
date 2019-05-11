@@ -6,7 +6,9 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
-1.11.1 - 2019.05.10
+1.12 - 2019.05.10
+- Versões de todas as libs atualizadas para versão mais atual
+- Vulnerabilidades resolvidas
 - Bug fix: Last race bet for users that did not bet was not considered on points calculation.
 
 1.11 - 2019.04.28

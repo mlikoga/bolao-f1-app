@@ -16,7 +16,7 @@ export class ProfilePage implements OnInit {
   constructor(public authService: AuthService, private cache: CacheService,
     public toastController: ToastController) {
       
-    this.version = "1.11.1";
+    this.version = "1.12";
   }
 
   ngOnInit() {

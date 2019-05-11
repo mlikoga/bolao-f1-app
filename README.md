@@ -6,6 +6,11 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.12 - 2019.05.10
+- Versões de todas as libs atualizadas para versão mais atual
+- Vulnerabilidades resolvidas
+- Bug fix: Last race bet for users that did not bet was not considered on points calculation.
+
 1.11 - 2019.04.28
 - Race results upload
 
@@ -47,3 +52,14 @@ Using Firebase Firestore and Firebase Hosting
 - Bet
 - Firebase firestore
 - Firebase hosting
+
+## Development
+
+To run app in local browser:
+`ionic serve`
+
+To run tests:
+`ng test`
+
+To deploy:
+`./deploy.sh`

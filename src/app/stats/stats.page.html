@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Bolão F1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()" interface="popover">
+    <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
+  </ion-select>
+
+  <div padding>
+
+    <div class="stats__card">
+      <div class="stats__title">Pole</div>
+      <div class="stats__row" *ngFor="let data of poleData">
+        <div class="stats__label">{{ data.label }}</div>
+        <div [className]="'stats__bar stats__bar--' + data.value"></div>
+        <div class="stats__spacing"></div>
+        <div>{{ data.value }}</div>
+      </div>
+    </div>
+
+    <div class="stats__card">
+      <div class="stats__title">Volta mais rápida</div>
+      <div class="stats__row" *ngFor="let data of fastestData">
+        <div class="stats__label">{{ data.label }}</div>
+        <div [className]="'stats__bar stats__bar--' + data.value"></div>
+        <div class="stats__spacing"></div>
+        <div>{{ data.value }}</div>
+      </div>
+    </div>
+
+    <div class="stats__card">
+      <div class="stats__title">Vencedor</div>
+      <div class="stats__row" *ngFor="let data of winnerData">
+        <div class="stats__label">{{ data.label }}</div>
+        <div [className]="'stats__bar stats__bar--' + data.value"></div>
+        <div class="stats__spacing"></div>
+        <div>{{ data.value }}</div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

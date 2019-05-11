@@ -5,6 +5,7 @@ import { Result } from '../model/result';
 import { AuthService } from '../services/auth.service';
 import { ResultService } from '../services/result.service';
 import { TimeService } from '../services/time.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-race',
@@ -21,8 +22,8 @@ export class RacePage {
   constructor(
     private authService: AuthService,
     private resultService: ResultService,
-    private timeService: TimeService) {
-    
+    private timeService: TimeService,
+    private toastController: ToastController) {
   }
 
   async ngOnInit() {
@@ -44,10 +45,16 @@ export class RacePage {
     this.driversOrdered = ev.detail.complete(this.driversOrdered);
   }
 
-  uploadResult() {
+  async uploadResult() {
     console.log('Uploading result...');
     console.log(this.result);
     this.result.positions = this.driversOrdered.map(driver => driver.id);
-    this.resultService.setRaceResult(this.currentRace, this.result);
+    await this.resultService.setRaceResult(this.currentRace, this.result);
+    this.toastController.create({
+      message: "Resultado enviado",
+      color: "success",
+      position: "middle",
+      duration: 3000,
+    }).then(toast => toast.present());
   }
 }

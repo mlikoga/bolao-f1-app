@@ -26,17 +26,18 @@ export class RacePage {
     private toastController: ToastController) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.authService.isAdmin().then(value => this.isAdmin = value);
     this.currentRace = this.timeService.currentRace();
     this.result = new Result(this.currentRace.id);
     this.driversOrdered = Driver.all();
     console.log(`Current race: ${this.currentRace.name}`);
-    let resultObj = await this.resultService.getResult(this.currentRace);
-    if (resultObj) {
-      this.result = resultObj;
-      this.driversOrdered = this.result.positions.map(id => Driver.fromId(id));
-    }
+    this.resultService.getResult(this.currentRace).then(res => {
+      if (res) {
+        this.result = res;
+        this.driversOrdered = res.positions.map(id => Driver.fromId(id));
+      }
+    });
   }
 
   itemReorder(ev) {

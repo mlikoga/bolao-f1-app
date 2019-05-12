@@ -37,13 +37,14 @@ export class ResultService {
       this.cache.set(docId, result);
       return result;
     }
-    throw new Error('Result not found');
+    console.log('Result not found');
+    return null;
   }
 
   async setRaceResult(race: Race, result: Result): Promise<void> {
     let docId = `${race.id}.${race.name}`;
     this.db.collection('results').doc(docId).set(Object.assign({}, result));
-    let bets = await this.betService.getRaceBets(race);
+    let bets = await this.betService.getRaceBets(race.id);
     console.log(bets);
     bets.forEach(bet => this.setPoints(bet, PointCalculator.calculatePoints(result, bet).total()));
   }

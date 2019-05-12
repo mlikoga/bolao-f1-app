@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Bolão F1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()" interface="popover">
+    <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
+  </ion-select>
+
+  <div padding>
+    <stats-card title="Pole" [(dataRows)]="poleData"></stats-card>
+    <stats-card title="Volta mais rápida" [dataRows]="fastestData"></stats-card>
+    <stats-card title="Vencedor" [dataRows]="winnerData"></stats-card>
+  </div>
+
+</ion-content>

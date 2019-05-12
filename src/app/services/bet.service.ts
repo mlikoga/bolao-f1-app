@@ -3,7 +3,6 @@ import { CacheService } from './cache.service';
 import { TimeService } from './time.service';
 import { UserService } from './user.service';
 import { Bet } from '../model/bet';
-import { Race } from '../model/race';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -15,16 +14,11 @@ export class BetService {
   db: firebase.firestore.Firestore;
 
   constructor(
-    private cache : CacheService, 
+    private cache : CacheService,
     private timeService : TimeService,
-    private userService : UserService) 
+    private userService : UserService)
   {
     this.db = firebase.firestore();
-  }
-
-  async getCurrentBet(username: string): Promise<Bet> {
-    let race = this.timeService.currentRace();
-    return this.getUserBet(username, race.id);
   }
 
   async getUserBet(username: string, raceId: number): Promise<Bet> {
@@ -36,17 +30,24 @@ export class BetService {
         .orderBy("race", "desc")
         .limit(1)
         .get();
-      let bet = doc.docs.pop().data() as Bet;
-      console.log(bet);
-      return bet;
+      let result = doc.docs.pop();
+      if (result) {
+        let bet = result.data() as Bet;
+        console.log(bet);
+        return bet;
+      }
+      return null;
     });
   }
 
-  async getRaceBets(race: Race): Promise<Array<Bet>> {
+  async getRaceBets(raceId: number): Promise<Array<Bet>> {
     let users = await this.userService.getUsers();
     let bets = new Array<Bet>(users.length);
     for (let user of users) {
-       bets.push(await this.getUserBet(user.username, race.id));
+       let bet = await this.getUserBet(user.username, raceId);
+       if (bet) {
+         bets.push(bet);
+       }
     }
     return bets;
   }

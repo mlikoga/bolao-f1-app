@@ -32,11 +32,10 @@ export class RacePage {
     this.result = new Result(this.currentRace.id);
     this.driversOrdered = Driver.all();
     console.log(`Current race: ${this.currentRace.name}`);
-    try {
-      this.result = await this.resultService.getResult(this.currentRace);
+    let resultObj = await this.resultService.getResult(this.currentRace);
+    if (resultObj) {
+      this.result = resultObj;
       this.driversOrdered = this.result.positions.map(id => Driver.fromId(id));
-    } catch(e) {
-      console.log('Result not found');
     }
   }
 

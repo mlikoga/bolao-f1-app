@@ -12,36 +12,9 @@
   </ion-select>
 
   <div padding>
-
-    <div class="stats__card">
-      <div class="stats__title">Pole</div>
-      <div class="stats__row" *ngFor="let data of poleData">
-        <div class="stats__label">{{ data.label }}</div>
-        <div [className]="'stats__bar stats__bar--' + data.value"></div>
-        <div class="stats__spacing"></div>
-        <div>{{ data.value }}</div>
-      </div>
-    </div>
-
-    <div class="stats__card">
-      <div class="stats__title">Volta mais rápida</div>
-      <div class="stats__row" *ngFor="let data of fastestData">
-        <div class="stats__label">{{ data.label }}</div>
-        <div [className]="'stats__bar stats__bar--' + data.value"></div>
-        <div class="stats__spacing"></div>
-        <div>{{ data.value }}</div>
-      </div>
-    </div>
-
-    <div class="stats__card">
-      <div class="stats__title">Vencedor</div>
-      <div class="stats__row" *ngFor="let data of winnerData">
-        <div class="stats__label">{{ data.label }}</div>
-        <div [className]="'stats__bar stats__bar--' + data.value"></div>
-        <div class="stats__spacing"></div>
-        <div>{{ data.value }}</div>
-      </div>
-    </div>
+    <stats-card title="Pole" [(dataRows)]="poleData"></stats-card>
+    <stats-card title="Volta mais rápida" [dataRows]="fastestData"></stats-card>
+    <stats-card title="Vencedor" [dataRows]="winnerData"></stats-card>
   </div>
 
 </ion-content>

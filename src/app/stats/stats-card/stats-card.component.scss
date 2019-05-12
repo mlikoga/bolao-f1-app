@@ -1,0 +1,94 @@
+.stats__row {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.stats__bar {
+  height: 0.7em;
+  background: lightcoral;
+
+  &--1 {
+    width: calc(1 * 6%);
+  }
+  &--2 {
+    width: calc(2 * 6%);
+  }
+  &--3 {
+    width: calc(3 * 6%);
+  }
+  &--4 {
+    width: calc(4 * 6%);
+  }
+  &--5 {
+    width: calc(5 * 6%);
+  }
+  &--6 {
+    width: calc(6 * 6%);
+  }
+  &--7 {
+    width: calc(7 * 6%);
+  }
+  &--8 {
+    width: calc(8 * 6%);
+  }
+  &--9 {
+    width: calc(9 * 6%);
+  }
+  &--10 {
+    width: calc(10 * 6%);
+  }
+  &--11 {
+    width: calc(11 * 6%);
+  }
+  &--12 {
+    width: calc(12 * 6%);
+  }
+
+  &--HAM {
+    background: #00d2be;
+  }
+
+  &--BOT {
+    background: #d2d5d5;
+  }
+
+  &--VET {
+    background: #dc0000;
+  }
+
+  &--LEC {
+    background: #fff200;
+  }
+
+  &--VER {
+    background: #1E41FF;
+  }
+
+  &--SAI {
+    background: #FF8700;
+  }
+}
+
+.stats__card {
+  border: 1px solid #aaaaaa;
+  padding: 0 8px 8px 8px;
+  margin-bottom: 24px;
+}
+
+.stats__label {
+  width: 70px;
+}
+
+.stats__spacing {
+  flex-grow: 1;
+}
+
+.stats__title {
+  display: inline;
+  position: relative;
+  top : -0.6em;
+  margin-left: 1em;
+  background-color: #323639;
+  padding: 4px;
+}

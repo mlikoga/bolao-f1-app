@@ -15,9 +15,9 @@ export class BetService {
   db: firebase.firestore.Firestore;
 
   constructor(
-    private cache : CacheService, 
+    private cache : CacheService,
     private timeService : TimeService,
-    private userService : UserService) 
+    private userService : UserService)
   {
     this.db = firebase.firestore();
   }
@@ -36,17 +36,21 @@ export class BetService {
         .orderBy("race", "desc")
         .limit(1)
         .get();
-      let bet = doc.docs.pop().data() as Bet;
-      console.log(bet);
-      return bet;
+      let result = doc.docs.pop();
+      if (result) {
+        let bet = result.data() as Bet;
+        console.log(bet);
+        return bet;
+      }
+      return new Bet();
     });
   }
 
-  async getRaceBets(race: Race): Promise<Array<Bet>> {
+  async getRaceBets(raceId: number): Promise<Array<Bet>> {
     let users = await this.userService.getUsers();
     let bets = new Array<Bet>(users.length);
     for (let user of users) {
-       bets.push(await this.getUserBet(user.username, race.id));
+       bets.push(await this.getUserBet(user.username, raceId));
     }
     return bets;
   }

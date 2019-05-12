@@ -1,0 +1,9 @@
+<div class="stats__card">
+  <div class="stats__title">{{ title }}</div>
+  <div class="stats__row" *ngFor="let data of dataRows">
+    <div class="stats__label">{{ data.label }}</div>
+    <div [className]="'stats__bar stats__bar--' + data.value + ' stats__bar--' + data.label"></div>
+    <div class="stats__spacing"></div>
+    <div>{{ data.value }}</div>
+  </div>
+</div>

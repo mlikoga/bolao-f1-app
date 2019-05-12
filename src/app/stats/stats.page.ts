@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DataPoint } from './dataPoint';
+import { DataPoint } from './data-point';
 import { Bet } from '../model/bet';
 import { Race } from '../model/race';
 import { BetService } from '../services/bet.service';
 import { TimeService } from '../services/time.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-stats',
@@ -14,7 +15,6 @@ export class StatsPage implements OnInit {
 
   races: Array<Race> = [];
   selectedRaceId: number = 1;
-  currentRace: Race;
   bets: Array<Bet> = [];
 
   poleData: Array<DataPoint> = [];
@@ -22,12 +22,15 @@ export class StatsPage implements OnInit {
   winnerData: Array<DataPoint> = [];
 
 
-  constructor(private betService: BetService, private timeService : TimeService) { }
+  constructor(
+    private betService: BetService,
+    private loadingController: LoadingController,
+    private timeService : TimeService) { }
 
   ngOnInit() {
-    this.currentRace = this.timeService.currentRace();
-    this.selectedRaceId = this.currentRace.id;
-    this.races = Race.all().filter(race => race.id <= this.currentRace.id);
+    let currentRace = this.timeService.currentRace();
+    this.selectedRaceId = currentRace.id;
+    this.races = Race.all().filter(race => race.id <= currentRace.id);
     this.updateStats();
   }
 
@@ -37,10 +40,18 @@ export class StatsPage implements OnInit {
   }
 
   async updateStats() {
-    let bets = await this.betService.getRaceBets(this.currentRace);
+    const loading = await this.loadingController.create({
+      spinner: "circles",
+      translucent: true,
+    });
+    loading.present();
+
+    let bets = await this.betService.getRaceBets(this.selectedRaceId);
     this.poleData = this.calculateDataPoints(bets.map(bet => bet.pole));
     this.fastestData = this.calculateDataPoints(bets.map(bet => bet.fastestLap));
     this.winnerData = this.calculateDataPoints(bets.map(bet => bet.positions[0]));
+
+    loading.dismiss();
   }
 
   calculateDataPoints(bets: Array<string>) {

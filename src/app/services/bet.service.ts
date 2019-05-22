@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
-import { TimeService } from './time.service';
 import { UserService } from './user.service';
 import { Bet } from '../model/bet';
 import * as firebase from 'firebase';
@@ -15,7 +14,6 @@ export class BetService {
 
   constructor(
     private cache : CacheService,
-    private timeService : TimeService,
     private userService : UserService)
   {
     this.db = firebase.firestore();
@@ -41,14 +39,35 @@ export class BetService {
   }
 
   async getRaceBets(raceId: number): Promise<Array<Bet>> {
-    let users = await this.userService.getUsers();
-    let bets = new Array<Bet>(users.length);
-    for (let user of users) {
-       let bet = await this.getUserBet(user.username, raceId);
-       if (bet) {
-         bets.push(bet);
-       }
-    }
-    return bets;
+    let bets = await this.db.collection('bets').where('race', '==', raceId).get();
+    return bets.docs.map(querySnap => querySnap.data() as Bet);
+  }
+
+  async getUsersWithoutBet(raceId: number): Promise<Array<string>> {
+    const allUsers = (await this.userService.getUsers()).map(user => user.username);
+    const usersWithBet = (await this.getRaceBets(raceId)).map(bet => bet.user);
+    const usersWithoutBet = allUsers.filter(user => !usersWithBet.includes(user));
+    return usersWithoutBet;
+  }
+
+  createBets(usersWithoutBet: Array<string>, raceId: number) {
+    usersWithoutBet.forEach(async username => {
+      const docId = `${username}.${raceId}`;
+      const betRef = this.db.collection('bets').doc(docId);
+      const lastBet = await this.getUserBet(username, raceId - 1);
+      betRef.get().then(docSnapshot => {
+        if (!docSnapshot.exists) {
+          const copiedBet = {
+            ...lastBet,
+            createdAt: new Date,
+            race: raceId,
+            forgotten: true,
+          }
+          console.log(`Creating bet for ${copiedBet.user}`);
+          console.log(copiedBet);
+          betRef.set(copiedBet);
+        }
+      });
+    });
   }
 }

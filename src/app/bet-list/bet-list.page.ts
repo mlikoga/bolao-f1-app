@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ResultService } from '../services/result.service';
-import { TimeService } from '../services/time.service';
+import { AlertService } from '../services/alert.service';
+import { AuthService } from '../services/auth.service';
+import { BetService } from '../services/bet.service';
 import { Race } from '../model/race';
 import { RacePoints } from '../model/racePoints';
-import { User } from '../model/user';
+import { ResultService } from '../services/result.service';
+import { TimeService } from '../services/time.service';
 
 @Component({
   selector: 'app-bet-list',
@@ -18,11 +20,18 @@ export class BetListPage implements OnInit {
   selectedRaceId: number = 1;
   currentRaceId: number;
   bettingEnabled: boolean;
+  isAdmin: boolean;
 
-  constructor(private resultService: ResultService, private timeService : TimeService) { 
+  constructor(
+    private alertService: AlertService,
+    private authService: AuthService,
+    private betService: BetService,
+    private resultService: ResultService, 
+    private timeService : TimeService) { 
   }
   
-  ngOnInit() {
+  async ngOnInit() {
+    this.isAdmin = await this.authService.getCurrentUser() === 'Koga';
     this.currentRaceId = this.timeService.currentRace().id;
     this.selectedRaceId = this.currentRaceId;
     this.races = Race.all().filter(race => race.id <= this.currentRaceId);
@@ -33,6 +42,19 @@ export class BetListPage implements OnInit {
 
   ionViewWillEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
+  }
+
+  async checkMissingBets() {
+    const raceId = this.currentRaceId;
+    const usersWithoutBet = await this.betService.getUsersWithoutBet(raceId);
+    if (usersWithoutBet.length > 0) {
+      this.alertService.confirm(`Deseja criar apostas para ${usersWithoutBet}?`, () => {
+        console.log(`Resposta confirm: ok`);
+        this.betService.createBets(usersWithoutBet, raceId);
+      });
+    } else {
+      this.alertService.alert('Nenhum usuário deixou de apostar!', 'Apostas');
+    }
   }
 
   onRaceChanged() {

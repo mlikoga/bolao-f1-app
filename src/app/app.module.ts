@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 
+import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
 import { BetService } from './services/bet.service';
 import { CacheService } from './services/cache.service';
@@ -30,6 +31,7 @@ import { environment } from '../environments/environment';
   providers: [
     StatusBar,
     SplashScreen,
+    AlertService,
     AuthService,
     BetService,
     CacheService,

@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Bolão F1</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="checkMissingBets()" *ngIf="isAdmin">
+        <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

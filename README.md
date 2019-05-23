@@ -6,8 +6,14 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.13.1 - 2019.05.22
+- Bug fix: do not show stats of current race when betting is enabled
+
+1.13 - 2019.05.21
+- Missing bets upload option to admins
+
 1.12 - 2019.05.12
-- Estatísticas de apostas
+- Bets statistics
 
 1.11.1 - 2019.05.10
 - Bug fix: Last race bet for users that did not bet was not considered on points calculation.

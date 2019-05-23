@@ -29,8 +29,10 @@ export class StatsPage implements OnInit {
 
   ngOnInit() {
     let currentRace = this.timeService.currentRace();
-    this.selectedRaceId = currentRace.id;
-    this.races = Race.all().filter(race => race.id <= currentRace.id);
+    const bettingEnabled = this.timeService.bettingEnabled();
+    const lastVisibleRaceId = bettingEnabled ? currentRace.id - 1 : currentRace.id;
+    this.selectedRaceId = lastVisibleRaceId;
+    this.races = Race.all().filter(race => race.id <= lastVisibleRaceId);
     this.updateStats();
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CacheService } from '../services/cache.service';
+import { SwUpdate } from '@angular/service-worker';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -14,9 +15,10 @@ export class ProfilePage implements OnInit {
   version: string;
 
   constructor(public authService: AuthService, private cache: CacheService,
-    public toastController: ToastController) {
+    public toastController: ToastController,
+    private swUpdate: SwUpdate) {
 
-    this.version = "1.13.1";
+    this.version = "1.14";
   }
 
   ngOnInit() {
@@ -24,6 +26,11 @@ export class ProfilePage implements OnInit {
 
   async ionViewWillEnter() {
     this.username = await this.authService.getCurrentUser();
+  }
+
+  checkUpdates() {
+    console.log('Verificando atualizações...');
+    this.swUpdate.checkForUpdate();
   }
 
   clearCache() {

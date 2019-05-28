@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CacheService } from '../services/cache.service';
+import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { ToastController } from '@ionic/angular';
 
@@ -14,11 +15,14 @@ export class ProfilePage implements OnInit {
   username: string;
   version: string;
 
-  constructor(public authService: AuthService, private cache: CacheService,
+  constructor(
+    public authService: AuthService,
+    private cache: CacheService,
+    private router: Router,
     public toastController: ToastController,
     private swUpdate: SwUpdate) {
 
-    this.version = "1.14";
+    this.version = "1.15";
   }
 
   ngOnInit() {
@@ -43,5 +47,10 @@ export class ProfilePage implements OnInit {
       })
       .then(toast => toast.present());
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['login']);
   }
 }

@@ -14,19 +14,21 @@
       <div class="total" text-right>{{ betPoints.total() | number }}</div>
     </div>
     <ion-list>
-      <ion-item>
+      <ion-item [class.bet--exact]="betPoints.pole > 0">
         <ion-label>Pole Position</ion-label>
         <ion-label class="col-sm" text-right>{{ bet.pole }}</ion-label>
         <ion-label class="col-sm" text-right>{{ betPoints.pole }}</ion-label>
         <ion-label class="col-sm" text-right>-</ion-label>
       </ion-item>
-      <ion-item>
+      <ion-item [class.bet--exact]="betPoints.fastestLap > 0">
         <ion-label>Volta mais rápida</ion-label>
         <ion-label class="col-sm" text-right>{{ bet.fastestLap }}</ion-label>
         <ion-label class="col-sm" text-right>{{ betPoints.fastestLap }}</ion-label>
         <ion-label class="col-sm" text-right>-</ion-label>
       </ion-item>
-      <ion-item *ngFor="let betPos of bet.positions; index as pos">
+      <ion-item *ngFor="let betPos of bet.positions; index as pos"
+                [class.bet--exact]="betPoints.positions[pos] == pointsRef[pos]"
+      >
         <ion-label>{{ pos + 1 }}</ion-label>
         <ion-label class="col-sm" text-right>{{ betPos }}</ion-label>
         <ion-label class="col-sm" text-right>{{ betPoints.positions[pos] | number }}</ion-label>

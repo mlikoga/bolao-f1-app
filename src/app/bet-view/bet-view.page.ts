@@ -19,6 +19,7 @@ export class BetViewPage implements OnInit {
   bet$: Observable<Bet>;
   betPoints: BetPoints = new BetPoints();
   race: Race;
+  pointsRef = PointCalculator.racePoints;
 
   constructor(
     private route: ActivatedRoute,

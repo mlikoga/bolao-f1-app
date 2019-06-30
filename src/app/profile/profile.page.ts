@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
     public toastController: ToastController,
     private swUpdate: SwUpdate) {
 
-    this.version = "1.15";
+    this.version = "1.16";
   }
 
   ngOnInit() {

@@ -49,6 +49,17 @@ export class ResultService {
     bets.forEach(bet => this.setPoints(bet, PointCalculator.calculatePoints(result, bet).total()));
   }
 
+  async getLastResult(): Promise<Result> {
+    let queryResult = await this.db.collection('results')
+      .orderBy("race", "desc")
+      .limit(1)
+      .get();
+    if (!queryResult.empty) {
+      return queryResult.docs.pop().data() as Result;
+    }
+    return null;
+  }
+
   setPoints(bet: Bet, points: number): void {
     this.db.collection("points").doc(`${bet.user}.${bet.race}`).set({
       user: bet.user,

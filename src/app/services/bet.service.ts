@@ -70,4 +70,11 @@ export class BetService {
       });
     });
   }
+
+  async backupBets() {
+    let betsQuery = await this.db.collection('bets').get();
+    let bets = betsQuery.docs.map(querySnap => querySnap.data() as Bet);
+
+    console.log(JSON.stringify(bets));
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { User } from '../model/user';
 import { ResultService } from '../services/result.service';
 import { AuthService } from '../services/auth.service';
+import { Race } from '../model/race';
 
 @Component({
   selector: 'app-standings',
@@ -12,15 +13,18 @@ export class StandingsPage {
 
   users: Array<User> = [];
   currentUser: string;
+  lastRace: Race;
 
-  constructor(private authService: AuthService, private resultService: ResultService) { 
+  constructor(private authService: AuthService, private resultService: ResultService) {
   }
-  
+
   ionViewWillEnter() {
   }
-  
+
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUser();
+    let lastResult = await this.resultService.getLastResult();
+    this.lastRace = Race.withId(lastResult.race);
     this.refresh();
   }
 

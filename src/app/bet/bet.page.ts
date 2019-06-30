@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
@@ -36,6 +37,7 @@ export class BetPage {
       public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService,
+      public router: Router,
       public timeService: TimeService) {
 
     this.db = firebase.firestore();
@@ -44,6 +46,10 @@ export class BetPage {
 
   async ngOnInit() {
     let username = await this.authService.getCurrentUser();
+    if (!username) {
+      this.router.navigate(['login']);
+      return;
+    }
     let race = this.currentRace.id;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);
@@ -83,6 +89,7 @@ export class BetPage {
     console.log(this.currentBet.positions);
     console.log(`Can submit: ${this.canSubmit()}`);
 
+    // Check if all fields are filled
     if(!this.canSubmit()) {
       const alert = await this.alertController.create({
         message: "Preencha todos os campos.",
@@ -92,16 +99,23 @@ export class BetPage {
       return;
     }
 
+    // Check login
+    let username = await this.authService.getCurrentUser();
+    if (!username) {
+      this.router.navigate(['login']);
+      return;
+    }
+
+    let race = this.currentRace.id;
+    let docId = `${username}.${race}`;
+    console.log(`BetId: ${docId}`);
+
     const loading = await this.loadingController.create({
       spinner: "circles",
       translucent: true,
     });
     loading.present();
 
-    let username = await this.authService.getCurrentUser();
-    let race = this.currentRace.id;
-    let docId = `${username}.${race}`;
-    console.log(`BetId: ${docId}`);
     this.db.collection("bets").doc(docId).set({
       user: username,
       race: race,
@@ -129,4 +143,4 @@ export class BetPage {
       loading.dismiss();
     });
   }
- }
+}

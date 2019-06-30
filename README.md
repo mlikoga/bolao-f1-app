@@ -6,6 +6,10 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+1.15 - 2019.05.27
+- Logout
+- Exact bet highlight
+
 1.14 - 2019.05.22
 - Verify updates
 

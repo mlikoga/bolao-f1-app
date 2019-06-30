@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { BetService } from '../services/bet.service';
 import { CacheService } from '../services/cache.service';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
@@ -14,9 +15,11 @@ export class ProfilePage implements OnInit {
 
   username: string;
   version: string;
+  isSuperAdmin: boolean;
 
   constructor(
     public authService: AuthService,
+    private betService: BetService,
     private cache: CacheService,
     private router: Router,
     public loadingController: LoadingController,
@@ -45,6 +48,11 @@ export class ProfilePage implements OnInit {
 
   async ionViewWillEnter() {
     this.username = await this.authService.getCurrentUser();
+    this.isSuperAdmin = await this.authService.getCurrentUser() === 'Koga';
+  }
+
+  backup() {
+    this.betService.backupBets();
   }
 
   async checkUpdates() {

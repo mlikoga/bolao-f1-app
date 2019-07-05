@@ -31,7 +31,7 @@ export class BetListPage implements OnInit {
   }
   
   async ngOnInit() {
-    this.isAdmin = await this.authService.getCurrentUser() === 'Koga';
+    this.isAdmin = await this.authService.isSuperAdmin();
     this.currentRaceId = this.timeService.currentRace().id;
     this.selectedRaceId = this.currentRaceId;
     this.races = Race.all().filter(race => race.id <= this.currentRaceId);

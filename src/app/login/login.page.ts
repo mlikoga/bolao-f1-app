@@ -25,6 +25,7 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     this.authService.authenticated().then(authenticated => {
+      console.log(`Usuário autenticado: ${authenticated}`);
       if(authenticated) {
         this.router.navigate(['tabs'])
       }

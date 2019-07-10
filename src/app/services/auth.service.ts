@@ -67,7 +67,8 @@ export class AuthService {
   }
 
   async authenticated() : Promise<boolean> {
-    return !!this.currentUser;
+    const currentUser = await this.getCurrentUser();
+    return !!currentUser;
   }
 
   updateUsername(username: string) {

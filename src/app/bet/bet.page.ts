@@ -45,7 +45,7 @@ export class BetPage {
   }
 
   async ngOnInit() {
-    let username = await this.authService.getCurrentUser();
+    let username = await this.authService.getCurrentUsername();
     if (!username) {
       this.router.navigate(['login']);
       return;
@@ -100,7 +100,7 @@ export class BetPage {
     }
 
     // Check login
-    let username = await this.authService.getCurrentUser();
+    let username = await this.authService.getCurrentUsername();
     if (!username) {
       this.router.navigate(['login']);
       return;

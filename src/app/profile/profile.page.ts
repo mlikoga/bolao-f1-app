@@ -4,7 +4,8 @@ import { BetService } from '../services/bet.service';
 import { CacheService } from '../services/cache.service';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController } from '@ionic/angular';
+import { User } from '../model/user';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,7 @@ import { ToastController, LoadingController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
-  username: string;
+  user: User;
   version: string;
   isSuperAdmin: boolean;
 
@@ -22,11 +23,13 @@ export class ProfilePage implements OnInit {
     private betService: BetService,
     private cache: CacheService,
     private router: Router,
+    private alertController: AlertController,
     public loadingController: LoadingController,
     public toastController: ToastController,
     private swUpdate: SwUpdate) {
 
     this.version = "1.17";
+    this.user = new User('','');
   }
 
   ngOnInit() {
@@ -47,12 +50,16 @@ export class ProfilePage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    this.username = await this.authService.getCurrentUser();
-    this.isSuperAdmin = await this.authService.getCurrentUser() === 'Koga';
+    this.user = await this.authService.getCurrentUser();
+    this.isSuperAdmin = await this.authService.isSuperAdmin();
   }
 
   backup() {
     this.betService.backupBets();
+  }
+
+  changePassword() {
+    this.presentPasswordPrompt();
   }
 
   async checkUpdates() {
@@ -71,18 +78,111 @@ export class ProfilePage implements OnInit {
 
   clearCache() {
     this.cache.clear().then(() => {
-      this.toastController.create({
-        message: "Cache limpo",
-        color: "success",
-        position: "middle",
-        duration: 3000,
-      })
-      .then(toast => toast.present());
+      this.presentToastSuccess('Cache limpo');
     });
   }
 
-  logout() {
-    this.authService.logout();
+  async editUsername() {
+    await this.presentUsernamePrompt();
+  }
+
+  async logout() {
+    await this.authService.logout();
     this.router.navigate(['login']);
+  }
+
+  private async presentUsernamePrompt() {
+    const alert = await this.alertController.create({
+      header: 'Nome',
+      inputs: [
+        {
+          name: 'username',
+          type: 'text',
+          value: this.user.username,
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Ok',
+          handler: (inputs) => {
+            const username = inputs.username;
+            console.log(`Confirm Ok ${username}`);
+            if (username && username !== '') {
+              this.authService.updateUsername(username);
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async presentPasswordPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Senha',
+      inputs: [
+        {
+          name: 'password',
+          type: 'password',
+          placeholder: 'Digite a senha atual',
+        },
+        {
+          name: 'newPassword1',
+          type: 'password',
+          placeholder: 'Digite a nova senha',
+        },
+        {
+          name: 'newPassword2',
+          type: 'password',
+          placeholder: 'Confirme a nova senha',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Ok',
+          handler: (inputs) => {
+            const password: string = inputs.password;
+            const newPwd1: string  = inputs.newPassword1;
+            const newPwd2: string  = inputs.newPassword2;
+            if (newPwd1 && newPwd1.length > 3 && newPwd1 === newPwd2) {
+              this.authService.updatePassword(password, newPwd1)
+                .then(() => this.presentToastSuccess('Senha alterada com sucesso'))
+                .catch((error) => this.presentToastError(error));
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private presentToastSuccess(message: string) {
+    this.toastController.create({
+      message,
+      color: "success",
+      position: "middle",
+      duration: 3000,
+    })
+    .then(toast => toast.present());
+  }
+
+  private presentToastError(message: string) {
+    this.toastController.create({
+      message,
+      color: "error",
+      position: "middle",
+      duration: 3000,
+    })
+    .then(toast => toast.present());
   }
 }

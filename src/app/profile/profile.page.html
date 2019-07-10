@@ -16,12 +16,12 @@
       <ion-label class="profile__label">Email:</ion-label>
       <ion-label>{{ user.email }}</ion-label>
     </ion-item>
+    <ion-item class="profile__item--clickable" (click)="changePassword()">
+      <ion-label>Mudar a senha</ion-label>
+    </ion-item>
     <ion-item>
       <ion-label>Versão do app:</ion-label>
       <ion-label>{{ version }}</ion-label>
-    </ion-item>
-    <ion-item class="profile__item--clickable" (click)="changePassword()">
-      <ion-label>Mudar a senha</ion-label>
     </ion-item>
     <ion-item class="profile__item--clickable" (click)="checkUpdates()">
       <ion-label>Verificar atualizações</ion-label>

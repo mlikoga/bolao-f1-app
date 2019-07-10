@@ -136,7 +136,11 @@ export class BetPage {
     })
     .catch(error => {
       console.error("Error on submitting bet: ", error);
-      this.toastController.create({message: `Erro ao enviar aposta :( ${error}`})
+      this.toastController.create({
+        message: `Erro ao enviar aposta :( ${error}`,
+        color: "danger",
+        duration: 5000,
+      })
       .then(toast => toast.present());
     })
     .finally(() => {

@@ -105,7 +105,7 @@ export class BetPage {
       this.router.navigate(['login']);
       return;
     }
-    
+
     let race = this.currentRace.id;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);

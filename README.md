@@ -6,6 +6,10 @@ App with ionic v4
 Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
+
+1.17 - 2019.07.09
+- Login via email
+
 1.16 - 2019.06.30
 - Show last GP name on standings page
 - Prints all bets as JSON string for backup purposes

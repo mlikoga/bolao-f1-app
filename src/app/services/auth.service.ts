@@ -58,7 +58,7 @@ export class AuthService {
 
   async isAdmin() : Promise<boolean> {
     const currentUser = await this.getCurrentUser();
-    return currentUser && ['mlikoga@gmail.com', 'mat', 'Possebon'].includes(currentUser.email);
+    return currentUser && ['mlikoga@gmail.com', 'bruno.matsumoto@gmail.com', 'possebon.ro@gmail.com'].includes(currentUser.email);
   }
 
   async isSuperAdmin(): Promise<boolean> {

@@ -8,8 +8,16 @@
 
   <ion-list>
     <ion-item>
-      <ion-label>Nome:</ion-label>
-      <ion-label>{{ username }}</ion-label>
+      <ion-label class="profile__label">Nome:</ion-label>
+      <ion-label>{{ user.username }}</ion-label>
+      <!-- <ion-icon class="profile__icon" name="create" (click)="editUsername()"></ion-icon> -->
+    </ion-item>
+    <ion-item>
+      <ion-label class="profile__label">Email:</ion-label>
+      <ion-label>{{ user.email }}</ion-label>
+    </ion-item>
+    <ion-item class="profile__item--clickable" (click)="changePassword()">
+      <ion-label>Mudar a senha</ion-label>
     </ion-item>
     <ion-item>
       <ion-label>Versão do app:</ion-label>

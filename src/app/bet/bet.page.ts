@@ -45,7 +45,7 @@ export class BetPage {
   }
 
   async ngOnInit() {
-    let username = await this.authService.getCurrentUser();
+    let username = await this.authService.getCurrentUsername();
     if (!username) {
       this.router.navigate(['login']);
       return;
@@ -100,7 +100,7 @@ export class BetPage {
     }
 
     // Check login
-    let username = await this.authService.getCurrentUser();
+    let username = await this.authService.getCurrentUsername();
     if (!username) {
       this.router.navigate(['login']);
       return;
@@ -136,7 +136,11 @@ export class BetPage {
     })
     .catch(error => {
       console.error("Error on submitting bet: ", error);
-      this.toastController.create({message: `Erro ao enviar aposta :( ${error}`})
+      this.toastController.create({
+        message: `Erro ao enviar aposta :( ${error}`,
+        color: "danger",
+        duration: 5000,
+      })
       .then(toast => toast.present());
     })
     .finally(() => {

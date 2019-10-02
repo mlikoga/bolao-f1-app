@@ -1,11 +1,15 @@
 <ion-content padding>
   <ion-img src="assets/f1-logo.png"></ion-img>
   <ion-item>
-    <ion-label position="stacked">Qual seu nome de usuário?</ion-label>
-    <ion-input type="text" placeholder="Digite aqui" [(ngModel)]="login"></ion-input>
+    <ion-label position="stacked">Qual seu email?</ion-label>
+    <ion-input type="email" placeholder="nome@email.com" [(ngModel)]="login"></ion-input>
   </ion-item>
-  <ion-button expand="block" routerLink="/tabs" routerDirection="root" 
-    (click)="loginClicked()" [disabled]="!login">
+  <ion-item>
+    <ion-label position="stacked">Senha</ion-label>
+    <ion-input type="password" placeholder="Digite aqui" [(ngModel)]="password"></ion-input>
+  </ion-item>
+  <ion-button expand="block"
+    (click)="loginClicked()" [disabled]="!login || !password">
     Começar
   </ion-button>
 </ion-content>

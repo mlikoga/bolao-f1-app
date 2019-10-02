@@ -16,13 +16,14 @@ export class StandingsPage {
   lastRace: Race;
 
   constructor(private authService: AuthService, private resultService: ResultService) {
+    this.lastRace = new Race();
   }
 
   ionViewWillEnter() {
   }
 
   async ngOnInit() {
-    this.currentUser = await this.authService.getCurrentUser();
+    this.currentUser = await this.authService.getCurrentUsername();
     let lastResult = await this.resultService.getLastResult();
     this.lastRace = Race.withId(lastResult.race);
     this.refresh();

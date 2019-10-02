@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,13 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
 
   login: string;
+  password: string;
 
-  constructor(public authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastController: ToastController,  
+  ) {
   }
 
   ngOnInit() {
@@ -19,6 +25,7 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     this.authService.authenticated().then(authenticated => {
+      console.log(`Usuário autenticado: ${authenticated}`);
       if(authenticated) {
         this.router.navigate(['tabs'])
       }
@@ -26,7 +33,24 @@ export class LoginPage implements OnInit {
   }
 
   loginClicked() {
-    this.authService.login(this.login);
+    this.authService.login(this.login, this.password)
+      .then(() => {
+        console.log('Login successful!');
+        this.router.navigate(['tabs']);
+      })
+      .catch(error => {
+        console.error(error);
+        this.showErrorMessage(error.message);
+      });
+  }
+
+  showErrorMessage(message: string) {
+    this.toastController.create({
+      message: message,
+      color: "danger",
+      position: "bottom",
+      duration: 5000,
+    }).then(toast => toast.present());
   }
 
 }

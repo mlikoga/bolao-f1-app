@@ -7,6 +7,7 @@ import { User } from '../model/user';
 import { PointCalculator } from '../points/point-calculator';
 import { BetService } from '../services/bet.service';
 import { CacheService } from './cache.service';
+import { TimeService } from './time.service';
 import { UserService } from './user.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -18,26 +19,26 @@ export class ResultService {
 
   db: firebase.firestore.Firestore;
 
-  constructor(private betService: BetService, private cache : CacheService,
-      private userService: UserService) {
+  constructor(
+      private betService: BetService, 
+      private cache : CacheService,
+      private timeService: TimeService,
+      private userService: UserService,
+    ) {
     this.db = firebase.firestore();
   }
 
   async getResult(race: Race): Promise<Result> {
     let docId = `${race.id}.${race.name}`;
-    let cached_result = await this.cache.get(docId);
-    if (cached_result) {
-      console.log('Got cached result!');
-      console.log(cached_result);
-      return cached_result;
+    return await this.cache.get_and_save(docId, this.retrieveResult);
+  }
+
+  async retrieveResult(docId: string): Promise<Result> {
+    let resultSnapshot = await this.db.collection('results').doc(docId).get();
+
+    if (resultSnapshot.exists) {
+      return resultSnapshot.data() as Result;
     }
-    let queryResult = await this.db.collection('results').where("race", "==", race.id).limit(1).get();
-    if (!queryResult.empty) {
-      let result = queryResult.docs.pop().data() as Result;
-      this.cache.set(docId, result);
-      return result;
-    }
-    console.log('Result not found');
     return null;
   }
 
@@ -50,13 +51,14 @@ export class ResultService {
   }
 
   async getLastResult(): Promise<Result> {
-    let queryResult = await this.db.collection('results')
-      .orderBy("race", "desc")
-      .limit(1)
-      .get();
-    if (!queryResult.empty) {
-      return queryResult.docs.pop().data() as Result;
+    let pastRaces = this.timeService.pastRaces().reverse();
+    for (let race of pastRaces) {
+      let result = await this.getResult(race);
+      if (result) {
+        return result;
+      }
     }
+
     return null;
   }
 

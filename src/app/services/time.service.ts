@@ -25,6 +25,17 @@ export class TimeService {
     }
     return races[races.length - 1];
   }
+  
+  pastRaces(time: moment.Moment = moment()): Array<Race> {
+    let races = Race.all();
+    for(let i = races.length - 1; i >= 0; i--) {
+      let race = races[i];
+      if (time.isAfter(race.raceStartsAt)) {
+        return races.slice(0, i + 1);
+      }
+    }
+    return [];
+  }
 
   daysToRace(time: moment.Moment, race: Race) {
     let t1 = time.startOf('day');

@@ -7,6 +7,10 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+1.18 - 2019.10.01
+- Fix showing more than 1000 points at standings page
+- Improved performance at standings page
+
 1.17 - 2019.07.09
 - Login via email
 

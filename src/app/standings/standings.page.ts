@@ -19,9 +19,6 @@ export class StandingsPage {
     this.lastRace = new Race();
   }
 
-  ionViewWillEnter() {
-  }
-
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUsername();
     let lastResult = await this.resultService.getLastResult();

@@ -21,6 +21,25 @@ describe('nextRace', () => {
   });
 });
 
+describe('pastRaces', () => {
+  let timeService = new TimeService();
+
+  it('returns empty array at 2019-01-01', () => {
+    let date = moment('2019-01-01T12:00:00Z');
+    expect(timeService.pastRaces(date).length).toBe(0);
+  });
+
+  it('returns Australia and Bahrein at 2019-04-01', () => {
+    let date = moment('2019-04-01T12:00:00Z');
+    expect(timeService.pastRaces(date).length).toBe(2);
+  });
+
+  it('returns all races at 2019-12-31', () => {
+    let date = moment('2019-12-31T12:00:00Z');
+    expect(timeService.pastRaces(date).length).toBe(21);
+  });
+});
+
 describe('bettingEnabled', () => {
   let timeService = new TimeService();
 

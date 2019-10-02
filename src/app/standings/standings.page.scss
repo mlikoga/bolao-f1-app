@@ -1,9 +1,18 @@
+.standings__item {
+  display: flex;
+  flex-direction: row;
+}
+
 .standings__position {
   max-width: 2rem;
 }
 
 .standings__user {
   color: yellow;
+}
+
+.standings__username {
+  flex-grow: 1;
 }
 
 .standings__updown {
@@ -38,5 +47,6 @@
 }
 
 .standings__points {
-  max-width: 3rem;
+  flex: 0 0 auto;
+  margin-left: 8px;
 }

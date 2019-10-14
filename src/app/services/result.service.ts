@@ -30,7 +30,7 @@ export class ResultService {
 
   async getResult(race: Race): Promise<Result> {
     let docId = `${race.id}.${race.name}`;
-    return await this.cache.get_and_save(docId, this.retrieveResult);
+    return await this.cache.get_and_save(docId, (key) => this.retrieveResult(key));
   }
 
   async retrieveResult(docId: string): Promise<Result> {

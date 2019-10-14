@@ -7,6 +7,10 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+1.19 - 2019.10.13
+- Fixed cache bug
+- Fixed timezone bug
+
 1.18 - 2019.10.01
 - Fix showing more than 1000 points at standings page
 - Improved performance at standings page

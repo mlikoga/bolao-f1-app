@@ -30,7 +30,7 @@
     "@ionic/storage": "^2.2.0",
     "cordova-plugin-ionic": "^5.3.0",
     "core-js": "^2.6.5",
-    "firebase": "^5.11.1",
+    "firebase": "^7.2",
     "moment": "^2.24.0",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.29"

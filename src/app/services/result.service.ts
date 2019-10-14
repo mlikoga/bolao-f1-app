@@ -30,16 +30,14 @@ export class ResultService {
 
   async getResult(race: Race): Promise<Result> {
     let docId = `${race.id}.${race.name}`;
-    return await this.cache.get_and_save(docId, (key) => this.retrieveResult(key));
-  }
+    return await this.cache.get_and_save(docId, async () => {
+      let resultSnapshot = await this.db.collection('results').doc(docId).get();
 
-  async retrieveResult(docId: string): Promise<Result> {
-    let resultSnapshot = await this.db.collection('results').doc(docId).get();
-
-    if (resultSnapshot.exists) {
-      return resultSnapshot.data() as Result;
-    }
-    return null;
+      if (resultSnapshot.exists) {
+        return resultSnapshot.data() as Result;
+      }
+      return null;
+    });
   }
 
   async setRaceResult(race: Race, result: Result): Promise<void> {

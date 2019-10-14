@@ -16,12 +16,12 @@ export class CacheService {
     return await this.storage.get(key);
   }
 
-  async get_and_save(key: string, retrieveFn: (key: string) => Promise<any>) {
+  async get_and_save(key: string, retrieveFn: () => Promise<any>) {
     let cachedValue = await this.get(key);
     if (cachedValue)
       return cachedValue;
 
-    let value = await retrieveFn.call(key);
+    let value = await retrieveFn.call(this);
     if (value)
       this.set(key, value);
 

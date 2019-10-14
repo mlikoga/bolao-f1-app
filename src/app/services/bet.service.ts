@@ -21,7 +21,7 @@ export class BetService {
 
   async getUserBet(username: string, raceId: number): Promise<Bet> {
     let docId = `${username}.${raceId}`;
-    return this.cache.get_and_save(docId, async (key) => {
+    return this.cache.get_and_save(docId, async () => {
       let doc = await this.db.collection('bets')
         .where("user", "==", username)
         .where("race", "<=", raceId)

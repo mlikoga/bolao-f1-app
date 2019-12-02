@@ -7,6 +7,10 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+1.20 - 2019.12.01
+- Race tab for everyone
+- Race selector on race tab
+
 1.19 - 2019.10.13
 - Fixed cache bug
 - Fixed timezone bug

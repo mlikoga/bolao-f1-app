@@ -16,8 +16,9 @@ export class RacePage {
   drivers: Array<Driver> = Driver.all();
   result: Result;
   driversOrdered: Array<Driver>;
-  currentRace: Race;
   isAdmin: boolean;
+  races: Array<Race> = Race.all();
+  selectedRaceId: number = 1;
 
   constructor(
     private authService: AuthService,
@@ -28,11 +29,18 @@ export class RacePage {
 
   ngOnInit() {
     this.authService.isAdmin().then(value => this.isAdmin = value);
-    this.currentRace = this.timeService.currentRace();
-    this.result = new Result(this.currentRace.id);
+    let currentRace = this.timeService.currentRace();
+    this.result = new Result(currentRace.id);
+    this.selectedRaceId = currentRace.id;
     this.driversOrdered = Driver.all();
-    console.log(`Current race: ${this.currentRace.name}`);
-    this.resultService.getResult(this.currentRace).then(res => {
+    console.log(`Current race: ${currentRace.name}`);
+    this.onRaceChanged();
+  }
+
+  onRaceChanged() {
+    console.log(`Race changed to: ${this.selectedRaceId}`);
+    let selectedRace = Race.withId(this.selectedRaceId);
+    this.resultService.getResult(selectedRace).then(res => {
       if (res) {
         this.result = res;
         this.driversOrdered = res.positions.map(id => Driver.fromId(id));
@@ -49,7 +57,8 @@ export class RacePage {
     console.log('Uploading result...');
     console.log(this.result);
     this.result.positions = this.driversOrdered.map(driver => driver.id);
-    await this.resultService.setRaceResult(this.currentRace, this.result);
+    let selectedRace = Race.withId(this.selectedRaceId);
+    await this.resultService.setRaceResult(selectedRace, this.result);
     this.toastController.create({
       message: "Resultado enviado",
       color: "success",

@@ -22,7 +22,9 @@ export class StandingsPage {
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUsername();
     let lastResult = await this.resultService.getLastResult();
-    this.lastRace = Race.withId(lastResult.race);
+    if (lastResult) {
+      this.lastRace = Race.withId(lastResult.race);
+    }
     this.refresh();
   }
 

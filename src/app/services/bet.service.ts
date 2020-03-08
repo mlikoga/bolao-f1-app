@@ -24,8 +24,7 @@ export class BetService {
     return this.cache.get_and_save(docId, async () => {
       let doc = await this.db.collection('bets')
         .where("user", "==", username)
-        .where("race", "<=", raceId)
-        .orderBy("race", "desc")
+        .where("race", "==", raceId)
         .limit(1)
         .get();
       let result = doc.docs.pop();

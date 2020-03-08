@@ -7,6 +7,9 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+2.0 - 2020.03.08
+- Season 2020
+
 1.20 - 2019.12.01
 - Race tab for everyone
 - Race selector on race tab

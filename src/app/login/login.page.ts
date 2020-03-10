@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { InitialBetService } from '../services/initial-bet.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
@@ -16,7 +15,6 @@ export class LoginPage implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private initialBetService: InitialBetService,
     private router: Router,
     private toastController: ToastController,  
   ) {
@@ -45,16 +43,8 @@ export class LoginPage implements OnInit {
       });
   }
 
-  async redirectUser() {
-    let username = await this.authService.getCurrentUsername();
-    let hasInitialBet = await this.initialBetService.userHasInitialBet(username);
-    if (hasInitialBet) {
-      console.log('User has initial bet, redirecting to tabs...');
-      this.router.navigate(['tabs']);
-    } else {
-      console.log('User does NOT have initial bet, redirecting to initial bet...');
-      this.router.navigate(['tabs', 'bet', 'initial'])
-    }
+  redirectUser() {
+    this.router.navigate(['tabs']);
   }
 
   resetPasswordClicked() {

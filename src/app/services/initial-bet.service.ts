@@ -19,7 +19,7 @@ export class InitialBetService {
     this.db = firebase.firestore();
   }
 
-  async getUserInitialBet(username: string, season: number): Promise<InitialBet> {
+  async getUserInitialBet(username: string, season: number = 2020): Promise<InitialBet> {
     let docId = `${season}.${username}`;
     return this.cache.get_and_save(docId, async () => {
       let doc = await this.db.collection('initialBets')
@@ -34,6 +34,10 @@ export class InitialBetService {
       }
       return null;
     });
+  }
+
+  async userHasInitialBet(username: string, season: number = 2020): Promise<boolean> {
+    return await this.getUserInitialBet(username, season) != null;
   }
 
   async setUserInitialBet(initialBet: InitialBet) {

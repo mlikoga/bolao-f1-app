@@ -107,7 +107,8 @@ export class InitialBetPage {
         position: "middle",
         duration: 5000,
       })
-      .then(toast => toast.present());
+      .then(toast => toast.present())
+      .then(() => this.router.navigate(['tabs']));
     })
     .catch(error => {
       console.error("Error on submitting bet: ", error);

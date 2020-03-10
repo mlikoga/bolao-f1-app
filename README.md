@@ -10,6 +10,7 @@ Using Firebase Firestore and Firebase Hosting
 2.0 - 2020.03.08
 - Season 2020
 - Initial Bet for whole season
+- Reset password
 
 1.20 - 2019.12.01
 - Race tab for everyone

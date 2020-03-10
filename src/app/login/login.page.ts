@@ -57,6 +57,25 @@ export class LoginPage implements OnInit {
     }
   }
 
+  resetPasswordClicked() {
+    this.authService.sendResetPasswordEmail(this.login)
+    .then(() => this.showSuccessMessage('E-mail de recuperação enviado'))
+    .catch(error => {
+      console.error(error);
+      this.showErrorMessage(error.message);
+    });
+  }
+
+  showSuccessMessage(message: string) {
+    this.toastController.create({
+      message: message,
+      color: "success",
+      position: "bottom",
+      duration: 5000,
+    })
+    .then(toast => toast.present())
+  }
+
   showErrorMessage(message: string) {
     this.toastController.create({
       message: message,

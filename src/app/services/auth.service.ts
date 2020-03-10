@@ -71,6 +71,10 @@ export class AuthService {
     return !!currentUser;
   }
 
+  sendResetPasswordEmail(email: string) {
+    return firebase.auth().sendPasswordResetEmail(email);
+  }
+
   updateUsername(username: string) {
     this.firebaseUser.updateProfile({
       displayName: username,

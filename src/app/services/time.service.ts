@@ -16,6 +16,10 @@ export class TimeService {
     return (daysToRace >= -5 && daysToRace < -1);
   }
 
+  currentSeason(time: moment.Moment = moment()): number {
+    return time.year();
+  }
+
   currentRace(time: moment.Moment = moment()): Race {
     let races = Race.all().reverse(); // Iterates from last to first
     for(var race of races) {

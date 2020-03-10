@@ -9,6 +9,7 @@ import { InitialBet } from '../model/initial-bet';
 import { Driver } from '../model/driver';
 import { Team } from '../model/team';
 import { AuthService } from '../services/auth.service';
+import { InitialBetService } from '../services/initial-bet.service';
 import { TimeService } from '../services/time.service';
 
 import * as firebase from 'firebase';
@@ -37,6 +38,7 @@ export class InitialBetPage {
       public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService,
+      public initialBetService: InitialBetService,
       public router: Router,
       public timeService: TimeService) {
 
@@ -92,13 +94,11 @@ export class InitialBetPage {
     });
     loading.present();
 
-    this.db.collection("initialBets").doc(docId).set({
+    this.initialBetService.setUserInitialBet({
+      ...this.initialBet,
       user: username,
-      champion: this.initialBet.champion,
-      bestRestDriver: this.initialBet.bestRestDriver,
-      bestRestTeam: this.initialBet.bestRestTeam,
-      createdAt: new Date(),
-    }, { merge: true })
+      season: season,
+    })
     .then(() => {
       console.log("Initial Bet registered!");
       this.toastController.create({

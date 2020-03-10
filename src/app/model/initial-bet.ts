@@ -4,4 +4,5 @@ export class InitialBet {
   bestRestTeam: string;
   user: string;
   season: number;
+  createdAt: Date;
 }

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { BetService } from '../services/bet.service';
+import { InitialBetService } from '../services/initial-bet.service';
 import { Race } from '../model/race';
 import { RacePoints } from '../model/racePoints';
 import { ResultService } from '../services/result.service';
+import { Router } from '@angular/router';
 import { TimeService } from '../services/time.service';
 
 @Component({
@@ -26,7 +28,9 @@ export class BetListPage implements OnInit {
     private alertService: AlertService,
     private authService: AuthService,
     private betService: BetService,
-    private resultService: ResultService, 
+    private initialBetService: InitialBetService,
+    private resultService: ResultService,
+    private router: Router,
     private timeService : TimeService) { 
   }
   
@@ -40,8 +44,14 @@ export class BetListPage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
+    let username = await this.authService.getCurrentUsername();
+    let hasInitialBet = await this.initialBetService.userHasInitialBet(username);
+    if (!hasInitialBet) {
+      console.log('User does NOT have initial bet, redirecting to initial bet...');
+      this.router.navigate(['tabs', 'bet', 'initial'])
+    } 
   }
 
   async checkMissingBets() {

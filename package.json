@@ -1,8 +1,8 @@
 {
   "name": "bolao-f1",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "2.0.0",
+  "author": "Marcelo Li Koga",
+  "homepage": "https://bolao-f1-2019.web.app/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -61,5 +61,5 @@
     "tslint": "~5.12.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project"
+  "description": "Bolão F1"
 }

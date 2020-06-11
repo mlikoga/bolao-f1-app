@@ -11,7 +11,7 @@
     <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
   </ion-select>
 
-  <div padding>
+  <div class="ion-padding">
     <stats-card title="Pole" [(dataRows)]="poleData"></stats-card>
     <stats-card title="Volta mais rápida" [dataRows]="fastestData"></stats-card>
     <stats-card title="Vencedor" [dataRows]="winnerData"></stats-card>

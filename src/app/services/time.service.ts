@@ -11,9 +11,10 @@ export class TimeService {
 
   // Betting enabled from wednesday to friday before the GP
   bettingEnabled(time: moment.Moment = moment()): boolean {
-    let daysToRace = this.daysToRace(time, this.currentRace(time));
+    let currentRace = this.currentRace(time)
+    let daysToRace = this.daysToRace(time, currentRace);
     console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
-    return (daysToRace >= -5 && daysToRace < -1);
+    return ((currentRace.number == 1 || daysToRace >= -5) && daysToRace < -1);
   }
 
   currentSeason(time: moment.Moment = moment()): number {
@@ -29,7 +30,7 @@ export class TimeService {
     }
     return races[races.length - 1];
   }
-  
+
   pastRaces(time: moment.Moment = moment()): Array<Race> {
     let races = Race.all();
     for(let i = races.length - 1; i >= 0; i--) {

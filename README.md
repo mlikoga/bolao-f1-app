@@ -94,19 +94,24 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Development
 
-Requirements:
+**Requirements:**
 - node v10
 - ionic `npm install -g @ionic/cli`
-- Firebase CLI (to deploy)
+- Firebase CLI (to deploy) `npm install -g firebase-tools`
 
-To initialize:
+**To initialize:**
 `npm install`
 
-To run app in local browser:
-`ionic serve`
+**To run app in local browser:**
+`npm start`
 
-To run tests:
-`ng test`
+**To run tests:**
+`npm test`
 
-To deploy:
+**To deploy:**
+
+The first time you have to config Firebase, with:
+`firebase login`
+
+Then, just run:
 `./deploy.sh`

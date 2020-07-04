@@ -17,9 +17,10 @@ import { CacheService } from './services/cache.service';
 import { TimeService } from './services/time.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { RaceSelectorComponent } from './race-selector/race-selector.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RaceSelectorComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

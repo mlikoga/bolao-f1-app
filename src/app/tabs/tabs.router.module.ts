@@ -19,6 +19,10 @@ const routes: Routes = [
             loadChildren: '../initial-bet/initial-bet.module#InitialBetPageModule'
           },
           {
+            path: 'initial/:username',
+            loadChildren: '../initial-bet-view/initial-bet-view.module#InitialBetViewPageModule'
+          },
+          {
             path: 'bet',
             loadChildren: '../bet/bet.module#BetPageModule'
           },

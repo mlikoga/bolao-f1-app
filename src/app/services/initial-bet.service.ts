@@ -47,4 +47,9 @@ export class InitialBetService {
     }), { merge: true });
   }
 
+  async getInitialBets(season: number = 2020): Promise<Array<InitialBet>> {
+    let initialBets = await this.db.collection('initialBets').where('season', '==', season).get();
+    return initialBets.docs.map(querySnap => querySnap.data() as InitialBet);
+  }
+
 }

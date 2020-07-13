@@ -7,6 +7,7 @@ export class Race {
 
   static all(): Array<Race> {
     return [
+      { id: 200, number: 0, name: 'Pré-temporada',   raceStartsAt: new Date('2020-07-04T10:10:00-03:00') },
       { id: 201, number: 1, name: 'Áustria',         raceStartsAt: new Date('2020-07-05T10:10:00-03:00') },
       { id: 202, number: 2, name: 'Estíria',         raceStartsAt: new Date('2020-07-12T10:10:00-03:00') },
       { id: 203, number: 3, name: 'Hungria',         raceStartsAt: new Date('2020-07-19T10:10:00-03:00') },

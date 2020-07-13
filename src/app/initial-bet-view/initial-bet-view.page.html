@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/bet"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Aposta Inicial
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="title">
+    <div>Usuário: {{ username }}</div>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label class="f1-label">Piloto campeão</ion-label>
+      <ion-label class="ion-text-right">{{ initialBet.champion }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="f1-label">Piloto melhor 2o pelotão</ion-label>
+      <ion-label class="ion-text-right">{{ initialBet.bestRestDriver }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label class="f1-label">Melhor equipe 2o pelotão</ion-label>
+      <ion-label class="ion-text-right">{{ initialBet.bestRestTeam }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

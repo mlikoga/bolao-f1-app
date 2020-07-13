@@ -20,7 +20,7 @@
   </div>
   <ng-template #userList>
     <ion-list>
-      <ion-item *ngFor="let racePoint of racePoints" [routerLink]="['/tabs/bet/bet-view', racePoint.user, selectedRaceId]" type="button">
+      <ion-item *ngFor="let racePoint of racePoints" [routerLink]="onUserSelected(racePoint.user)" type="button">
         <ion-label>{{ racePoint.user }}</ion-label>
         <ion-label class="ion-text-right">{{ racePoint.points | number }}</ion-label>
       </ion-item>

@@ -31,9 +31,9 @@ export class BetListPage implements OnInit {
     private initialBetService: InitialBetService,
     private resultService: ResultService,
     private router: Router,
-    private timeService : TimeService) { 
+    private timeService : TimeService) {
   }
-  
+
   async ngOnInit() {
     this.isAdmin = await this.authService.isSuperAdmin();
     this.currentRaceId = this.timeService.currentRace().id;
@@ -51,7 +51,7 @@ export class BetListPage implements OnInit {
     if (!hasInitialBet) {
       console.log('User does NOT have initial bet, redirecting to initial bet...');
       this.router.navigate(['tabs', 'bet', 'initial'])
-    } 
+    }
   }
 
   async checkMissingBets() {
@@ -72,5 +72,12 @@ export class BetListPage implements OnInit {
     this.resultService.getPoints(this.selectedRaceId).then(racePoints => {
       this.racePoints = racePoints;
     });
+  }
+
+  onUserSelected(user: string) {
+    if(this.selectedRaceId == 200) {
+      return ['/tabs/bet/initial', user]
+    }
+    return ['/tabs/bet/bet-view', user, this.selectedRaceId]
   }
 }

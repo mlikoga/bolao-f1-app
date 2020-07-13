@@ -6,7 +6,6 @@ import { BetService } from '../services/bet.service';
 import { InitialBetService } from '../services/initial-bet.service';
 import { TimeService } from '../services/time.service';
 import { LoadingController } from '@ionic/angular';
-import { RangeValueAccessor } from '@angular/forms/src/directives';
 
 @Component({
   selector: 'app-stats',

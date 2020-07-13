@@ -3,8 +3,10 @@ import { DataPoint } from './data-point';
 import { Bet } from '../model/bet';
 import { Race } from '../model/race';
 import { BetService } from '../services/bet.service';
+import { InitialBetService } from '../services/initial-bet.service';
 import { TimeService } from '../services/time.service';
 import { LoadingController } from '@ionic/angular';
+import { RangeValueAccessor } from '@angular/forms/src/directives';
 
 @Component({
   selector: 'app-stats',
@@ -17,13 +19,13 @@ export class StatsPage implements OnInit {
   selectedRaceId: number = 1;
   bets: Array<Bet> = [];
 
-  poleData: Array<DataPoint> = [];
-  fastestData: Array<DataPoint> = [];
-  winnerData: Array<DataPoint> = [];
+  cards: Array<[string, Array<DataPoint>]> = []
 
+  isInitialBet: boolean = false;
 
   constructor(
     private betService: BetService,
+    private initialBetService: InitialBetService,
     private loadingController: LoadingController,
     private timeService : TimeService) { }
 
@@ -48,10 +50,24 @@ export class StatsPage implements OnInit {
     });
     loading.present();
 
-    let bets = await this.betService.getRaceBets(this.selectedRaceId);
-    this.poleData = this.calculateDataPoints(bets.map(bet => bet.pole));
-    this.fastestData = this.calculateDataPoints(bets.map(bet => bet.fastestLap));
-    this.winnerData = this.calculateDataPoints(bets.map(bet => bet.positions[0]));
+    this.cards = [];
+    const race = Race.withId(this.selectedRaceId);
+    if (race.number == 0) {
+      this.isInitialBet = true;
+      const bets = await this.initialBetService.getInitialBets();
+      this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
+      this.cards.push(["Melhor piloto 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestDriver))]);
+      this.cards.push(["Melhor equipe 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestTeam))]);
+
+    } else {
+      this.isInitialBet = false;
+      let bets = await this.betService.getRaceBets(this.selectedRaceId);
+      this.cards.push(["Pole", this.calculateDataPoints(bets.map(bet => bet.pole))]);
+      this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
+      this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);
+      this.cards.push(["2o", this.calculateDataPoints(bets.map(bet => bet.positions[1]))]);
+      this.cards.push(["3o", this.calculateDataPoints(bets.map(bet => bet.positions[2]))]);
+    }
 
     loading.dismiss();
   }

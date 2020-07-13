@@ -65,8 +65,22 @@
     background: #1E41FF;
   }
 
+  &--ALB {
+    background: #6b81fe;
+  }
+
+  &--McLaren,
   &--SAI {
     background: #FF8700;
+  }
+
+  &--NOR {
+    background: #fea036;
+  }
+
+  &--Racing.Point,
+  &--PER {
+    background: #F596C8;
   }
 }
 

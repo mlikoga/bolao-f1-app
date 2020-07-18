@@ -39,9 +39,7 @@ export class BetListPage implements OnInit {
     this.currentRaceId = this.timeService.currentRace().id;
     this.selectedRaceId = this.currentRaceId;
     this.races = Race.all().filter(race => race.id <= this.currentRaceId);
-    this.resultService.getPoints(this.currentRaceId).then(racePoints => {
-      this.racePoints = racePoints;
-    });
+    this.refresh();
   }
 
   async ionViewWillEnter() {
@@ -52,6 +50,14 @@ export class BetListPage implements OnInit {
       console.log('User does NOT have initial bet, redirecting to initial bet...');
       this.router.navigate(['tabs', 'bet', 'initial'])
     }
+  }
+
+  async refresh(event?) : Promise<void> {
+    console.log('Refreshing bet list...')
+    this.resultService.getPoints(this.currentRaceId).then(racePoints => {
+      this.racePoints = racePoints;
+    });
+    if (event) event.target.complete();
   }
 
   async checkMissingBets() {

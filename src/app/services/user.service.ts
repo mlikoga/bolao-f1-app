@@ -20,8 +20,9 @@ export class UserService {
     const queryResult = await this.db.collection("initialBets")
       .where("season", "==", season)
       .get();
+
+    // Users for the season are the ones who made an initial bet
     const initialBets = queryResult.docs.map(querySnap => querySnap.data() as InitialBet);
-    console.log(initialBets)
     return initialBets.map(initialBet => new User(initialBet.user, ''));
   }
 }

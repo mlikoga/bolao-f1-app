@@ -69,6 +69,10 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'user-points/:username',
+        loadChildren: '../user-points/user-points.module#UserPointsPageModule'
+      },
+      {
         path: '',
         redirectTo: '/tabs/bet',
         pathMatch: 'full'

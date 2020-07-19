@@ -20,7 +20,7 @@ export class ResultService {
   db: firebase.firestore.Firestore;
 
   constructor(
-      private betService: BetService, 
+      private betService: BetService,
       private cache : CacheService,
       private timeService: TimeService,
       private userService: UserService,
@@ -78,33 +78,32 @@ export class ResultService {
       // Se não tem ainda, cria array de RacePoints zerados
       let users = await this.userService.getUsers();
       for (var user of users) {
-        racePoints.push(new RacePoints(user.username, raceId));
+        racePoints.push(RacePoints.empty(user.username, raceId));
       }
     }
     return racePoints;
   }
 
-  async getPointsPerRace(username: string): Promise<Array<number>> {
+  async getPointsPerRace(username: string): Promise<Array<RacePoints>> {
     const userPoints = await this.db.collection("points")
                        .where("user", "==", username)
                        .where("race", ">", 200) // hard-coded for season 2020
                        .orderBy("race", "asc")
                        .get();
 
-    return userPoints.docs.map(querySnap => querySnap.data()["points"]);
+    return userPoints.docs.map(querySnap => new RacePoints(querySnap.data() as RacePoints));
   }
 
-  async getTotalPoints(username: string): Promise<number> {
-    const userPoints = await this.getPointsPerRace(username);
-    return userPoints.reduce((acc, value) => acc + value, 0);
+  getTotalPoints(userRacePoints: Array<RacePoints>): number {
+    return userRacePoints.reduce((acc, value) => acc + value["points"], 0);
   }
 
   async getUserStandings(): Promise<Array<User>> {
     let users = await this.userService.getUsers();
     const userPoints = await Promise.all(users.map(async user => {
       const pointsPerRace = await this.getPointsPerRace(user.username);
-      const total = pointsPerRace.reduce((acc, value) => acc + value, 0);
-      const untilNow = total - pointsPerRace[pointsPerRace.length - 1];
+      const total = this.getTotalPoints(pointsPerRace);
+      const untilNow = total - pointsPerRace[pointsPerRace.length - 1]["points"];
       return { user, untilNow, total };
     }));
     const lastStandings = [...userPoints].sort((u1, u2) => u2.untilNow - u1.untilNow).map(up => up.user.username);

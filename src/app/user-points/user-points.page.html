@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/standings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Extrato de Pontos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="title">
+    <div>Usuário: {{ username }}</div>
+    <div class="total ion-text-right">{{ totalPoints | number }}</div>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let racePoint of racePoints">
+      <ion-label class="f1-label">GP {{ racePoint.raceObj.name }}</ion-label>
+      <ion-label class="ion-text-right">{{ racePoint.points | number }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

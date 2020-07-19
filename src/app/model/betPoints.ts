@@ -4,7 +4,7 @@ export class BetPoints {
   positions: Array<number>;
   extra: Array<number>;
   user: string;
-  race: number; 
+  race: number;
 
   constructor(user?: string, race?: number) {
     this.user = user;
@@ -15,9 +15,9 @@ export class BetPoints {
     this.extra = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 
-  total(): number {
-    return this.pole + this.fastestLap + 
-      this.positions.reduce(this.add) + 
+  get total(): number {
+    return this.pole + this.fastestLap +
+      this.positions.reduce(this.add) +
       this.extra.reduce(this.add);
   }
 

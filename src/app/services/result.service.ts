@@ -11,6 +11,7 @@ import { TimeService } from './time.service';
 import { UserService } from './user.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { BetPoints } from 'app/model/betPoints';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,11 @@ export class ResultService {
     this.db.collection('results').doc(docId).set(Object.assign({}, result));
     let bets = await this.betService.getRaceBets(race.id);
     console.log(bets);
-    bets.forEach(bet => this.setPoints(bet, PointCalculator.calculatePoints(result, bet).total()));
+    bets
+      .map(bet => PointCalculator.calculatePoints(result, bet))
+      .sort((a, b) => a.total - b.total)
+      .reverse()
+      .forEach((betPoints, position) => this.setPoints(betPoints, position));
   }
 
   async getLastResult(): Promise<Result> {
@@ -60,11 +65,12 @@ export class ResultService {
     return null;
   }
 
-  setPoints(bet: Bet, points: number): void {
-    this.db.collection("points").doc(`${bet.user}.${bet.race}`).set({
-      user: bet.user,
-      race: bet.race,
-      points: points,
+  private setPoints(betPoints: BetPoints, position: number): void {
+    this.db.collection("points").doc(`${betPoints.user}.${betPoints.race}`).set({
+      user: betPoints.user,
+      race: betPoints.race,
+      points: betPoints.total,
+      position: position + 1, // Start with 1
     });
   }
 
@@ -91,7 +97,7 @@ export class ResultService {
                        .orderBy("race", "asc")
                        .get();
 
-    return userPoints.docs.map(querySnap => new RacePoints(querySnap.data() as RacePoints));
+    return userPoints.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
   }
 
   getTotalPoints(userRacePoints: Array<RacePoints>): number {

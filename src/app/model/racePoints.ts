@@ -4,11 +4,13 @@ export class RacePoints {
   user: string;
   race: number;
   points: number;
+  position?: number;
 
-  constructor(racePoints: RacePoints) {
-    this.user = racePoints.user;
-    this.race = racePoints.race;
-    this.points = racePoints.points || 0;
+  constructor(user: string, raceId: number, points: number, position: number = 0) {
+    this.user = user;
+    this.race = raceId;
+    this.points = points || 0;
+    this.position = position;
   }
 
   get raceObj(): Race {
@@ -16,6 +18,10 @@ export class RacePoints {
   }
 
   static empty(user: string, raceId: number) {
-    return new RacePoints({ user: user, race: raceId, points: 0 } as RacePoints)
+    return new RacePoints(user, raceId, 0)
+  }
+
+  static from(racePoints: RacePoints) {
+    return new RacePoints(racePoints.user, racePoints.race, racePoints.points, racePoints.position);
   }
 }

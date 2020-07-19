@@ -11,7 +11,7 @@
   <div *ngIf="bet$ | async as bet">
     <div class="title">
       <div>Usuário: {{ bet.user }}</div>
-      <div class="total ion-text-right">{{ betPoints.total() | number }}</div>
+      <div class="total ion-text-right">{{ betPoints.total | number }}</div>
     </div>
     <ion-list>
       <ion-item [class.bet--exact]="betPoints.pole > 0">

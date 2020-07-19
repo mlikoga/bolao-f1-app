@@ -7,6 +7,10 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+2.2 - 2020.07.18
+- User points extract
+- Refresh on bet list
+
 2.1 - 2020.07.13
 - Initial Bet View
 - Initial Bet Stats

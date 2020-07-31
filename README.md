@@ -7,6 +7,9 @@ Using Firebase Firestore and Firebase Hosting
 
 ## Changelog
 
+2.3 - 2020.07.31
+- Added Hulkenberg
+
 2.2 - 2020.07.18
 - User points extract
 - Refresh on bet list

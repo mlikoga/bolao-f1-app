@@ -3,20 +3,20 @@ import { Race } from '../model/race';
 import * as moment from 'moment';
 
 Race.all = () => [
-  { id: 1, number: 1, name: 'Austrália', raceStartsAt: new Date('2019-03-17T02:10:00-03:00') },
-  { id: 2, number: 2, name: 'Bahrein', raceStartsAt: new Date('2019-03-31T12:10:00-03:00') },
-  { id: 3, number: 3, name: 'China', raceStartsAt: new Date('2019-04-14T03:10:00-03:00') },
+  { id: 1, number: 1, name: 'Austrália', betEndsAt: new Date('2019-03-16T00:00:00-03:00') },
+  { id: 2, number: 2, name: 'Bahrein',   betEndsAt: new Date('2019-03-30T00:00:00-03:00') },
+  { id: 3, number: 3, name: 'China',     betEndsAt: new Date('2019-04-13T00:00:00-03:00') },
 ]
 
-describe('nextRace', () => {
+describe('currentRace', () => {
   let timeService = new TimeService();
 
-  it('returns Australia at 2019-01-01', () => {
+  it('returns first race if long before season start', () => {
     let date = moment('2019-01-01T12:00:00-03:00');
     expect(timeService.currentRace(date).name).toBe('Austrália');
   });
 
-  it('still returns Australia at 2019-03-25', () => {
+  it('still returns previous GP if more than 3 days to next one', () => {
     let date = moment('2019-03-25T12:00:00-03:00');
     expect(timeService.currentRace(date).name).toBe('Austrália');
   });
@@ -72,5 +72,36 @@ describe('bettingEnabled', () => {
   it('return false at Saturday before GP', () => {
     let date = moment('2019-03-30T12:00:00-03:00');
     expect(timeService.bettingEnabled(date)).toBeFalsy();
+  });
+});
+
+describe('timeToBetEnd', () => {
+  const timeService = new TimeService();
+  const race = { id: 1, number: 1, name: 'Europa', betEndsAt: new Date('2020-08-08T00:00:00-03:00') } as Race;
+
+  it('returns milisseconds to bet end', () => {
+    const date = moment('2020-08-07T18:40:50-03:00');
+    const expected = moment.duration('05:19:10')
+    expect(timeService.timeToBetEnd(race, date).asSeconds()).toBe(expected.asSeconds());
+  });
+
+  it('returns more than 24h as hours', () => {
+    const date = moment('2020-08-06T18:40:50-03:00');
+    const expected = moment.duration('29:19:10')
+    expect(timeService.timeToBetEnd(race, date).asSeconds()).toBe(expected.asSeconds());
+  });
+});
+
+describe('formatDuration', () => {
+  const timeService = new TimeService();
+
+  it('returns hh:mm:ss', () => {
+    const duration = moment.duration('05:19:10');
+    expect(timeService.formatDuration(duration)).toBe('05:19:10');
+  });
+
+  it('returns more than 24h as hours', () => {
+    const duration = moment.duration(2, 'days');
+    expect(timeService.formatDuration(duration)).toBe('48:00:00');
   });
 });

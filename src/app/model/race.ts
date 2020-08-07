@@ -16,6 +16,10 @@ export class Race {
       { id: 206, number: 6, name: 'Espanha',         betEndsAt: new Date('2020-08-15T00:00:00-03:00') },
       { id: 207, number: 7, name: 'Bélgica',         betEndsAt: new Date('2020-08-29T00:00:00-03:00') },
       { id: 208, number: 8, name: 'Itália',          betEndsAt: new Date('2020-09-05T00:00:00-03:00') },
+      { id: 209, number: 9, name: 'Toscana',         betEndsAt: new Date('2020-09-12T00:00:00-03:00') },
+      { id: 210, number: 10, name: 'Rússia',         betEndsAt: new Date('2020-09-26T00:00:00-03:00') },
+      { id: 211, number: 11, name: 'Alemanha',       betEndsAt: new Date('2020-10-10T00:00:00-03:00') },
+      { id: 212, number: 12, name: 'Portugal',       betEndsAt: new Date('2020-10-24T00:00:00-03:00') },
     ];
   }
 

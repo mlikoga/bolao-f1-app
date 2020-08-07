@@ -8,6 +8,7 @@ import { RacePoints } from '../model/racePoints';
 import { ResultService } from '../services/result.service';
 import { Router } from '@angular/router';
 import { TimeService } from '../services/time.service';
+import { timer, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bet-list',
@@ -20,9 +21,12 @@ export class BetListPage implements OnInit {
   racePoints: Array<RacePoints> = []
 
   selectedRaceId: number = 1;
-  currentRaceId: number;
-  bettingEnabled: boolean;
+  currentRace: Race = new Race();
+  bettingEnabled: boolean = true;
   isAdmin: boolean;
+  timeToBetEnd: moment.Duration;
+  countdown: string;
+  timer: Subscription;
 
   constructor(
     private alertService: AlertService,
@@ -36,9 +40,9 @@ export class BetListPage implements OnInit {
 
   async ngOnInit() {
     this.isAdmin = await this.authService.isSuperAdmin();
-    this.currentRaceId = this.timeService.currentRace().id;
-    this.selectedRaceId = this.currentRaceId;
-    this.races = Race.all().filter(race => race.id <= this.currentRaceId);
+    this.currentRace = this.timeService.currentRace();
+    this.selectedRaceId = this.currentRace.id;
+    this.races = Race.all().filter(race => race.id <= this.currentRace.id);
     this.refresh();
   }
 
@@ -50,18 +54,36 @@ export class BetListPage implements OnInit {
       console.log('User does NOT have initial bet, redirecting to initial bet...');
       this.router.navigate(['tabs', 'bet', 'initial'])
     }
+    if (this.bettingEnabled) {
+      this.startTimer();
+    }
+  }
+
+  ionViewWillLeave() {
+    this.timer.unsubscribe();
+    console.log('Countdown stopped.')
+  }
+
+  startTimer() {
+    console.log('Countdown running...')
+    this.timeToBetEnd = this.timeService.timeToBetEnd(this.currentRace)
+    const intervalMs = 1000;
+    const delay = 0;
+    this.timer = timer(delay, intervalMs).subscribe(_ => {
+      this.countdown = this.timeService.formatDuration(this.timeToBetEnd.subtract(intervalMs));
+    });
   }
 
   async refresh(event?) : Promise<void> {
     console.log('Refreshing bet list...')
-    this.resultService.getPoints(this.currentRaceId).then(racePoints => {
+    this.resultService.getPoints(this.currentRace.id).then(racePoints => {
       this.racePoints = racePoints;
     });
     if (event) event.target.complete();
   }
 
   async checkMissingBets() {
-    const raceId = this.currentRaceId;
+    const raceId = this.currentRace.id;
     const usersWithoutBet = await this.betService.getUsersWithoutBet(raceId);
     if (usersWithoutBet.length > 0) {
       this.alertService.confirm(`Deseja criar apostas para ${usersWithoutBet}?`, () => {

@@ -48,4 +48,19 @@ export class TimeService {
     return t1.diff(t2, 'days');
   }
 
+  timeToBetEnd(race: Race, time: moment.Moment = moment()): moment.Duration {
+    const betEnd = moment(race.raceStartsAt).startOf('day').subtract(1, 'day');
+    const diff   = moment.duration(betEnd.diff(time, 'seconds'), 'seconds');
+
+    return diff;
+  }
+
+  formatDuration(duration: moment.Duration): string {
+    const hours = Math.floor(duration.asHours()).toString().padStart(2, "0");
+    const min   = duration.minutes().toString().padStart(2, "0");
+    const sec   = duration.seconds().toString().padStart(2, "0");
+
+    return `${hours}:${min}:${sec}`;
+  }
+
 }

@@ -74,3 +74,34 @@ describe('bettingEnabled', () => {
     expect(timeService.bettingEnabled(date)).toBeFalsy();
   });
 });
+
+describe('timeToBetEnd', () => {
+  const timeService = new TimeService();
+  const race = { id: 1, number: 1, name: 'Europa', raceStartsAt: new Date('2020-08-09T10:10:00-03:00') } as Race;
+
+  it('returns milisseconds to bet end', () => {
+    const date = moment('2020-08-07T18:40:50-03:00');
+    const expected = moment.duration('05:19:10')
+    expect(timeService.timeToBetEnd(race, date).asSeconds()).toBe(expected.asSeconds());
+  });
+
+  it('returns more than 24h as hours', () => {
+    const date = moment('2020-08-06T18:40:50-03:00');
+    const expected = moment.duration('29:19:10')
+    expect(timeService.timeToBetEnd(race, date).asSeconds()).toBe(expected.asSeconds());
+  });
+});
+
+describe('formatDuration', () => {
+  const timeService = new TimeService();
+
+  it('returns hh:mm:ss', () => {
+    const duration = moment.duration('05:19:10');
+    expect(timeService.formatDuration(duration)).toBe('05:19:10');
+  });
+
+  it('returns more than 24h as hours', () => {
+    const duration = moment.duration(2, 'days');
+    expect(timeService.formatDuration(duration)).toBe('48:00:00');
+  });
+});

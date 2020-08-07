@@ -7,14 +7,17 @@ import * as moment from 'moment';
 })
 export class TimeService {
 
+  DAYS_TO_OPEN_BET: number = 3;
+
   constructor() { }
+
 
   // Betting enabled from wednesday to friday before the GP
   bettingEnabled(time: moment.Moment = this.now()): boolean {
-    let currentRace = this.currentRace(time)
-    let daysToRace = this.daysToRace(time, currentRace);
+    const currentRace = this.currentRace(time)
+    const daysToRace = this.timeToBetEnd(currentRace, time).asDays();
     console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
-    return ((currentRace.number == 1 || daysToRace >= -5) && daysToRace < -1);
+    return ((currentRace.number == 1 || daysToRace <= this.DAYS_TO_OPEN_BET) && daysToRace > 0);
   }
 
   currentSeason(time: moment.Moment = this.now()): number {
@@ -24,7 +27,7 @@ export class TimeService {
   currentRace(time: moment.Moment = this.now()): Race {
     let races = Race.all().reverse(); // Iterates from last to first
     for(var race of races) {
-      if (this.daysToRace(time, race) >= -5) {
+      if (this.timeToBetEnd(race, time).asDays() < this.DAYS_TO_OPEN_BET) {
         return race;
       }
     }
@@ -35,22 +38,16 @@ export class TimeService {
     let races = Race.all();
     for(let i = races.length - 1; i >= 0; i--) {
       let race = races[i];
-      if (time.isAfter(race.raceStartsAt)) {
+      if (time.isAfter(race.betEndsAt)) {
         return races.slice(0, i + 1);
       }
     }
     return [];
   }
 
-  daysToRace(time: moment.Moment, race: Race) {
-    let t1 = time.startOf('day');
-    let t2 = moment(race.raceStartsAt).startOf('day');
-    return t1.diff(t2, 'days');
-  }
-
   timeToBetEnd(race: Race, time: moment.Moment = this.now()): moment.Duration {
-    const betEnd = moment(race.raceStartsAt).startOf('day').subtract(1, 'day');
-    const diff   = moment.duration(betEnd.utc().diff(time.utc(), 'seconds'), 'seconds');
+    const betEnd = moment(race.betEndsAt);
+    const diff   = moment.duration(betEnd.diff(time, 'seconds'), 'seconds');
 
     return diff;
   }

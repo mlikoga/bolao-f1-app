@@ -50,7 +50,7 @@ export class TimeService {
 
   timeToBetEnd(race: Race, time: moment.Moment = this.now()): moment.Duration {
     const betEnd = moment(race.raceStartsAt).startOf('day').subtract(1, 'day');
-    const diff   = moment.duration(betEnd.diff(time, 'seconds'), 'seconds');
+    const diff   = moment.duration(betEnd.utc().diff(time.utc(), 'seconds'), 'seconds');
 
     return diff;
   }
@@ -64,7 +64,7 @@ export class TimeService {
   }
 
   now(): moment.Moment {
-    return moment().utcOffset(-180);
+    return moment();
   }
 
 }

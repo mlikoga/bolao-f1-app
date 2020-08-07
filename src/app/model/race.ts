@@ -16,6 +16,10 @@ export class Race {
       { id: 206, number: 6, name: 'Espanha',         raceStartsAt: new Date('2020-08-16T10:10:00-03:00') },
       { id: 207, number: 7, name: 'Bélgica',         raceStartsAt: new Date('2020-08-30T10:10:00-03:00') },
       { id: 208, number: 8, name: 'Itália',          raceStartsAt: new Date('2020-09-06T10:10:00-03:00') },
+      { id: 209, number: 9, name: 'Toscana',         raceStartsAt: new Date('2020-09-13T10:10:00-03:00') },
+      { id: 210, number: 10, name: 'Rússia',         raceStartsAt: new Date('2020-09-27T10:10:00-03:00') },
+      { id: 211, number: 11, name: 'Alemanha',       raceStartsAt: new Date('2020-10-11T10:10:00-03:00') },
+      { id: 212, number: 12, name: 'Portugal',       raceStartsAt: new Date('2020-10-25T10:10:00-03:00') },
     ];
   }
 

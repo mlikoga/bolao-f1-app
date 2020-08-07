@@ -10,18 +10,18 @@ export class TimeService {
   constructor() { }
 
   // Betting enabled from wednesday to friday before the GP
-  bettingEnabled(time: moment.Moment = moment()): boolean {
+  bettingEnabled(time: moment.Moment = this.now()): boolean {
     let currentRace = this.currentRace(time)
     let daysToRace = this.daysToRace(time, currentRace);
     console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
     return ((currentRace.number == 1 || daysToRace >= -5) && daysToRace < -1);
   }
 
-  currentSeason(time: moment.Moment = moment()): number {
+  currentSeason(time: moment.Moment = this.now()): number {
     return time.year();
   }
 
-  currentRace(time: moment.Moment = moment()): Race {
+  currentRace(time: moment.Moment = this.now()): Race {
     let races = Race.all().reverse(); // Iterates from last to first
     for(var race of races) {
       if (this.daysToRace(time, race) >= -5) {
@@ -31,7 +31,7 @@ export class TimeService {
     return races[races.length - 1];
   }
 
-  pastRaces(time: moment.Moment = moment()): Array<Race> {
+  pastRaces(time: moment.Moment = this.now()): Array<Race> {
     let races = Race.all();
     for(let i = races.length - 1; i >= 0; i--) {
       let race = races[i];
@@ -48,7 +48,7 @@ export class TimeService {
     return t1.diff(t2, 'days');
   }
 
-  timeToBetEnd(race: Race, time: moment.Moment = moment()): moment.Duration {
+  timeToBetEnd(race: Race, time: moment.Moment = this.now()): moment.Duration {
     const betEnd = moment(race.raceStartsAt).startOf('day').subtract(1, 'day');
     const diff   = moment.duration(betEnd.diff(time, 'seconds'), 'seconds');
 
@@ -61,6 +61,10 @@ export class TimeService {
     const sec   = duration.seconds().toString().padStart(2, "0");
 
     return `${hours}:${min}:${sec}`;
+  }
+
+  now(): moment.Moment {
+    return moment().utcOffset(-180);
   }
 
 }

@@ -45,6 +45,7 @@
     width: calc(12 * 6%);
   }
 
+  &--Mercedes,
   &--HAM {
     background: #00d2be;
   }
@@ -53,12 +54,13 @@
     background: #d2d5d5;
   }
 
-  &--VET {
+  &--Ferrari,
+  &--LEC {
     background: #dc0000;
   }
 
-  &--LEC {
-    background: #fff200;
+  &--VET {
+    background: #f91515;
   }
 
   &--VER {
@@ -81,6 +83,33 @@
   &--Racing.Point,
   &--PER {
     background: #F596C8;
+  }
+  &--STR {
+    background: #fab2d9;
+  }
+
+  &--Renault,
+  &--RIC {
+    background: #FFF500;
+  }
+  &--OCO {
+    background: #faf54b;
+  }
+
+  &--Haas,
+  &--GRO {
+    background: #787878;
+  }
+  &--MAG {
+    background: #969696;
+  }
+
+  &--Alpha.Tauri,
+  &--GAS {
+    background: #FFFFFF;
+  }
+  &--KVY {
+    background: #DDDDDD;
   }
 }
 

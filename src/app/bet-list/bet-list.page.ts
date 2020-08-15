@@ -78,7 +78,7 @@ export class BetListPage implements OnInit {
 
   async refresh(event?) : Promise<void> {
     console.log('Refreshing bet list...')
-    this.resultService.getPoints(this.currentRace.id).then(racePoints => {
+    this.resultService.getPoints(this.selectedRaceId).then(racePoints => {
       this.racePoints = racePoints;
     });
     if (event) event.target.complete();

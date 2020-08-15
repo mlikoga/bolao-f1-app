@@ -64,8 +64,9 @@ export class StatsPage implements OnInit {
       this.cards.push(["Pole", this.calculateDataPoints(bets.map(bet => bet.pole))]);
       this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
       this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);
-      this.cards.push(["2o", this.calculateDataPoints(bets.map(bet => bet.positions[1]))]);
-      this.cards.push(["3o", this.calculateDataPoints(bets.map(bet => bet.positions[2]))]);
+      for (var i = 1; i <= 4; i++) {
+        this.cards.push([`${i+1}º`, this.calculateDataPoints(bets.map(bet => bet.positions[i]))]);
+      }
     }
 
     loading.dismiss();

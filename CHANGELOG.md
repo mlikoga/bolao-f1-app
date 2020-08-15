@@ -2,9 +2,12 @@
 
 ## Changelog
 
+2.4.1 - 2020-08.08
+- **Fix:** countdown bug fixes
+
 2.4 - 2020-08.07
- - **New:** countdown to bet period end!
- - Updated calendar 2020 with races rounds 9 to 12
+- **New:** countdown to bet period end!
+- Updated calendar 2020 with races rounds 9 to 12
 
 2.3 - 2020.07.31
 - Added Hulkenberg

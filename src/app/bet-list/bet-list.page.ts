@@ -46,7 +46,7 @@ export class BetListPage implements OnInit {
     this.refresh();
   }
 
-  async ionViewWillEnter() {
+  async ionViewDidEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
     let username = await this.authService.getCurrentUsername();
     let hasInitialBet = await this.initialBetService.userHasInitialBet(username);
@@ -59,9 +59,11 @@ export class BetListPage implements OnInit {
     }
   }
 
-  ionViewWillLeave() {
-    this.timer.unsubscribe();
-    console.log('Countdown stopped.')
+  ionViewDidLeave() {
+    if (this.timer) {
+      this.timer.unsubscribe();
+      console.log('Countdown stopped.')
+    }
   }
 
   startTimer() {

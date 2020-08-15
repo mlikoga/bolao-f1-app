@@ -2,6 +2,10 @@
 
 ## Changelog
 
+2.5 - 2020-08.14
+- **Fix:** Bet list refresh for past races fixed
+- Stats show up to 5 position
+
 2.4.1 - 2020-08.08
 - **Fix:** countdown bug fixes
 

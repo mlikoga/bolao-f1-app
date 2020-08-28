@@ -20,6 +20,11 @@ export class Race {
       { id: 210, number: 10, name: 'Rússia',         betEndsAt: new Date('2020-09-26T00:00:00-03:00') },
       { id: 211, number: 11, name: 'Alemanha',       betEndsAt: new Date('2020-10-10T00:00:00-03:00') },
       { id: 212, number: 12, name: 'Portugal',       betEndsAt: new Date('2020-10-24T00:00:00-03:00') },
+      { id: 213, number: 13, name: 'Emilia-Romagna', betEndsAt: new Date('2020-10-31T00:00:00-03:00') },
+      { id: 214, number: 14, name: 'Turquia',        betEndsAt: new Date('2020-11-14T00:00:00-03:00') },
+      { id: 215, number: 15, name: 'Bahrein',        betEndsAt: new Date('2020-11-28T00:00:00-03:00') },
+      { id: 216, number: 16, name: 'Sakhir',         betEndsAt: new Date('2020-12-05T00:00:00-03:00') },
+      { id: 217, number: 17, name: 'Abu Dhabi',      betEndsAt: new Date('2020-12-12T00:00:00-03:00') },
     ];
   }
 

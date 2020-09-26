@@ -31,4 +31,12 @@ export class Race {
   static withId(id: number): Race {
     return Race.all().find(race => race.id === id);
   }
+
+  static first(): Race {
+    return Race.all()[0];
+  }
+
+  static last(): Race {
+    return Race.all()[Race.all().length - 1];
+  }
 }

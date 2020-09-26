@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Bet } from '../model/bet';
 import { Race } from '../model/race';
 import { RacePoints } from '../model/racePoints';
 import { Result } from '../model/result';
@@ -122,5 +121,21 @@ export class ResultService {
       };
     }).sort((u1, u2) => u2.points - u1.points);
     return result;
+  }
+
+
+  async getRaceWinners(): Promise<Array<RacePoints>> {
+    const firstRaceId = Race.first().id;
+    const lastRaceId = Race.last().id;
+
+    const queryResult = await this.db.collection("points")
+                        .where("position", "==", 1)
+                        .where("race", ">=", firstRaceId)
+                        .where("race", "<=", lastRaceId)
+                        .orderBy("race", "asc")
+                        .get();
+
+    const racePoints = queryResult.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
+    return racePoints;
   }
 }

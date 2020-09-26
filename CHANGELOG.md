@@ -2,14 +2,17 @@
 
 ## Changelog
 
-2.5 - 2020-08.14
+2.6 - 2020.09.26
+- **New:** Winners of each GP page
+
+2.5 - 2020.08.14
 - **Fix:** Bet list refresh for past races fixed
 - Stats show up to 5 position
 
-2.4.1 - 2020-08.08
+2.4.1 - 2020.08.08
 - **Fix:** countdown bug fixes
 
-2.4 - 2020-08.07
+2.4 - 2020.08.07
 - **New:** countdown to bet period end!
 - Updated calendar 2020 with races rounds 9 to 12
 

@@ -14,6 +14,7 @@ export class StandingsPage {
   users: Array<User> = [];
   currentUser: string;
   lastRace: Race;
+  content: string = 'standings';
 
   constructor(private authService: AuthService, private resultService: ResultService) {
     this.lastRace = new Race();
@@ -26,6 +27,10 @@ export class StandingsPage {
       this.lastRace = Race.withId(lastResult.race);
     }
     this.refresh();
+  }
+
+  selectContent(contentName: string) {
+    this.content = contentName;
   }
 
   async refresh(event?) : Promise<void> {

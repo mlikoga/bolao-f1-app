@@ -56,7 +56,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../standings/standings.module#StandingsPageModule'
-          }
+          },
         ]
       },
       {

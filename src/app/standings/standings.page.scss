@@ -52,7 +52,19 @@
   margin-left: 8px;
 }
 
+.standings__buttons {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: whitesmoke;
+}
+
 .standings__chip {
-  background-color: whitesmoke;
-  margin: 16px 16px 0 16px;
+  margin-top: 16px;
+  margin-right: 16px;
+  margin-left: 16px;
+}
+
+.standings__chip--selected {
+  border-color: yellow;
+  color: yellow;
 }

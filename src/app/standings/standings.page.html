@@ -7,25 +7,32 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <ion-chip class="standings__chip" [routerLink]="['/tabs/standings/winners']">
-    <ion-icon name="trophy"></ion-icon>
-    <ion-label>Vencedores</ion-label>
-  </ion-chip>
-  <div class="title">Classificação após GP {{ lastRace.name }}</div>
-  <ion-list>
-    <ion-item *ngFor="let user of users; index as idx" class="standings__item" [class.standings__user]="currentUser == user.username" [routerLink]="['/tabs/user-points/', user.username]">
-      <ion-label class="standings__position">{{ idx + 1 }}</ion-label>
-      <ion-label class="standings__username">{{ user.username }}</ion-label>
-      <div [class]="'standings__updown standings__updown--' + diffClass(user.diff)">
-        <div class="standings__updown-number">{{ user.diff | abs }}</div>
-        <div class="standings__updown-icon">
-          <ion-icon [name]="diffIcon(user.diff)"></ion-icon>
+  <div class="standings__buttons">
+    <ion-chip class="standings__chip" [ngClass]="{'standings__chip--selected': content === 'standings'}" outline=true color="light" (click)="selectContent('standings')">
+      <ion-label>Classificação geral</ion-label>
+    </ion-chip>
+    <ion-chip class="standings__chip" [ngClass]="{'standings__chip--selected': content === 'winners'}" outline=true color="light" (click)="selectContent('winners')">
+      <ion-label>Vencedores</ion-label>
+    </ion-chip>
+  </div>
+  <app-winners *ngIf="content === 'winners'"></app-winners>
+  <div *ngIf="content === 'standings'">
+    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="title">Classificação após GP {{ lastRace.name }}</div>
+    <ion-list>
+      <ion-item *ngFor="let user of users; index as idx" class="standings__item" [class.standings__user]="currentUser == user.username" [routerLink]="['/tabs/user-points/', user.username]">
+        <ion-label class="standings__position">{{ idx + 1 }}</ion-label>
+        <ion-label class="standings__username">{{ user.username }}</ion-label>
+        <div [class]="'standings__updown standings__updown--' + diffClass(user.diff)">
+          <div class="standings__updown-number">{{ user.diff | abs }}</div>
+          <div class="standings__updown-icon">
+            <ion-icon [name]="diffIcon(user.diff)"></ion-icon>
+          </div>
         </div>
-      </div>
-      <ion-label class="standings__points ion-text-right">{{ user.points | number: '1.1-1' }}</ion-label>
-    </ion-item>
-  </ion-list>
+        <ion-label class="standings__points ion-text-right">{{ user.points | number: '1.1-1' }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

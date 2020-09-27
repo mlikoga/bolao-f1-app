@@ -4,10 +4,10 @@ import { ResultService } from 'app/services/result.service';
 
 @Component({
   selector: 'app-winners',
-  templateUrl: './winners.page.html',
-  styleUrls: ['./winners.page.scss'],
+  templateUrl: './winners.component.html',
+  styleUrls: ['./winners.component.scss']
 })
-export class WinnersPage implements OnInit {
+export class WinnersComponent implements OnInit {
 
   winners: Array<RacePoints> = [];
 

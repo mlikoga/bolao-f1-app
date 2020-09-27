@@ -57,10 +57,6 @@ const routes: Routes = [
             path: '',
             loadChildren: '../standings/standings.module#StandingsPageModule'
           },
-          {
-            path: 'winners',
-            loadChildren: '../winners/winners.module#WinnersPageModule'
-          },
         ]
       },
       {

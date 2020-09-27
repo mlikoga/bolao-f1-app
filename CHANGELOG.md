@@ -3,7 +3,7 @@
 ## Changelog
 
 2.6 - 2020.09.26
-- **New:** Winners of each GP page
+- **New:** Winners of each GP component
 
 2.5 - 2020.08.14
 - **Fix:** Bet list refresh for past races fixed

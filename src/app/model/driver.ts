@@ -27,6 +27,8 @@ export class Driver {
       { id: "RUS", name: "George Russell",     number: 63, team: "Williams" },
       { id: "LAT", name: "Nicholas Latifi",    number:  6, team: "Williams" },
       { id: "HUL", name: "Nico Hulkenberg",    number: 27, team: "Racing Point" },
+      { id: "FIT", name: "Pietro Fittipaldi",  number: 50, team: "Haas F1 Team" },
+      { id: "AIT", name: "Jack Aitken",    number: 27, team: "Williams" },
     ]
   }
 

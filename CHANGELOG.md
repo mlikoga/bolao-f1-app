@@ -2,6 +2,9 @@
 
 ## Changelog
 
+2.6.1 - 2020.12.03
+- Added Fittipaldi and Aitken (temporary drivers)
+
 2.6 - 2020.09.26
 - **New:** Winners of each GP component
 

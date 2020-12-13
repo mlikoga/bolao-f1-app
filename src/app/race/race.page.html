@@ -15,7 +15,33 @@
   <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()" interface="popover">
     <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
   </ion-select>
-  <ion-list>
+  <ion-list *ngIf="isSeason">
+    <ion-item>
+      <ion-label>Piloto campeão</ion-label>
+      <ion-select [(ngModel)]="seasonResult.champion" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Piloto melhor 2o pelotão</ion-label>
+      <ion-select [(ngModel)]="seasonResult.bestRestDriver" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Melhor equipe 2o pelotão</ion-label>
+      <ion-select [(ngModel)]="seasonResult.bestRestTeam" placeholder="Select team" interface="alert">
+        <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
+          {{ team.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="!isSeason">
     <ion-item>
       <ion-label>Pole Position</ion-label>
       <ion-select [(ngModel)]="result.pole" placeholder="Select driver" interface="alert">

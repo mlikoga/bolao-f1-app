@@ -1,6 +1,9 @@
 import { Bet } from '../model/bet';
+import { InitialBet } from '../model/initial-bet';
 import { Result } from '../model/result';
 import { BetPoints } from '../model/betPoints';
+import { SeasonResult } from 'app/model/seasonResult';
+import { InitialBetPoints } from 'app/model/initialBetPoints';
 
 export class PointCalculator {
 
@@ -38,5 +41,23 @@ export class PointCalculator {
       }
     }
     return betPoints;
+  }
+
+  static calculateSeasonPoints(seasonResult: SeasonResult, initialBet: InitialBet): InitialBetPoints {
+    let initialBetPoints = new InitialBetPoints(initialBet.user, initialBet.season);
+
+    if (seasonResult.champion === initialBet.champion) {
+      initialBetPoints.champion = 20;
+    }
+
+    if (seasonResult.bestRestTeam === initialBet.bestRestTeam) {
+      initialBetPoints.champion = 40;
+    }
+
+    if (seasonResult.bestRestDriver === initialBet.bestRestDriver) {
+      initialBetPoints.champion = 60;
+    }
+
+    return initialBetPoints;
   }
 }

@@ -92,7 +92,7 @@ export class ResultService {
   async getPointsPerRace(username: string): Promise<Array<RacePoints>> {
     const userPoints = await this.db.collection("points")
                        .where("user", "==", username)
-                       .where("race", ">", 200) // hard-coded for season 2020
+                       .where("race", ">=", 200) // hard-coded for season 2020
                        .orderBy("race", "asc")
                        .get();
 

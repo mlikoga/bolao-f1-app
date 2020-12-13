@@ -7,7 +7,7 @@ export class Race {
 
   static all(): Array<Race> {
     return [
-      { id: 200, number: 0, name: 'Pré-temporada',   betEndsAt: new Date('2020-07-03T00:00:00-03:00') },
+      { id: 200, number: 0, name: 'Temporada 2020',  betEndsAt: new Date('2020-07-03T00:00:00-03:00') },
       { id: 201, number: 1, name: 'Áustria',         betEndsAt: new Date('2020-07-04T00:00:00-03:00') },
       { id: 202, number: 2, name: 'Estíria',         betEndsAt: new Date('2020-07-11T00:00:00-03:00') },
       { id: 203, number: 3, name: 'Hungria',         betEndsAt: new Date('2020-07-18T00:00:00-03:00') },
@@ -33,7 +33,7 @@ export class Race {
   }
 
   static first(): Race {
-    return Race.all()[0];
+    return Race.all()[1];
   }
 
   static last(): Race {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
-import { UserService } from './user.service';
 import { InitialBet } from '../model/initial-bet';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
@@ -12,9 +11,7 @@ export class InitialBetService {
 
   db: firebase.firestore.Firestore;
 
-  constructor(
-    private cache : CacheService,
-    private userService : UserService)
+  constructor(private cache : CacheService)
   {
     this.db = firebase.firestore();
   }

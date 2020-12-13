@@ -2,6 +2,9 @@
 
 ## Changelog
 
+2.7.0 - 2020.12.12
+- Added initial bet (season) points
+
 2.6.1 - 2020.12.03
 - Added Fittipaldi and Aitken (temporary drivers)
 

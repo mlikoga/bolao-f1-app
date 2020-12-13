@@ -51,11 +51,11 @@ export class PointCalculator {
     }
 
     if (seasonResult.bestRestTeam === initialBet.bestRestTeam) {
-      initialBetPoints.champion = 40;
+      initialBetPoints.bestRestTeam = 40;
     }
 
     if (seasonResult.bestRestDriver === initialBet.bestRestDriver) {
-      initialBetPoints.champion = 60;
+      initialBetPoints.bestRestDriver = 60;
     }
 
     return initialBetPoints;

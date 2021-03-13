@@ -22,7 +22,9 @@ export class BetListPage implements OnInit {
 
   selectedRaceId: number = 1;
   currentRace: Race = new Race();
+  currentSeason: number;
   bettingEnabled: boolean = true;
+  betLink: string;
   isAdmin: boolean;
   timeToBetEnd: moment.Duration;
   countdown: string;
@@ -41,25 +43,19 @@ export class BetListPage implements OnInit {
   async ngOnInit() {
     this.isAdmin = await this.authService.isSuperAdmin();
     this.currentRace = this.timeService.currentRace();
+    this.currentSeason = this.timeService.currentSeason();
+    console.log(`Season ${this.currentSeason} | Current race: `, this.currentRace)
     this.selectedRaceId = this.currentRace.id;
+    this.betLink = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
     this.races = Race.all().filter(race => race.id <= this.currentRace.id);
-    this.refresh();
-  }
-
-  async ionViewDidEnter() {
     this.bettingEnabled = this.timeService.bettingEnabled();
-    let username = await this.authService.getCurrentUsername();
-    let hasInitialBet = await this.initialBetService.userHasInitialBet(username);
-    if (!hasInitialBet) {
-      console.log('User does NOT have initial bet, redirecting to initial bet...');
-      this.router.navigate(['tabs', 'bet', 'initial'])
-    }
+    this.refresh();
     if (this.bettingEnabled) {
       this.startTimer();
     }
   }
 
-  ionViewDidLeave() {
+  ngOnDestroy() {
     if (this.timer) {
       this.timer.unsubscribe();
       console.log('Countdown stopped.')

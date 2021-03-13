@@ -22,7 +22,7 @@
       <div>Tempo restante para apostar:</div>
       <div class="countdown ion-text-center">{{ countdown }}</div>
     </div>
-    <ion-button size="large" shape="round" routerLink="/tabs/bet/bet">Fazer aposta</ion-button>
+    <ion-button size="large" shape="round" [routerLink]="betLink">Fazer aposta</ion-button>
     <div></div>
   </div>
   <ng-template #userList>

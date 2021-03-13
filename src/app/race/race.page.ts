@@ -38,7 +38,7 @@ export class RacePage {
     this.authService.isAdmin().then(value => this.isAdmin = value);
     let currentRace = this.timeService.currentRace();
     this.result = new Result(currentRace.id);
-    this.seasonResult = new SeasonResult(2020); // TODO hard-coded season id
+    this.seasonResult = new SeasonResult(this.timeService.currentSeason());
     this.selectedRaceId = currentRace.id;
     this.driversOrdered = Driver.all();
     console.log(`Current race: ${currentRace.name}`);

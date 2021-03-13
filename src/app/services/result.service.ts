@@ -81,7 +81,7 @@ export class ResultService {
     let racePoints = queryResult.docs.map(querySnap => querySnap.data() as RacePoints);
     if (racePoints.length == 0) {
       // Se não tem ainda, cria array de RacePoints zerados
-      let users = await this.userService.getUsers();
+      let users = await this.userService.getUsers(this.timeService.currentSeason());
       for (var user of users) {
         racePoints.push(RacePoints.empty(user.username, raceId));
       }
@@ -92,7 +92,7 @@ export class ResultService {
   async getPointsPerRace(username: string): Promise<Array<RacePoints>> {
     const userPoints = await this.db.collection("points")
                        .where("user", "==", username)
-                       .where("race", ">=", 200) // hard-coded for season 2020
+                       .where("race", ">=", Race.first().id)
                        .orderBy("race", "asc")
                        .get();
 
@@ -108,7 +108,8 @@ export class ResultService {
     const userPoints = await Promise.all(users.map(async user => {
       const pointsPerRace = await this.getPointsPerRace(user.username);
       const total = this.getTotalPoints(pointsPerRace);
-      const untilNow = total - pointsPerRace[pointsPerRace.length - 1]["points"];
+      const lastRacePoints = pointsPerRace.length > 0 ? pointsPerRace[pointsPerRace.length - 1]["points"] : 0;
+      const untilNow = total - lastRacePoints;
       return { user, untilNow, total };
     }));
     const lastStandings = [...userPoints].sort((u1, u2) => u2.untilNow - u1.untilNow).map(up => up.user.username);
@@ -125,7 +126,7 @@ export class ResultService {
 
 
   async getRaceWinners(): Promise<Array<RacePoints>> {
-    const firstRaceId = Race.first().id;
+    const firstRaceId = Race.firstGP().id;
     const lastRaceId = Race.last().id;
 
     const queryResult = await this.db.collection("points")

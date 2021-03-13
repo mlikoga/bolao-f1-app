@@ -2,6 +2,12 @@
 
 ## Changelog
 
+**3.0.0 - 2021.03.13 - Season 2021**
+- Updated data to season 2021
+- Removed hardcoded code  related to season 2020
+- Fixed countdown bug
+- Added option to edit initial bet
+
 2.7.0 - 2020.12.12
 - Added initial bet (season) points
 

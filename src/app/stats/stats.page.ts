@@ -15,7 +15,7 @@ import { LoadingController } from '@ionic/angular';
 export class StatsPage implements OnInit {
 
   races: Array<Race> = [];
-  selectedRaceId: number = 1;
+  selectedRaceId: number;
   bets: Array<Bet> = [];
 
   cards: Array<[string, Array<DataPoint>]> = []
@@ -31,9 +31,11 @@ export class StatsPage implements OnInit {
   ngOnInit() {
     let currentRace = this.timeService.currentRace();
     const bettingEnabled = this.timeService.bettingEnabled();
-    const lastVisibleRaceId = bettingEnabled ? currentRace.id - 1 : currentRace.id;
-    this.selectedRaceId = lastVisibleRaceId;
-    this.races = Race.all().filter(race => race.id <= lastVisibleRaceId);
+    this.races = Race.visibleRaces(currentRace, !bettingEnabled);
+    if (this.races.length > 0) {
+      this.selectedRaceId = this.races[0].id;
+    }
+    console.log("Selected race: ", this.selectedRaceId);
     this.updateStats();
   }
 
@@ -51,21 +53,23 @@ export class StatsPage implements OnInit {
 
     this.cards = [];
     const race = Race.withId(this.selectedRaceId);
-    if (race.number == 0) {
-      this.isInitialBet = true;
-      const bets = await this.initialBetService.getInitialBets();
-      this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
-      this.cards.push(["Melhor piloto 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestDriver))]);
-      this.cards.push(["Melhor equipe 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestTeam))]);
+    if (race) {
+      if (race.number == 0) {
+        this.isInitialBet = true;
+        const bets = await this.initialBetService.getInitialBets(this.timeService.currentSeason());
+        this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
+        this.cards.push(["Melhor piloto 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestDriver))]);
+        this.cards.push(["Melhor equipe 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestTeam))]);
 
-    } else {
-      this.isInitialBet = false;
-      let bets = await this.betService.getRaceBets(this.selectedRaceId);
-      this.cards.push(["Pole", this.calculateDataPoints(bets.map(bet => bet.pole))]);
-      this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
-      this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);
-      for (var i = 1; i <= 4; i++) {
-        this.cards.push([`${i+1}º`, this.calculateDataPoints(bets.map(bet => bet.positions[i]))]);
+      } else {
+        this.isInitialBet = false;
+        let bets = await this.betService.getRaceBets(this.selectedRaceId);
+        this.cards.push(["Pole", this.calculateDataPoints(bets.map(bet => bet.pole))]);
+        this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
+        this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);
+        for (var i = 1; i <= 4; i++) {
+          this.cards.push([`${i+1}º`, this.calculateDataPoints(bets.map(bet => bet.positions[i]))]);
+        }
       }
     }
 

@@ -17,7 +17,7 @@ export class TimeService {
     const currentRace = this.currentRace(time)
     const daysToRace = this.timeToBetEnd(currentRace, time).asDays();
     console.log(time.format('DD/MM, dddd, HH:mm:ss') + ` days to next GP: ${daysToRace}`);
-    return ((currentRace.number == 1 || daysToRace <= this.DAYS_TO_OPEN_BET) && daysToRace > 0);
+    return ((currentRace.number == 0 || daysToRace <= this.DAYS_TO_OPEN_BET) && daysToRace > 0);
   }
 
   currentSeason(time: moment.Moment = this.now()): number {

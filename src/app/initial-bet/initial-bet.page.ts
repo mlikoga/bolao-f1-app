@@ -51,8 +51,10 @@ export class InitialBetPage {
       this.router.navigate(['login']);
       return;
     }
-    this.restDrivers = this.drivers.slice(6);
-    this.restTeams = Team.all().slice(3);
+    this.restDrivers = this.drivers.slice(4);
+    this.restTeams = Team.all().slice(2);
+    this.initialBet = await this.initialBetService.getUserInitialBet(username) || new InitialBet();
+    console.log("Initial bet: ", this.initialBet);
   }
 
   canSubmit() {

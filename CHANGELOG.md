@@ -7,6 +7,7 @@
 - Removed hardcoded code  related to season 2020
 - Fixed countdown bug
 - Added option to edit initial bet
+- Allow usename edit before season starts
 
 2.7.0 - 2020.12.12
 - Added initial bet (season) points

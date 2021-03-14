@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { User } from '../model/user';
+import { TimeService } from 'app/services/time.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +18,17 @@ export class ProfilePage implements OnInit {
   user: User;
   version: string;
   isSuperAdmin: boolean;
+  isUsernameEditable: boolean = false;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
     private betService: BetService,
     private cache: CacheService,
     private router: Router,
     private alertController: AlertController,
-    public loadingController: LoadingController,
-    public toastController: ToastController,
+    private loadingController: LoadingController,
+    private timeService: TimeService,
+    private toastController: ToastController,
     private swUpdate: SwUpdate) {
 
     this.version = "3.0.0";
@@ -52,6 +55,7 @@ export class ProfilePage implements OnInit {
   async ionViewWillEnter() {
     this.user = await this.authService.getCurrentUser();
     this.isSuperAdmin = await this.authService.isSuperAdmin();
+    this.isUsernameEditable = this.timeService.currentRace().number === 0;
   }
 
   backup() {

@@ -2,6 +2,9 @@
 
 ## Changelog
 
+3.0.1 - 2021.03.15
+- Fix: initial bet did not update (cache issue)
+
 **3.0.0 - 2021.03.13 - Season 2021**
 - Updated data to season 2021
 - Removed hardcoded code  related to season 2020

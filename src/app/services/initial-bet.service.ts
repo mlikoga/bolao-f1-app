@@ -20,20 +20,17 @@ export class InitialBetService {
   }
 
   async getUserInitialBet(username: string, season: number = this.currentSeason): Promise<InitialBet> {
-    let docId = `${season}.${username}`;
-    return this.cache.get_and_save(docId, async () => {
-      let doc = await this.db.collection('initialBets')
-        .where("user", "==", username)
-        .where("season", "==", season)
-        .get();
-      let result = doc.docs.pop();
-      if (result) {
-        let initialBet = result.data() as InitialBet;
-        console.log('InitialBet: ', initialBet);
-        return initialBet;
-      }
-      return null;
-    });
+    let doc = await this.db.collection('initialBets')
+      .where("user", "==", username)
+      .where("season", "==", season)
+      .get();
+    let result = doc.docs.pop();
+    if (result) {
+      let initialBet = result.data() as InitialBet;
+      console.log('InitialBet: ', initialBet);
+      return initialBet;
+    }
+    return null;
   }
 
   async userHasInitialBet(username: string, season: number = this.currentSeason): Promise<boolean> {

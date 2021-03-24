@@ -25,6 +25,10 @@ export class TimeService {
   }
 
   currentRace(time: moment.Moment = this.now()): Race {
+    if (time.isBefore(Race.first().betEndsAt)) {
+      return Race.first();
+    }
+
     let races = Race.all().reverse(); // Iterates from last to first
     for(var race of races) {
       if (this.timeToBetEnd(race, time).asDays() < this.DAYS_TO_OPEN_BET) {

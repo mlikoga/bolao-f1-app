@@ -1,6 +1,8 @@
 # bolao-f1-app
 
 ## Changelog
+3.0.2 - 2021.03.32
+- Fix: initial bet ended sooner than expected
 
 3.0.1 - 2021.03.15
 - Fix: initial bet did not update (cache issue)

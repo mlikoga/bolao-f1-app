@@ -31,6 +31,7 @@ export class StatsPage implements OnInit {
   ngOnInit() {
     let currentRace = this.timeService.currentRace();
     const bettingEnabled = this.timeService.bettingEnabled();
+    console.log(`Current race: ${currentRace.name}, bettingEnabled: ${bettingEnabled}`);
     this.races = Race.visibleRaces(currentRace, !bettingEnabled);
     if (this.races.length > 0) {
       this.selectedRaceId = this.races[0].id;

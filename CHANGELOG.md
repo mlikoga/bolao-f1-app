@@ -1,7 +1,10 @@
 # bolao-f1-app
 
 ## Changelog
-3.0.2 - 2021.03.32
+3.0.3 - 2021.03.26
+- Fix: initial bet view was blank
+
+3.0.2 - 2021.03.23
 - Fix: initial bet ended sooner than expected
 
 3.0.1 - 2021.03.15

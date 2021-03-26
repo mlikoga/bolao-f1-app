@@ -101,7 +101,7 @@ export class BetListPage implements OnInit {
   }
 
   onUserSelected(user: string) {
-    if(this.selectedRaceId == 200) {
+    if(this.selectedRaceId == Race.first().id) {
       return ['/tabs/bet/initial', user]
     }
     return ['/tabs/bet/bet-view', user, this.selectedRaceId]

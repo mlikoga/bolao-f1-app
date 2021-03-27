@@ -59,57 +59,66 @@
     background: #dc0000;
   }
 
-  &--VET {
-    background: #f91515;
+  &--SAI {
+    background: #feea34;
   }
 
+  &--Red.Bull.Racing,
   &--VER {
-    background: #1E41FF;
+    background: #0600ef;
   }
 
-  &--ALB {
-    background: #6b81fe;
+  &--PER {
+    background: #2748ff;
   }
 
   &--McLaren,
-  &--SAI {
-    background: #FF8700;
+  &--NOR {
+    background: #FF9800;
   }
 
-  &--NOR {
+  &--RIC {
     background: #fea036;
   }
 
-  &--Racing.Point,
-  &--PER {
-    background: #F596C8;
+  &--Aston.Martin,
+  &--VET {
+    background: #006F62;
   }
   &--STR {
-    background: #fab2d9;
+    background: #019d8b;
   }
 
-  &--Renault,
-  &--RIC {
-    background: #FFF500;
-  }
+  &--Alpine,
   &--OCO {
-    background: #faf54b;
+    background: #0090ff;
+  }
+  &--ALO {
+    background: #27a2ff;
   }
 
   &--Haas,
-  &--GRO {
-    background: #787878;
+  &--MSC {
+    background: #FFFFFF;
   }
-  &--MAG {
-    background: #969696;
+  &--MAZ {
+    background: #f2f2f2;
   }
 
   &--Alpha.Tauri,
   &--GAS {
+    background: #2B4562;
+  }
+  &--TSU {
     background: #FFFFFF;
   }
-  &--KVY {
-    background: #DDDDDD;
+
+  &--Williams,
+  &--RUS {
+    background: #005aff;
+  }
+  &--LAT {
+    background: #1aa1dc;
   }
 }
 

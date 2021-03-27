@@ -1,6 +1,9 @@
 # bolao-f1-app
 
 ## Changelog
+3.1.0 - 2021.03.27
+- Changed colors
+
 3.0.3 - 2021.03.26
 - Fix: initial bet view was blank
 

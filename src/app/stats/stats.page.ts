@@ -34,9 +34,9 @@ export class StatsPage implements OnInit {
     console.log(`Current race: ${currentRace.name}, bettingEnabled: ${bettingEnabled}`);
     this.races = Race.visibleRaces(currentRace, !bettingEnabled);
     if (this.races.length > 0) {
-      this.selectedRaceId = this.races[0].id;
+      this.selectedRaceId = this.races[this.races.length - 1].id;
     }
-    console.log("Selected race: ", this.selectedRaceId);
+    console.log("[Stats] Selected race: ", this.selectedRaceId);
     this.updateStats();
   }
 

@@ -1,6 +1,9 @@
 # bolao-f1-app
 
 ## Changelog
+3.1.1 - 2021.05.07
+- Fix: Stats page was showing first race instead of last
+
 3.1.0 - 2021.03.27
 - Changed colors
 

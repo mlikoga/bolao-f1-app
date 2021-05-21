@@ -12,7 +12,7 @@ export class Race {
       { id: 302, number: 2, name: 'Emilia-Romagna',  betEndsAt: new Date('2021-04-17T00:00:00-03:00') },
       { id: 303, number: 3, name: 'Portugal',        betEndsAt: new Date('2021-05-01T00:00:00-03:00') },
       { id: 304, number: 4, name: 'Espanha',         betEndsAt: new Date('2021-05-08T00:00:00-03:00') },
-      { id: 305, number: 5, name: 'Mônaco',          betEndsAt: new Date('2021-05-21T00:00:00-03:00') },
+      { id: 305, number: 5, name: 'Mônaco',          betEndsAt: new Date('2021-05-22T00:00:00-03:00') },
       { id: 306, number: 6, name: 'Azerbaijão',      betEndsAt: new Date('2021-06-05T00:00:00-03:00') },
       { id: 307, number: 7, name: 'Canadá',          betEndsAt: new Date('2021-06-12T00:00:00-03:00') },
       { id: 308, number: 8, name: 'França',          betEndsAt: new Date('2021-06-26T00:00:00-03:00') },

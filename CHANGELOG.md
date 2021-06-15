@@ -1,6 +1,9 @@
 # bolao-f1-app
 
 ## Changelog
+3.1.2 - 2021.06.15
+- Canada GP canceled
+
 3.1.1 - 2021.05.07
 - Fix: Stats page was showing first race instead of last
 

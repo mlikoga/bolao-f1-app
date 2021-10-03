@@ -1,6 +1,9 @@
 # bolao-f1-app
 
 ## Changelog
+3.1.3 - 2021.10.03
+- Calendar updated: Qatar added
+
 3.1.2 - 2021.06.15
 - Canada GP canceled
 

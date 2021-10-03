@@ -23,14 +23,13 @@ export class Race {
       { id: 313, number: 13, name: 'Holanda',        betEndsAt: new Date('2021-09-04T00:00:00-03:00') },
       { id: 314, number: 14, name: 'Itália',         betEndsAt: new Date('2021-09-11T00:00:00-03:00') },
       { id: 315, number: 15, name: 'Rússia',         betEndsAt: new Date('2021-09-25T00:00:00-03:00') },
-      { id: 316, number: 16, name: 'Cingapura',      betEndsAt: new Date('2021-10-02T00:00:00-03:00') },
-      { id: 317, number: 17, name: 'Japão',          betEndsAt: new Date('2021-10-09T00:00:00-03:00') },
-      { id: 318, number: 18, name: 'EUA',            betEndsAt: new Date('2021-10-23T00:00:00-03:00') },
-      { id: 319, number: 19, name: 'México',         betEndsAt: new Date('2021-10-30T00:00:00-03:00') },
-      { id: 320, number: 20, name: 'Brasil',         betEndsAt: new Date('2021-11-06T00:00:00-03:00') },
-      { id: 321, number: 21, name: 'Austrália',      betEndsAt: new Date('2021-11-20T00:00:00-03:00') },
-      { id: 322, number: 22, name: 'Arábia Saudita', betEndsAt: new Date('2021-12-04T00:00:00-03:00') },
-      { id: 323, number: 23, name: 'Abu Dhabi',      betEndsAt: new Date('2021-12-11T00:00:00-03:00') },
+      { id: 316, number: 16, name: 'Turquia',        betEndsAt: new Date('2021-10-09T00:00:00-03:00') },
+      { id: 317, number: 17, name: 'EUA',            betEndsAt: new Date('2021-10-23T00:00:00-03:00') },
+      { id: 318, number: 18, name: 'México',         betEndsAt: new Date('2021-11-06T00:00:00-03:00') },
+      { id: 319, number: 19, name: 'Brasil',         betEndsAt: new Date('2021-11-13T00:00:00-03:00') },
+      { id: 320, number: 20, name: 'Qatar',          betEndsAt: new Date('2021-11-20T00:00:00-03:00') },
+      { id: 321, number: 21, name: 'Arábia Saudita', betEndsAt: new Date('2021-12-04T00:00:00-03:00') },
+      { id: 322, number: 22, name: 'Abu Dhabi',      betEndsAt: new Date('2021-12-11T00:00:00-03:00') },
     ];
   }
 

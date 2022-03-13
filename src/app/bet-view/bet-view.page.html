@@ -15,7 +15,8 @@
     </div>
     <ion-list>
       <ion-item [class.bet--exact]="betPoints.pole > 0">
-        <ion-label>Pole Position</ion-label>
+        <ion-label *ngIf="!race.hasSprint">1o qualifying</ion-label>
+        <ion-label *ngIf="race.hasSprint">1o sprint</ion-label>
         <ion-label class="col-sm ion-text-right">{{ bet.pole }}</ion-label>
         <ion-label class="col-sm ion-text-right">{{ betPoints.pole }}</ion-label>
         <ion-label class="col-sm ion-text-right">-</ion-label>

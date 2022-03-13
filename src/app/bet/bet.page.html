@@ -13,7 +13,8 @@
   <div class="title">GP {{ currentRace.name }}</div>
   <ion-list>
     <ion-item>
-      <ion-label>Pole Position</ion-label>
+      <ion-label *ngIf="!currentRace.hasSprint">1o qualifying</ion-label>
+      <ion-label *ngIf="currentRace.hasSprint">1o sprint</ion-label>
       <ion-select [(ngModel)]="currentBet.pole" placeholder="Select driver" interface="alert">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
           {{ driver.name }}

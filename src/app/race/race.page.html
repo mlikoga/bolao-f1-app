@@ -35,7 +35,7 @@
   </ion-list>
   <ion-list *ngIf="!isSeason">
     <ion-item>
-      <ion-label>Pole Position</ion-label>
+      <ion-label>1o qualifying (ou sprint)</ion-label>
       <ion-select [(ngModel)]="result.pole" placeholder="Select driver" interface="alert">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
           {{ driver.name }}

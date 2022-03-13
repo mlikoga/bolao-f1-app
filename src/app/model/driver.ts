@@ -25,7 +25,7 @@ export class Driver {
       { id: "BOT", name: "Valtteri Bottas",    number: 77, team: "Alfa Romeo Racing" },
       { id: "ZHO", name: "Zhou Guanyu",        number: 24, team: "Alfa Romeo Racing" },
       { id: "MSC", name: "Mick Schumacher",    number: 47, team: "Haas F1 Team" },
-      { id: "MAZ", name: "Nikita Mazepin",     number:  9, team: "Haas F1 Team" },
+      { id: "MAG", name: "Kevin Magnussen",    number: 99, team: "Haas F1 Team" },
     ]
   }
 

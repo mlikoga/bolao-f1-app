@@ -3,9 +3,9 @@ import { Race } from '../model/race';
 import * as moment from 'moment';
 
 Race.all = () => [
-  { id: 1, number: 0, name: 'Austrália', betEndsAt: new Date('2019-03-16T00:00:00-03:00') },
-  { id: 2, number: 1, name: 'Bahrein',   betEndsAt: new Date('2019-03-30T00:00:00-03:00') },
-  { id: 3, number: 2, name: 'China',     betEndsAt: new Date('2019-04-13T00:00:00-03:00') },
+  { id: 1, number: 0, name: 'Austrália', betEndsAt: new Date('2019-03-16T00:00:00-03:00'), hasSprint: false },
+  { id: 2, number: 1, name: 'Bahrein',   betEndsAt: new Date('2019-03-30T00:00:00-03:00'), hasSprint: false },
+  { id: 3, number: 2, name: 'China',     betEndsAt: new Date('2019-04-13T00:00:00-03:00'), hasSprint: false },
 ]
 
 describe('currentRace', () => {

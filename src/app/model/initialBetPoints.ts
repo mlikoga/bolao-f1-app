@@ -1,7 +1,6 @@
 export class InitialBetPoints {
   champion: number;
-  bestRestDriver: number;
-  bestRestTeam: number;
+  championTeam: number;
   user: string;
   season: number;
 
@@ -9,11 +8,10 @@ export class InitialBetPoints {
     this.user = user;
     this.season = season;
     this.champion = 0;
-    this.bestRestDriver = 0;
-    this.bestRestTeam = 0;
+    this.championTeam = 0;
   }
 
   get total(): number {
-    return this.champion + this.bestRestDriver + this.bestRestTeam;
+    return this.champion + this.championTeam;
   }
 }

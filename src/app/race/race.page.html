@@ -25,16 +25,8 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>Piloto melhor 2o pelotão</ion-label>
-      <ion-select [(ngModel)]="seasonResult.bestRestDriver" placeholder="Select driver" interface="alert">
-        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
-          {{ driver.name }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Melhor equipe 2o pelotão</ion-label>
-      <ion-select [(ngModel)]="seasonResult.bestRestTeam" placeholder="Select team" interface="alert">
+      <ion-label>Equipe campeã</ion-label>
+      <ion-select [(ngModel)]="seasonResult.championTeam" placeholder="Select team" interface="alert">
         <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
           {{ team.name }}
         </ion-select-option>

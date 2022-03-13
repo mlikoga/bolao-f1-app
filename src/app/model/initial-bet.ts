@@ -1,7 +1,6 @@
 export class InitialBet {
   champion: string;
-  bestRestDriver: string;
-  bestRestTeam: string;
+  championTeam: string;
   user: string;
   season: number;
   createdAt: Date;

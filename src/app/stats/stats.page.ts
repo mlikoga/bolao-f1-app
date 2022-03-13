@@ -59,8 +59,7 @@ export class StatsPage implements OnInit {
         this.isInitialBet = true;
         const bets = await this.initialBetService.getInitialBets(this.timeService.currentSeason());
         this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
-        this.cards.push(["Melhor piloto 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestDriver))]);
-        this.cards.push(["Melhor equipe 2o pelotão", this.calculateDataPoints(bets.map(bet => bet.bestRestTeam))]);
+        this.cards.push(["Equipe campeã", this.calculateDataPoints(bets.map(bet => bet.championTeam))]);
 
       } else {
         this.isInitialBet = false;

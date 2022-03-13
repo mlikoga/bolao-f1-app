@@ -1,6 +1,10 @@
 # bolao-f1-app
 
 ## Changelog
+4.0.0 - 2022.03.13
+- Season 2022
+- Initial bet now is only champion driver and team.
+
 3.1.3 - 2021.10.03
 - Calendar updated: Qatar added
 

@@ -23,8 +23,7 @@ import 'firebase/firestore';
 export class InitialBetPage {
 
   drivers: Array<Driver> = Driver.all();
-  restDrivers: Array<Driver>;
-  restTeams: Array<Team>;
+  teams: Array<Team> = Team.all();
   db: firebase.firestore.Firestore;
   user: string;
   initialBet: InitialBet = new InitialBet();
@@ -51,22 +50,18 @@ export class InitialBetPage {
       this.router.navigate(['login']);
       return;
     }
-    this.restDrivers = this.drivers.slice(4);
-    this.restTeams = Team.all().slice(2);
     this.initialBet = await this.initialBetService.getUserInitialBet(username) || new InitialBet();
     console.log("Initial bet: ", this.initialBet);
   }
 
   canSubmit() {
     return !!this.initialBet.champion &&
-      !!this.initialBet.bestRestDriver &&
-      !!this.initialBet.bestRestTeam;
+      !!this.initialBet.championTeam;
   }
 
   async onSubmitClicked() {
     console.log(`Champion: ${this.initialBet.champion}`);
-    console.log(`Best of the Rest Driver: ${this.initialBet.bestRestDriver}`);
-    console.log(`Best of the Rest Team: ${this.initialBet.bestRestTeam}`);
+    console.log(`Champion Team: ${this.initialBet.championTeam}`);
     console.log(`Can submit: ${this.canSubmit()}`);
 
     // Check if all fields are filled

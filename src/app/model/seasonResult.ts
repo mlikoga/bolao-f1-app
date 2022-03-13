@@ -1,7 +1,6 @@
 export class SeasonResult {
   champion: string;
-  bestRestDriver: string;
-  bestRestTeam: string;
+  championTeam: string;
   season: number;
 
   constructor(season: number) {

@@ -16,7 +16,7 @@ export class InitialBetService {
   constructor(private cache : CacheService, private timeService: TimeService)
   {
     this.db = firebase.firestore();
-    this.currentSeason = this.timeService.currentSeason() || 2021;
+    this.currentSeason = this.timeService.currentSeason() || 2022;
   }
 
   async getUserInitialBet(username: string, season: number = this.currentSeason): Promise<InitialBet> {

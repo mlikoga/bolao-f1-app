@@ -47,15 +47,11 @@ export class PointCalculator {
     let initialBetPoints = new InitialBetPoints(initialBet.user, initialBet.season);
 
     if (seasonResult.champion === initialBet.champion) {
-      initialBetPoints.champion = 20;
+      initialBetPoints.champion = 60;
     }
 
-    if (seasonResult.bestRestTeam === initialBet.bestRestTeam) {
-      initialBetPoints.bestRestTeam = 40;
-    }
-
-    if (seasonResult.bestRestDriver === initialBet.bestRestDriver) {
-      initialBetPoints.bestRestDriver = 60;
+    if (seasonResult.championTeam === initialBet.championTeam) {
+      initialBetPoints.championTeam = 40;
     }
 
     return initialBetPoints;

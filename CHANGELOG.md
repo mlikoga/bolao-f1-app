@@ -1,6 +1,9 @@
 # bolao-f1-app
 
 ## Changelog
+5.0.0 - 2023.02.28
+- Season 2023
+
 4.0.0 - 2022.03.13
 - Season 2022
 - Initial bet now is only champion driver and team.

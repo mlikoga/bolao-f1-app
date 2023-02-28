@@ -31,7 +31,7 @@ export class ProfilePage implements OnInit {
     private toastController: ToastController,
     private swUpdate: SwUpdate) {
 
-    this.version = "4.0.0";
+    this.version = "5.0.0";
     this.user = new User('','');
   }
 
@@ -55,7 +55,7 @@ export class ProfilePage implements OnInit {
   async ionViewWillEnter() {
     this.user = await this.authService.getCurrentUser();
     this.isSuperAdmin = await this.authService.isSuperAdmin();
-    this.isUsernameEditable = this.timeService.currentRace().number === 0;
+    this.isUsernameEditable = true // this.timeService.currentRace().number === 0;
   }
 
   backup() {

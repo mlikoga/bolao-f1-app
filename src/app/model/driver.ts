@@ -26,6 +26,7 @@ export class Driver {
       { id: "TSU", name: "Yuki Tsunoda",       number: 22, team: "AlphaTauri" },
       { id: "ALB", name: "Alexander Albon",    number: 23, team: "Williams" },
       { id: "SAR", name: "Logan Sargeant",     number:  6, team: "Williams" },
+      { id: "SUB", name: "Piloto substituto",  number: 99, team: "-" },
     ]
   }
 

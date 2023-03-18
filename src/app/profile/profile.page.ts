@@ -55,7 +55,7 @@ export class ProfilePage implements OnInit {
   async ionViewWillEnter() {
     this.user = await this.authService.getCurrentUser();
     this.isSuperAdmin = await this.authService.isSuperAdmin();
-    this.isUsernameEditable = true // this.timeService.currentRace().number === 0;
+    this.isUsernameEditable = this.timeService.currentRace().number === 0;
   }
 
   backup() {

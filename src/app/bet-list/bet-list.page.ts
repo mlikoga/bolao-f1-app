@@ -9,6 +9,7 @@ import { ResultService } from '../services/result.service';
 import { Router } from '@angular/router';
 import { TimeService } from '../services/time.service';
 import { timer, Subscription } from 'rxjs';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-bet-list',
@@ -35,6 +36,7 @@ export class BetListPage implements OnInit {
     private authService: AuthService,
     private betService: BetService,
     private initialBetService: InitialBetService,
+    private localNotifications: LocalNotifications,
     private resultService: ResultService,
     private router: Router,
     private timeService : TimeService) {
@@ -53,6 +55,12 @@ export class BetListPage implements OnInit {
     if (this.bettingEnabled) {
       this.startTimer();
     }
+
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Bolão F1',
+      text: 'Lembre-se de fazer sua aposta!',
+    });
   }
 
   ngOnDestroy() {

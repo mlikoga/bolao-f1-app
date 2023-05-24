@@ -14,7 +14,13 @@ Check the full changelog [here](CHANGELOG.md).
 **Requirements:**
 - node v10
 - ionic `npm install -g @ionic/cli`
-- Firebase CLI (to deploy) `npm install -g firebase-tools`
+- Firebase CLI (to deploy) `npm install -g firebase-tools@9.23.3`
+
+**If you are using nodeenv, first create the environment:**
+`nodeenv --node=10.24.1 --with-npm bolao`
+
+**Then activate it:**
+`. bolao/bin/activate`
 
 **To initialize:**
 `npm install`

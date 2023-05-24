@@ -19,6 +19,8 @@ npm-debug.log*
 .tmp/
 .versions/
 coverage/
+bin/
+include/
 www/
 node_modules/
 tmp/
@@ -33,3 +35,4 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .firebase/*
+bolao2/*

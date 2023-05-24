@@ -1,6 +1,8 @@
 {
   "name": "bolao-f1",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "39b979a7"
 }

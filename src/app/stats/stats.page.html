@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()" interface="popover">
+  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()">
     <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
   </ion-select>
 

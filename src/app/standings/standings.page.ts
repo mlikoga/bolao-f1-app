@@ -22,10 +22,6 @@ export class StandingsPage {
 
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUsername();
-    let lastResult = await this.resultService.getLastResult();
-    if (lastResult) {
-      this.lastRace = Race.withId(lastResult.race);
-    }
     this.refresh();
   }
 
@@ -34,6 +30,10 @@ export class StandingsPage {
   }
 
   async refresh(event?) : Promise<void> {
+    let lastResult = await this.resultService.getLastResult();
+    if (lastResult) {
+      this.lastRace = Race.withId(lastResult.race);
+    }
     this.users = await this.resultService.getUserStandings();
     if (event) event.target.complete();
   }

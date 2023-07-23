@@ -13,7 +13,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()" interface="popover">
+  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()">
     <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
   </ion-select>
   <div class="ion-padding bet-list__betting" *ngIf="bettingEnabled && selectedRaceId == currentRace.id; else userList">

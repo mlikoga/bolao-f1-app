@@ -41,7 +41,7 @@
   &--11 {
     width: calc(11 * 6%);
   }
-  &--12 {
+  &--12, &--13, &--14, &--15, &--16, &--17, &--18, &--19, &--20 {
     width: calc(12 * 6%);
   }
 
@@ -50,7 +50,7 @@
     background: #00d2be;
   }
 
-  &--BOT {
+  &--RUS {
     background: #d2d5d5;
   }
 
@@ -77,12 +77,12 @@
     background: #FF9800;
   }
 
-  &--RIC {
+  &--PIA {
     background: #fea036;
   }
 
   &--Aston.Martin,
-  &--VET {
+  &--ALO {
     background: #006F62;
   }
   &--STR {
@@ -93,20 +93,20 @@
   &--OCO {
     background: #0090ff;
   }
-  &--ALO {
+  &--GAS {
     background: #27a2ff;
   }
 
-  &--Haas,
-  &--MSC {
+  &--Haas.F1.Team,
+  &--MAG {
     background: #FFFFFF;
   }
-  &--MAZ {
+  &--HUL {
     background: #f2f2f2;
   }
 
-  &--Alpha.Tauri,
-  &--GAS {
+  &--AlphaTauri,
+  &--RIC {
     background: #2B4562;
   }
   &--TSU {
@@ -114,11 +114,19 @@
   }
 
   &--Williams,
-  &--RUS {
+  &--ALB {
     background: #005aff;
   }
-  &--LAT {
+  &--SAR {
     background: #1aa1dc;
+  }
+
+  &--Alfa.Romeo.Racing,
+  &--BOT {
+    background: #C92D4B;
+  }
+  &--ZHO {
+    background: #C92D4B;
   }
 }
 

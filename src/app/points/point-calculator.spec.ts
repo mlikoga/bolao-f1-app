@@ -95,3 +95,33 @@ describe("Exemplo do regulamento", function() {
     expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(72.6);
   });
 });
+
+describe("Calculate season points", function() {
+  let result = {
+    driversPositions: ["LEC", "BOT", "RAI", "HAM", "VER"],
+    teamsPositions: ["Mercedes", "Ferrari", "Red Bull Racing", "Alpine", "Williams"],
+    season: 2024,
+  };
+
+  it("Person with Max points", function() {
+    let bet = {
+      driversPositions: ["LEC", "BOT", "RAI", "HAM", "VER"],
+      teamsPositions: ["Mercedes", "Ferrari", "Red Bull Racing", "Alpine", "Williams"],
+      season: 2024,
+      user: "user",
+      createdAt: new Date(),
+    };
+    expect(PointCalculator.calculateSeasonPoints(result, bet).total).toBe(300);
+  });
+
+  it("Person with driver winner and 3rd team", function() {
+    let bet = {
+      driversPositions: ["LEC", "HAM", "VER", "RUS", "ALO"],
+      teamsPositions: ["Williams", "Mercedes", "Red Bull Racing", "Ferrari", "Alpine"],
+      season: 2024,
+      user: "user",
+      createdAt: new Date(),
+    };
+    expect(PointCalculator.calculateSeasonPoints(result, bet).total).toBe(80);
+  });
+});

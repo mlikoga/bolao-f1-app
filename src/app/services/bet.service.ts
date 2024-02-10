@@ -71,6 +71,7 @@ export class BetService {
   }
 
   async backupBets() {
+    console.log("Getting backup...")
     let betsQuery = await this.db.collection('bets').get();
     let bets = betsQuery.docs.map(querySnap => querySnap.data() as Bet);
 

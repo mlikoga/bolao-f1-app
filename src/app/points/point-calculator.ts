@@ -45,15 +45,18 @@ export class PointCalculator {
 
   static calculateSeasonPoints(seasonResult: SeasonResult, initialBet: InitialBet): InitialBetPoints {
     let initialBetPoints = new InitialBetPoints(initialBet.user, initialBet.season);
-
-    if (seasonResult.champion === initialBet.champion) {
-      initialBetPoints.champion = 60;
+    
+    for (let i = 0; i < seasonResult.driversPositions.length; i++) {
+      if (seasonResult.driversPositions[i] === initialBet.driversPositions[i]) {
+        initialBetPoints.driversPositions[i] = 10 * (5 - i);  // 50, 40, 30, 20, 10
+      }
     }
 
-    if (seasonResult.championTeam === initialBet.championTeam) {
-      initialBetPoints.championTeam = 40;
+    for (let i = 0; i < seasonResult.teamsPositions.length; i++) {
+      if (seasonResult.teamsPositions[i] === initialBet.teamsPositions[i]) {
+        initialBetPoints.teamsPositions[i] = 10 * (5 - i);  // 50, 40, 30, 20, 10
+      }
     }
-
     return initialBetPoints;
   }
 }

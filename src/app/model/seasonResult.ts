@@ -1,6 +1,6 @@
 export class SeasonResult {
-  champion: string;
-  championTeam: string;
+  driversPositions: Array<string>;
+  teamsPositions: Array<string>;
   season: number;
 
   constructor(season: number) {

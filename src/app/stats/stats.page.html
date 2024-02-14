@@ -7,15 +7,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()">
-    <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
+  <ion-select class="title" [(ngModel)]="selectedRace" (ionChange)="onRaceChanged()">
+    <ion-select-option *ngFor="let race of races" [value]="race">GP {{ race.name }}</ion-select-option>
   </ion-select>
 
   <div class="ion-padding">
     <stats-card *ngFor="let card of cards" [title]="card[0]" [(dataRows)]="card[1]"></stats-card>
   </div>
 
-  <div *ngIf="!selectedRaceId" class="stats__message">
+  <div *ngIf="!selectedRace" class="stats__message">
     <p>Aguarde início da temporada!</p>
   </div>
 

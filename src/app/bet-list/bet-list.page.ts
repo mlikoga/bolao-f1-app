@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { BetService } from '../services/bet.service';
-import { InitialBetService } from '../services/initial-bet.service';
 import { Race } from '../model/race';
 import { RacePoints } from '../model/racePoints';
+import { RaceService } from '../services/race.service';
 import { ResultService } from '../services/result.service';
 import { Router } from '@angular/router';
 import { TimeService } from '../services/time.service';
@@ -20,8 +20,8 @@ export class BetListPage implements OnInit {
   races: Array<Race> = [];
   racePoints: Array<RacePoints> = []
 
-  selectedRaceId: number = 1;
-  currentRace: Race = new Race();
+  selectedRace: Race = Race.empty();
+  currentRace: Race = Race.empty();
   currentSeason: number;
   bettingEnabled: boolean = true;
   betLink: string;
@@ -34,21 +34,26 @@ export class BetListPage implements OnInit {
     private alertService: AlertService,
     private authService: AuthService,
     private betService: BetService,
-    private initialBetService: InitialBetService,
+    private raceService: RaceService,
     private resultService: ResultService,
     private router: Router,
     private timeService : TimeService) {
   }
 
   async ngOnInit() {
-    this.isAdmin = await this.authService.isSuperAdmin();
-    this.currentRace = this.timeService.currentRace();
+    this.isAdmin       = await this.authService.isSuperAdmin();
     this.currentSeason = this.timeService.currentSeason();
-    console.log(`Season ${this.currentSeason} | Current race: `, this.currentRace)
-    this.selectedRaceId = this.currentRace.id;
-    this.betLink = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
-    this.races = Race.all().filter(race => race.id <= this.currentRace.id);
-    this.bettingEnabled = this.timeService.bettingEnabled();
+    this.betLink       = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
+    
+    let allRaces = await this.raceService.getAllRaces();
+    this.currentRace  = this.timeService.currentRace(allRaces);
+    this.selectedRace = this.currentRace;
+    console.log(`[bet-list] Season ${this.currentSeason} | Current race: `, this.currentRace);
+
+    this.races = allRaces.filter(race => race.number <= this.currentRace.number);
+    this.bettingEnabled = this.timeService.bettingEnabled(allRaces);
+    console.log("[bet-list] bettingEnabled: ", this.bettingEnabled);
+    
     this.refresh();
     if (this.bettingEnabled) {
       this.startTimer();
@@ -58,12 +63,12 @@ export class BetListPage implements OnInit {
   ngOnDestroy() {
     if (this.timer) {
       this.timer.unsubscribe();
-      console.log('Countdown stopped.')
+      console.log('[bet-list] Countdown stopped.')
     }
   }
 
   startTimer() {
-    console.log('Countdown running...')
+    console.log('[bet-list] Countdown running...')
     this.timeToBetEnd = this.timeService.timeToBetEnd(this.currentRace)
     const intervalMs = 1000;
     const delay = 0;
@@ -73,8 +78,8 @@ export class BetListPage implements OnInit {
   }
 
   async refresh(event?) : Promise<void> {
-    console.log('Refreshing bet list...')
-    this.resultService.getPoints(this.selectedRaceId).then(racePoints => {
+    console.log('[bet-list] Refreshing bet list...')
+    this.resultService.getPoints(this.selectedRace.id).then(racePoints => {
       this.racePoints = racePoints;
     });
     if (event) event.target.complete();
@@ -85,8 +90,8 @@ export class BetListPage implements OnInit {
     const usersWithoutBet = await this.betService.getUsersWithoutBet(raceId);
     if (usersWithoutBet.length > 0) {
       this.alertService.confirm(`Deseja criar apostas para ${usersWithoutBet}?`, () => {
-        console.log(`Resposta confirm: ok`);
-        this.betService.createBets(usersWithoutBet, raceId);
+        console.log(`[bet-list] Resposta confirm: ok`);
+        this.betService.createBets(usersWithoutBet, this.currentRace.season, this.currentRace.number - 1);
       });
     } else {
       this.alertService.alert('Nenhum usuário deixou de apostar!', 'Apostas');
@@ -94,16 +99,16 @@ export class BetListPage implements OnInit {
   }
 
   onRaceChanged() {
-    console.log(`Race changed to: ${this.selectedRaceId}`);
-    this.resultService.getPoints(this.selectedRaceId).then(racePoints => {
+    console.log(`[bet-list] Race changed to: ${this.selectedRace.name}`);
+    this.resultService.getPoints(this.selectedRace.id).then(racePoints => {
       this.racePoints = racePoints;
     });
   }
 
   onUserSelected(user: string) {
-    if(this.selectedRaceId == Race.first().id) {
+    if(this.selectedRace.number == 0) {
       return ['/tabs/bet/initial', user]
     }
-    return ['/tabs/bet/bet-view', user, this.selectedRaceId]
+    return ['/tabs/bet/bet-view', user, this.selectedRace.id]
   }
 }

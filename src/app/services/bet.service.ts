@@ -19,7 +19,7 @@ export class BetService {
     this.db = firebase.firestore();
   }
 
-  async getUserBet(username: string, raceId: number): Promise<Bet> {
+  async getUserBet(username: string, raceId: string): Promise<Bet> {
     let docId = `${username}.${raceId}`;
     return this.cache.get_and_save(docId, async () => {
       let doc = await this.db.collection('bets')
@@ -37,29 +37,29 @@ export class BetService {
     });
   }
 
-  async getRaceBets(raceId: number): Promise<Array<Bet>> {
+  async getRaceBets(raceId: string): Promise<Array<Bet>> {
     let bets = await this.db.collection('bets').where('race', '==', raceId).get();
     return bets.docs.map(querySnap => querySnap.data() as Bet);
   }
 
-  async getUsersWithoutBet(raceId: number): Promise<Array<string>> {
+  async getUsersWithoutBet(raceId: string): Promise<Array<string>> {
     const allUsers = (await this.userService.getUsers()).map(user => user.username);
     const usersWithBet = (await this.getRaceBets(raceId)).map(bet => bet.user);
     const usersWithoutBet = allUsers.filter(user => !usersWithBet.includes(user));
     return usersWithoutBet;
   }
 
-  createBets(usersWithoutBet: Array<string>, raceId: number) {
+  createBets(usersWithoutBet: Array<string>, season: number, raceNumber: number) {
     usersWithoutBet.forEach(async username => {
-      const docId = `${username}.${raceId}`;
+      const docId = `${username}.${season}.${raceNumber}`;
       const betRef = this.db.collection('bets').doc(docId);
-      const lastBet = await this.getUserBet(username, raceId - 1);
+      const lastBet = await this.getUserBet(username, `${season}.${raceNumber - 1}`);
       betRef.get().then(docSnapshot => {
         if (!docSnapshot.exists) {
           const copiedBet = {
             ...lastBet,
             createdAt: new Date,
-            race: raceId,
+            race: `${season}.${raceNumber}`,
             forgotten: true,
           }
           console.log(`Creating bet for ${copiedBet.user}`);

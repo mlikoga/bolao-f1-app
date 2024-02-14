@@ -4,7 +4,8 @@
 
 6.0.0 - 2024.02.20
 
-- Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively.
+- Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively;
+- Races are now in Firestore, not hard-coded;
 
 
 5.1.0 - 2023.07.23

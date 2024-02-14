@@ -31,8 +31,7 @@ export class BetViewPage implements OnInit {
     this.bet$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         let username = params.get('username');
-        let raceId = parseInt(params.get('race'));
-        this.race = Race.withId(raceId);
+        let raceId = params.get('race');
         return this.betService.getUserBet(username, raceId);
       })
     );

@@ -1,12 +1,10 @@
-import { Driver } from '../model/driver';
-
 export class Result {
   pole: string;
   fastestLap: string;
   positions: Array<string>;
-  race: number;
+  race: string;
 
-  constructor(race: number) {
+  constructor(race: string) {
     this.race = race;
   }
 }

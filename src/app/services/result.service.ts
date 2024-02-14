@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { BetPoints } from 'app/model/betPoints';
+import { RaceService } from './race.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class ResultService {
   constructor(
       private betService: BetService,
       private cache : CacheService,
+      private raceService: RaceService,
       private timeService: TimeService,
       private userService: UserService,
     ) {
@@ -45,15 +47,18 @@ export class ResultService {
     this.db.collection('results').doc(docId).set(Object.assign({}, result));
     let bets = await this.betService.getRaceBets(race.id);
     console.log(bets);
+
+    // Once the race result is set, calculate everyone's points and save them
     bets
       .map(bet => PointCalculator.calculatePoints(result, bet))
       .sort((a, b) => a.total - b.total)
       .reverse()
-      .forEach((betPoints, position) => this.setPoints(betPoints, position));
+      .forEach((betPoints, position) => this.setPoints(betPoints, position, race));
   }
 
-  async getLastResult(): Promise<Result> {
-    let pastRaces = this.timeService.pastRaces().reverse();
+  async getLastResult(season: number = this.timeService.currentSeason()): Promise<Result> {
+    let allRaces = await this.raceService.getAllRaces(season);
+    let pastRaces = this.timeService.pastRaces(allRaces).reverse();
     for (let race of pastRaces) {
       let result = await this.getResult(race);
       if (result) {
@@ -64,16 +69,17 @@ export class ResultService {
     return null;
   }
 
-  private setPoints(betPoints: BetPoints, position: number): void {
+  private setPoints(betPoints: BetPoints, position: number, race: Race): void {
     this.db.collection("points").doc(`${betPoints.user}.${betPoints.race}`).set({
       user: betPoints.user,
       race: betPoints.race,
+      raceName: race.name,
       points: betPoints.total,
       position: position + 1, // Start with 1
     });
   }
 
-  async getPoints(raceId: number): Promise<Array<RacePoints>> {
+  async getPoints(raceId: string): Promise<Array<RacePoints>> {
     let queryResult = await this.db.collection("points")
                        .where("race", "==", raceId)
                        .orderBy("points", "desc")
@@ -89,10 +95,10 @@ export class ResultService {
     return racePoints;
   }
 
-  async getPointsPerRace(username: string): Promise<Array<RacePoints>> {
+  async getPointsPerRace(username: string, season: number): Promise<Array<RacePoints>> {
     const userPoints = await this.db.collection("points")
                        .where("user", "==", username)
-                       .where("race", ">=", Race.first().id)
+                       .where("season", "==", season)
                        .orderBy("race", "asc")
                        .get();
 
@@ -103,10 +109,10 @@ export class ResultService {
     return userRacePoints.reduce((acc, value) => acc + value["points"], 0);
   }
 
-  async getUserStandings(): Promise<Array<User>> {
-    let users = await this.userService.getUsers();
+  async getUserStandings(season: number): Promise<Array<User>> {
+    let users = await this.userService.getUsers(season);
     const userPoints = await Promise.all(users.map(async user => {
-      const pointsPerRace = await this.getPointsPerRace(user.username);
+      const pointsPerRace = await this.getPointsPerRace(user.username, season);
       const total = this.getTotalPoints(pointsPerRace);
       const lastRacePoints = pointsPerRace.length > 0 ? pointsPerRace[pointsPerRace.length - 1]["points"] : 0;
       const untilNow = total - lastRacePoints;
@@ -125,14 +131,10 @@ export class ResultService {
   }
 
 
-  async getRaceWinners(): Promise<Array<RacePoints>> {
-    const firstRaceId = Race.firstGP().id;
-    const lastRaceId = Race.last().id;
-
+  async getRaceWinners(season: number): Promise<Array<RacePoints>> {
     const queryResult = await this.db.collection("points")
                         .where("position", "==", 1)
-                        .where("race", ">=", firstRaceId)
-                        .where("race", "<=", lastRaceId)
+                        .where("season", "==", season)
                         .orderBy("race", "asc")
                         .get();
 

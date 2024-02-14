@@ -12,8 +12,6 @@ import { AuthService } from '../services/auth.service';
 import { InitialBetService } from '../services/initial-bet.service';
 import { TimeService } from '../services/time.service';
 
-import * as firebase from 'firebase';
-import 'firebase/firestore';
 
 @Component({
   selector: 'app-initial-bet',
@@ -22,9 +20,9 @@ import 'firebase/firestore';
 })
 export class InitialBetPage {
 
+  positions: Array<number> = [0, 1, 2, 3, 4];
   drivers: Array<Driver> = Driver.all();
   teams: Array<Team> = Team.all();
-  db: firebase.firestore.Firestore;
   user: string;
   initialBet: InitialBet = new InitialBet();
 
@@ -40,8 +38,6 @@ export class InitialBetPage {
       public initialBetService: InitialBetService,
       public router: Router,
       public timeService: TimeService) {
-
-    this.db = firebase.firestore();
   }
 
   async ngOnInit() {
@@ -54,14 +50,34 @@ export class InitialBetPage {
     console.log("Initial bet: ", this.initialBet);
   }
 
+  onPositionChanged(positionsArray: Array<string>, pos: number) {
+    let bet = positionsArray[pos];
+    console.log(`onPositionChanged: pos ${pos} -> ${bet}`);
+
+    if (!bet) return;
+
+    // Unique driver in each position
+    let idx1 = positionsArray.indexOf(bet);
+    let idx2 = positionsArray.lastIndexOf(bet);
+    if (idx1 != idx2) {
+      if (idx1 != pos) {
+        positionsArray[idx1] = null;
+      } else {
+        positionsArray[idx2] = null;
+      }
+    }
+  }
+
   canSubmit() {
-    return !!this.initialBet.champion &&
-      !!this.initialBet.championTeam;
+    return !this.initialBet.driversPositions.includes(undefined) &&
+           !this.initialBet.driversPositions.includes(null) &&
+           !this.initialBet.teamsPositions.includes(undefined) &&
+           !this.initialBet.teamsPositions.includes(null);
   }
 
   async onSubmitClicked() {
-    console.log(`Champion: ${this.initialBet.champion}`);
-    console.log(`Champion Team: ${this.initialBet.championTeam}`);
+    console.log(`Drivers positions: ${this.initialBet.driversPositions}`);
+    console.log(`Team positions: ${this.initialBet.teamsPositions}`);
     console.log(`Can submit: ${this.canSubmit()}`);
 
     // Check if all fields are filled

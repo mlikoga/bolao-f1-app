@@ -3,6 +3,8 @@ import { User } from '../model/user';
 import { ResultService } from '../services/result.service';
 import { AuthService } from '../services/auth.service';
 import { Race } from '../model/race';
+import { RaceService } from 'app/services/race.service';
+import { TimeService } from 'app/services/time.service';
 
 @Component({
   selector: 'app-standings',
@@ -16,16 +18,16 @@ export class StandingsPage {
   lastRace: Race;
   content: string = 'standings';
 
-  constructor(private authService: AuthService, private resultService: ResultService) {
-    this.lastRace = new Race();
+  constructor(
+    private authService: AuthService, 
+    private raceService: RaceService,
+    private resultService: ResultService,
+    private timeService: TimeService) {
+    this.lastRace = Race.empty();
   }
 
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUsername();
-    let lastResult = await this.resultService.getLastResult();
-    if (lastResult) {
-      this.lastRace = Race.withId(lastResult.race);
-    }
     this.refresh();
   }
 
@@ -34,7 +36,11 @@ export class StandingsPage {
   }
 
   async refresh(event?) : Promise<void> {
-    this.users = await this.resultService.getUserStandings();
+    let lastResult = await this.resultService.getLastResult();
+    if (lastResult) {
+      this.lastRace = await this.raceService.getRace(lastResult.race);
+    }
+    this.users = await this.resultService.getUserStandings(this.timeService.currentSeason());
     if (event) event.target.complete();
   }
 

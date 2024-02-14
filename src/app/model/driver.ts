@@ -22,7 +22,7 @@ export class Driver {
       { id: "ALO", name: "Fernando Alonso",    number: 14, team: "Aston Martin" },
       { id: "MAG", name: "Kevin Magnussen",    number: 20, team: "Haas F1 Team" },
       { id: "HUL", name: "Niko Hulkenberg",    number: 27, team: "Haas F1 Team" },
-      { id: "DEV", name: "Nyck De Vries",      number: 45, team: "AlphaTauri" },
+      { id: "RIC", name: "Daniel Ricciardo",   number: 45, team: "AlphaTauri" },
       { id: "TSU", name: "Yuki Tsunoda",       number: 22, team: "AlphaTauri" },
       { id: "ALB", name: "Alexander Albon",    number: 23, team: "Williams" },
       { id: "SAR", name: "Logan Sargeant",     number:  6, team: "Williams" },

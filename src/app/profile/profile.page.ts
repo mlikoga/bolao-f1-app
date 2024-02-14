@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { BetService } from '../services/bet.service';
 import { CacheService } from '../services/cache.service';
+import { RaceService } from '../services/race.service';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
@@ -27,11 +28,12 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private raceService: RaceService,
     private timeService: TimeService,
     private toastController: ToastController,
     private swUpdate: SwUpdate) {
 
-    this.version = "5.0.0";
+    this.version = "6.0.0-alpha";
     this.user = new User('','');
   }
 
@@ -55,7 +57,8 @@ export class ProfilePage implements OnInit {
   async ionViewWillEnter() {
     this.user = await this.authService.getCurrentUser();
     this.isSuperAdmin = await this.authService.isSuperAdmin();
-    this.isUsernameEditable = this.timeService.currentRace().number === 0;
+    let allRaces = await this.raceService.getAllRaces();
+    this.isUsernameEditable = this.timeService.currentRace(allRaces).number === 0;
   }
 
   backup() {

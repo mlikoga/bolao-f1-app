@@ -1,6 +1,18 @@
 # bolao-f1-app
 
 ## Changelog
+
+6.0.0 - 2024.02.20
+
+- Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively;
+- Races are now in Firestore, not hard-coded;
+
+
+5.1.0 - 2023.07.23
+- Chrome recently rolled out the Popover API. Unfortunately some old code that Ionic had used in ion-popover conflicted with the Popover API, causing a bug. We removed the use of popover. More info: https://github.com/ionic-team/ionic-framework/issues/27599#issuecomment-1584711091 
+- Fixed bug in stats screen that prevented frow showing bars with more than 12 people.
+- Updated drivers colors
+
 5.0.0 - 2023.02.28
 - Season 2023
 

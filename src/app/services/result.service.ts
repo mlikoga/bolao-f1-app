@@ -30,9 +30,9 @@ export class ResultService {
     this.db = firebase.firestore();
   }
 
-  async getResult(race: Race): Promise<Result> {
-    let docId = `${race.id}.${race.name}`;
-    return await this.cache.get_and_save(docId, async () => {
+  async getResult(raceId: string): Promise<Result> {
+    let docId = raceId;
+    return await this.cache.get_and_save(`result.${docId}`, async () => {
       let resultSnapshot = await this.db.collection('results').doc(docId).get();
 
       if (resultSnapshot.exists) {
@@ -43,7 +43,7 @@ export class ResultService {
   }
 
   async setRaceResult(race: Race, result: Result): Promise<void> {
-    let docId = `${race.id}.${race.name}`;
+    let docId = race.id;
     this.db.collection('results').doc(docId).set(Object.assign({}, result));
     let bets = await this.betService.getRaceBets(race.id);
     console.log(bets);
@@ -60,7 +60,7 @@ export class ResultService {
     let allRaces = await this.raceService.getAllRaces(season);
     let pastRaces = this.timeService.pastRaces(allRaces).reverse();
     for (let race of pastRaces) {
-      let result = await this.getResult(race);
+      let result = await this.getResult(race.id);
       if (result) {
         return result;
       }
@@ -74,6 +74,7 @@ export class ResultService {
       user: betPoints.user,
       race: betPoints.race,
       raceName: race.name,
+      season: race.season,
       points: betPoints.total,
       position: position + 1, // Start with 1
     });

@@ -40,12 +40,12 @@ export class StatsPage implements OnInit {
     if (this.races.length > 0) {
       this.selectedRace = this.races[this.races.length - 1];
     }
-    console.log("[Stats] Selected race: ", this.selectedRace);
-    this.updateStats();
+    console.log("[Stats] Selected race: ", this.selectedRace.name);
+    //this.updateStats(); // onRaceChanged will be called due to change in selectedRace
   }
 
   onRaceChanged() {
-    console.log(`[Stats] Race changed to: ${this.selectedRace}`);
+    console.log(`[Stats] Race changed to: ${this.selectedRace.name}`);
     this.updateStats();
   }
 

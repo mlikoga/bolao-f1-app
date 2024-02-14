@@ -62,7 +62,7 @@ export class RacePage {
         }
       });
     } else {
-      this.resultService.getResult(this.selectedRace).then(res => {
+      this.resultService.getResult(this.selectedRace.id).then(res => {
         if (res) {
           this.result = res;
           this.driversOrdered = res.positions.map(id => Driver.fromId(id));

@@ -37,7 +37,8 @@ export class BetViewPage implements OnInit {
     );
     this.bet$.subscribe(
       bet => {
-        this.resultService.getResult(this.race).then(result => {
+        this.resultService.getResult(bet.race).then(result => {
+          console.log("[bet-view] Result: ", result);
           if (result) {
             this.betPoints = PointCalculator.calculatePoints(result, bet);
           }

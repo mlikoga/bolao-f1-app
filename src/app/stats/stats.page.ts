@@ -4,6 +4,7 @@ import { Bet } from '../model/bet';
 import { Race } from '../model/race';
 import { BetService } from '../services/bet.service';
 import { InitialBetService } from '../services/initial-bet.service';
+import { RaceService } from '../services/race.service';
 import { TimeService } from '../services/time.service';
 import { LoadingController } from '@ionic/angular';
 
@@ -15,7 +16,7 @@ import { LoadingController } from '@ionic/angular';
 export class StatsPage implements OnInit {
 
   races: Array<Race> = [];
-  selectedRaceId: number;
+  selectedRace: Race;
   bets: Array<Bet> = [];
 
   cards: Array<[string, Array<DataPoint>]> = []
@@ -26,22 +27,25 @@ export class StatsPage implements OnInit {
     private betService: BetService,
     private initialBetService: InitialBetService,
     private loadingController: LoadingController,
+    private raceService : RaceService,
     private timeService : TimeService) { }
 
-  ngOnInit() {
-    let currentRace = this.timeService.currentRace();
-    const bettingEnabled = this.timeService.bettingEnabled();
+  async ngOnInit() {
+    let allRaces = await this.raceService.getAllRaces();
+    let currentRace = this.timeService.currentRace(allRaces);
+    const bettingEnabled = this.timeService.bettingEnabled(allRaces);
     console.log(`Current race: ${currentRace.name}, bettingEnabled: ${bettingEnabled}`);
-    this.races = Race.visibleRaces(currentRace, !bettingEnabled);
+
+    this.races = this.timeService.visibleRaces(allRaces, !bettingEnabled);
     if (this.races.length > 0) {
-      this.selectedRaceId = this.races[this.races.length - 1].id;
+      this.selectedRace = this.races[this.races.length - 1];
     }
-    console.log("[Stats] Selected race: ", this.selectedRaceId);
+    console.log("[Stats] Selected race: ", this.selectedRace);
     this.updateStats();
   }
 
   onRaceChanged() {
-    console.log(`Race changed to: ${this.selectedRaceId}`);
+    console.log(`[Stats] Race changed to: ${this.selectedRace}`);
     this.updateStats();
   }
 
@@ -53,17 +57,16 @@ export class StatsPage implements OnInit {
     loading.present();
 
     this.cards = [];
-    const race = Race.withId(this.selectedRaceId);
-    if (race) {
-      if (race.number == 0) {
+    if (this.selectedRace) {
+      if (this.selectedRace.number == 0) {
         this.isInitialBet = true;
         const bets = await this.initialBetService.getInitialBets(this.timeService.currentSeason());
-        this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
-        this.cards.push(["Equipe campeã", this.calculateDataPoints(bets.map(bet => bet.championTeam))]);
+        //this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
+        //this.cards.push(["Equipe campeã", this.calculateDataPoints(bets.map(bet => bet.championTeam))]);
 
       } else {
         this.isInitialBet = false;
-        let bets = await this.betService.getRaceBets(this.selectedRaceId);
+        let bets = await this.betService.getRaceBets(this.selectedRace.id);
         this.cards.push(["Pole", this.calculateDataPoints(bets.map(bet => bet.pole))]);
         this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
         this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);

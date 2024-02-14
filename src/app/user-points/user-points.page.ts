@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ResultService } from '../services/result.service';
 import { RacePoints } from 'app/model/racePoints';
+import { ResultService } from '../services/result.service';
+import { TimeService } from '../services/time.service';
 
 @Component({
   selector: 'app-user-points',
@@ -16,13 +17,14 @@ export class UserPointsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private resultService: ResultService
+    private resultService: ResultService,
+    private timeService: TimeService
   ) {}
 
   async ngOnInit() {
     this.route.params.subscribe(async params => {
       this.username = params['username'];
-      this.racePoints = await this.resultService.getPointsPerRace(this.username);
+      this.racePoints = await this.resultService.getPointsPerRace(this.username, this.timeService.currentSeason());
       console.log(this.racePoints);
       this.totalPoints = this.resultService.getTotalPoints(this.racePoints);
     });

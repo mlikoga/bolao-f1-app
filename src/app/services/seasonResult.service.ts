@@ -45,7 +45,7 @@ export class SeasonResultService {
       .forEach((betPoints, position) => this.setPoints(race.id, betPoints, position));
   }
 
-  private setPoints(raceId: number, initialBetPoints: InitialBetPoints, position: number): void {
+  private setPoints(raceId: string, initialBetPoints: InitialBetPoints, position: number): void {
     const seasonPoints = {
       user: initialBetPoints.user,
       race: raceId,

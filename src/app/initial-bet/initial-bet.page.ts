@@ -12,8 +12,6 @@ import { AuthService } from '../services/auth.service';
 import { InitialBetService } from '../services/initial-bet.service';
 import { TimeService } from '../services/time.service';
 
-import * as firebase from 'firebase';
-import 'firebase/firestore';
 
 @Component({
   selector: 'app-initial-bet',
@@ -25,7 +23,6 @@ export class InitialBetPage {
   positions: Array<number> = [0, 1, 2, 3, 4];
   drivers: Array<Driver> = Driver.all();
   teams: Array<Team> = Team.all();
-  db: firebase.firestore.Firestore;
   user: string;
   initialBet: InitialBet = new InitialBet();
 
@@ -41,8 +38,6 @@ export class InitialBetPage {
       public initialBetService: InitialBetService,
       public router: Router,
       public timeService: TimeService) {
-
-    this.db = firebase.firestore();
   }
 
   async ngOnInit() {

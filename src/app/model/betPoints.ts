@@ -4,9 +4,9 @@ export class BetPoints {
   positions: Array<number>;
   extra: Array<number>;
   user: string;
-  race: number;
+  race: string;
 
-  constructor(user?: string, race?: number) {
+  constructor(user?: string, race?: string) {
     this.user = user;
     this.race = race;
     this.pole = 0;

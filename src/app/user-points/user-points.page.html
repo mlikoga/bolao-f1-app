@@ -14,7 +14,7 @@
   </div>
   <ion-list>
     <ion-item *ngFor="let racePoint of racePoints">
-      <ion-label class="f1-label">GP {{ racePoint.raceObj.name }}</ion-label>
+      <ion-label class="f1-label">GP {{ racePoint.raceName }}</ion-label>
       <ion-label class="col-sm ion-text-center" *ngIf="racePoint.position === 1">🏆</ion-label>
       <ion-label class="col-sm ion-text-center">{{ racePoint.position }}º</ion-label>
       <ion-label class="col-sm ion-text-right">{{ racePoint.points | number }}</ion-label>

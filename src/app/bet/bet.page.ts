@@ -9,6 +9,7 @@ import { Bet } from '../model/bet';
 import { Driver } from '../model/driver';
 import { Race } from '../model/race';
 import { AuthService } from '../services/auth.service';
+import { RaceService } from '../services/race.service';
 import { TimeService } from '../services/time.service';
 
 import * as firebase from 'firebase';
@@ -25,7 +26,7 @@ export class BetPage {
   drivers: Array<Driver> = Driver.all();
   db: firebase.firestore.Firestore;
   user: string;
-  currentRace: Race;
+  currentRace: Race = Race.empty();
   currentBet: Bet = new Bet();
 
   customAlertOptions: any = {
@@ -37,11 +38,11 @@ export class BetPage {
       public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService,
+      public raceService: RaceService,
       public router: Router,
       public timeService: TimeService) {
 
     this.db = firebase.firestore();
-    this.currentRace = timeService.currentRace();
   }
 
   async ngOnInit() {
@@ -50,6 +51,7 @@ export class BetPage {
       this.router.navigate(['login']);
       return;
     }
+    this.currentRace = this.timeService.currentRace(await this.raceService.getAllRaces());
     let race = this.currentRace.id;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);
@@ -81,7 +83,8 @@ export class BetPage {
   canSubmit() {
     return !!this.currentBet.pole &&
       !!this.currentBet.fastestLap &&
-      this.currentBet.positions.every(x => !!x);
+      !this.currentBet.positions.includes(undefined) &&
+      !this.currentBet.positions.includes(null);
   }
 
   async onSubmitClicked() {

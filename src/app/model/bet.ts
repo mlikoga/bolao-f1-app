@@ -3,7 +3,7 @@ export class Bet {
   fastestLap: string;
   positions: Array<string>;
   user: string;
-  race: number; 
+  race: string; 
 
   constructor() {
     this.positions = new Array(10);

@@ -11,8 +11,8 @@
 
 <ion-content>
   <div class="ion-padding">Essa aposta é para os resultados ao final da temporada.</div>
-  <ion-label class="ion-padding">Classificação final dos pilotos</ion-label>
   <ion-list>
+    <ion-item><ion-label>Classificação final dos pilotos</ion-label></ion-item>
     <ion-item *ngFor="let pos of positions">
       <ion-label>{{ pos + 1 }}</ion-label>
       <ion-select [(ngModel)]="initialBet.driversPositions[pos]" placeholder="Select driver" (ionChange)="onPositionChanged(initialBet.driversPositions, pos)"
@@ -22,9 +22,7 @@
         </ion-select-option>
       </ion-select>
     </ion-item>
-  </ion-list>
-  <ion-label class="ion-padding">Classificação final das equipes</ion-label>
-  <ion-list>
+    <ion-item><ion-label>Classificação final das equipes</ion-label></ion-item>
     <ion-item *ngFor="let pos of positions">
       <ion-label>{{ pos + 1 }}</ion-label>
       <ion-select [(ngModel)]="initialBet.teamsPositions[pos]" placeholder="Select team" (ionChange)="onPositionChanged(initialBet.teamsPositions, pos)"

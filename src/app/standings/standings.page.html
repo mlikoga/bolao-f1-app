@@ -20,8 +20,8 @@
     <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <div class="title" *ngIf="lastRace.number <= 1">Classificação</div>
-    <div class="title" *ngIf="lastRace.number > 1">Classificação após GP {{ lastRace.name }}</div>
+    <div class="title" *ngIf="lastRace.number < 1">Classificação</div>
+    <div class="title" *ngIf="lastRace.number >= 1">Classificação após GP {{ lastRace.name }}</div>
     <ion-list>
       <ion-item *ngFor="let user of users; index as idx" class="standings__item" [class.standings__user]="currentUser == user.username" [routerLink]="['/tabs/user-points/', user.username]">
         <ion-label class="standings__position">{{ idx + 1 }}</ion-label>

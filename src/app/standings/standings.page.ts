@@ -39,6 +39,7 @@ export class StandingsPage {
     let lastResult = await this.resultService.getLastResult();
     if (lastResult) {
       this.lastRace = await this.raceService.getRace(lastResult.race);
+      console.log("[standings] Last race: ", this.lastRace);
     }
     this.users = await this.resultService.getUserStandings(this.timeService.currentSeason());
     if (event) event.target.complete();

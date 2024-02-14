@@ -19,7 +19,7 @@ describe("Australia GP 2019", function() {
     expect(PointCalculator.calculatePoints(result, bet).total).toBe(0);
   });
 
-  it("pole and fastest lap - 20 pts", function() {
+  it("pole and fastest lap - 11 pts", function() {
     let bet = {
       pole: "HAM",
       fastestLap: "BOT",
@@ -27,10 +27,10 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: "1",
     };
-    expect(PointCalculator.calculatePoints(result, bet).total).toBe(20);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBe(11);
   });
 
-  it("Just winner - 25 pts + 2", function() {
+  it("Just winner - 25 pts", function() {
     let bet = {
       pole: "GAS",
       fastestLap: "GAS",
@@ -38,10 +38,10 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: "1",
     };
-    expect(PointCalculator.calculatePoints(result, bet).total).toBe(27);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBe(25);
   });
 
-  it("60% winner - 15 pts + 2", function() {
+  it("60% winner - 15 pts", function() {
     let bet = {
       pole: "GAS",
       fastestLap: "GAS",
@@ -49,18 +49,19 @@ describe("Australia GP 2019", function() {
       user: "user",
       race: "1",
     };
-    expect(PointCalculator.calculatePoints(result, bet).total).toBe(17);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBe(15);
   });
 
   it("Yuri bet", function() {
     let bet = {
       pole: "LEC",
       fastestLap: "HAM",
+      //points:  [    0,  10.8,   1.5,   1.2,     1,     0,     6,     0,     0,     0],
       positions: ["VET", "LEC", "HAM", "RAI", "BOT", "VER", "HUL", "GAS", "RIC", "MAG"],
       user: "Yuri",
       race: "1",
     };
-    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(36.5);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(20.5);
   });
 });
 
@@ -81,18 +82,19 @@ describe("Exemplo do regulamento", function() {
       user: "user",
       race: "1",
     };
-    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(61);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(43);
   });
 
   it("Apostador 2", function() {
     let bet = {
-      pole: "VET",
-      fastestLap: "VET",
+      pole: "VET", // 10
+      fastestLap: "VET", // 1
+      // points: [    0,   5.4,    15,   1.2,    10,     0,   1.8,     0,    1.2,   0]
       positions: ["HAM", "VET", "RAI", "BOT", "VER", "RIC", "GAS", "SAI", "ALO", "HUL"],
       user: "user",
       race: "1",
     };
-    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(72.6);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(45.6);
   });
 });
 
@@ -103,7 +105,7 @@ describe("Calculate season points", function() {
     season: 2024,
   };
 
-  it("Person with Max points", function() {
+  it("Person with max points: 300", function() {
     let bet = {
       driversPositions: ["LEC", "BOT", "RAI", "HAM", "VER"],
       teamsPositions: ["Mercedes", "Ferrari", "Red Bull Racing", "Alpine", "Williams"],

@@ -54,7 +54,6 @@ export class TimeService {
     const betEnd = moment(race.betEndsAt);
     const diff   = moment.duration(betEnd.diff(time, 'seconds'), 'seconds');
     
-    console.log(`timeToBet: ${diff.asDays()} days`);
     return diff;
   }
 
@@ -76,7 +75,7 @@ export class TimeService {
 
   now(): moment.Moment {
     //return moment();
-    return moment('2024-03-01T12:00:00-03:00'); // current race is Bahrein
+    return moment('2024-03-03T12:00:00-03:00'); // current race is Bahrein
   }
 
 }

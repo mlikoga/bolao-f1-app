@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Bolão F1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item class="calendar__card" [class.highlight]="race.id === currentRace.id" *ngFor="let race of races; index as idx">
+      <ion-label *ngIf="race.flag" class="calendar__flag col-sm">{{ race.flag }}</ion-label> 
+      <ion-label>
+        <div class="calendar__title">{{ race.name }}</div>
+        <div class="calendar__subtitle">{{ race.circuitName }}</div>
+      </ion-label>
+      <ion-chip *ngIf="race.dateStr" [outline]="true" class="calendar__date ion-text-right">{{ race.dateStr }}</ion-chip>
+    </ion-item>
+  </ion-list>
+</ion-content>

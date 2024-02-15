@@ -8,6 +8,15 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'calendar',
+        children: [
+          {
+            path: '',
+            loadChildren: '../calendar/calendar.module#CalendarPageModule'
+          }
+        ]
+      },
+      {
         path: 'bet',
         children: [
           {

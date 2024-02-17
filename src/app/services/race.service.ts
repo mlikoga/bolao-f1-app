@@ -63,9 +63,6 @@ export class RaceService {
   } 
 
   async getRace(raceId: string): Promise<Race> {
-    return await this.cache.get_and_save(`race.${raceId}`, async () => {
-      const raceSnapshot = await this.db.collection('races').doc(raceId).withConverter(this.converter).get();
-      return raceSnapshot.data();
-    });
+    return (await this.db.collection('races').doc(raceId).withConverter(this.converter).get()).data();
   }
 }

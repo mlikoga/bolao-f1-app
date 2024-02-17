@@ -13,7 +13,11 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../calendar/calendar.module#CalendarPageModule'
-          }
+          },
+          {
+            path: 'race-view/:raceid',
+            loadChildren: '../race-view/race-view.module#RaceViewPageModule'
+          },
         ]
       },
       {

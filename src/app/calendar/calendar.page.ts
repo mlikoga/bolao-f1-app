@@ -26,4 +26,8 @@ export class CalendarPage {
     this.currentRace = this.timeService.currentRace(this.races);
     console.log(`[Calendar] Current race: ${this.currentRace.name}`);
   }
+
+  onRaceSelected(raceId: string) {
+    return ['/tabs/calendar/race-view/', raceId];
+  }
 }

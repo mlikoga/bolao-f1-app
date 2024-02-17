@@ -8,7 +8,7 @@ export class Race {
   practice1StartsAt: Date;
   practice2StartsAt: Date;
   practice3StartsAt: Date;
-  qualifyingStartsAt: Date;
+  qualifyingStartsAt: Date; // qualifying is the only Date required
   raceStartsAt: Date;
   circuitImageUrl: string;
   circuitName: string;
@@ -35,9 +35,9 @@ export class Race {
     return "";
   }
 
-  constructor(season: number, number: number, name: string, flag: string, practice1StartsAt: Date, 
-    practice2StartsAt: Date, practice3StartsAt: Date, qualifyingStartsAt: Date, raceStartsAt: Date, 
-    circuitImageUrl: string, circuitName: string) {
+  constructor(season: number, number: number, name: string, qualifyingStartsAt: Date, 
+    practice1StartsAt: Date = null, practice2StartsAt: Date = null, practice3StartsAt: Date = null, raceStartsAt: Date = null, 
+    circuitImageUrl: string = null, circuitName: string = null, flag: string = null) {
     this.season = season;
     this.number = number;
     this.name = name;
@@ -52,6 +52,6 @@ export class Race {
   }
 
   static empty(): Race {
-    return new Race(2024, -1, "Loading...", "", new Date(), new Date(), new Date(), new Date(), new Date(), "", "");
+    return new Race(2024, -1, "Loading...", new Date());
   }
 }

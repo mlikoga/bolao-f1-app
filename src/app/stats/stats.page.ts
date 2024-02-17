@@ -16,7 +16,7 @@ import { LoadingController } from '@ionic/angular';
 export class StatsPage implements OnInit {
 
   races: Array<Race> = [];
-  selectedRace: Race;
+  selectedRace: Race = Race.empty();
   bets: Array<Bet> = [];
 
   cards: Array<[string, Array<DataPoint>]> = []
@@ -41,7 +41,7 @@ export class StatsPage implements OnInit {
       this.selectedRace = this.races[this.races.length - 1];
     }
     console.log("[Stats] Selected race: ", this.selectedRace.name);
-    //this.updateStats(); // onRaceChanged will be called due to change in selectedRace
+    this.updateStats();
   }
 
   onRaceChanged() {

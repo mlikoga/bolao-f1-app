@@ -17,7 +17,7 @@ import { BetPoints } from '../model/betPoints';
 })
 export class BetViewPage implements OnInit {
   bet$: Observable<Bet>;
-  betPoints: BetPoints = new BetPoints();
+  betPoints: BetPoints = new BetPoints("", "");
   race: Race;
   pointsRef = PointCalculator.racePoints;
 

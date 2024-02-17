@@ -48,12 +48,41 @@ export class ResultService {
     let bets = await this.betService.getRaceBets(race.id);
     console.log(bets);
 
-    // Once the race result is set, calculate everyone's points and save them
-    bets
+    // Once the race result is set, calculate everyone's points
+    let betPoints = bets
       .map(bet => PointCalculator.calculatePoints(result, bet))
       .sort((a, b) => a.total - b.total)
-      .reverse()
-      .forEach((betPoints, position) => this.setPoints(betPoints, position, race));
+      .reverse();
+
+    // Get user with least points
+    let lastBetPoints = betPoints[betPoints.length - 1];
+    console.log("[RaceService] Last bet points: ", lastBetPoints);
+
+    // Create forgotten bet to users without bet
+    let usersWithoutBet = await this.betService.getUsersWithoutBet(race.id);
+    this.betService.createForgottenBets(usersWithoutBet, race.id);
+    console.log("[RaceService] Created empty bets for users without bet: ", usersWithoutBet);
+
+    // Copy points from last to users without bet
+    usersWithoutBet.forEach(username => {
+      console.log({...lastBetPoints, user: username});
+      betPoints.push(BetPoints.from({...lastBetPoints, user: username}));
+    });
+    
+
+    // Save points for each user to the database
+    betPoints.forEach((betPoints, position) => this.setPoints(betPoints, position, race));
+  }
+
+  private setPoints(betPoints: BetPoints, position: number, race: Race): void {
+    this.db.collection("points").doc(`${betPoints.user}.${betPoints.race}`).set({
+      user: betPoints.user,
+      race: betPoints.race,
+      raceName: race.name,
+      season: race.season,
+      points: betPoints.total,
+      position: position + 1, // Start with 1
+    });
   }
 
   async getLastResult(season: number = this.timeService.currentSeason()): Promise<Result> {
@@ -67,17 +96,6 @@ export class ResultService {
     }
 
     return null;
-  }
-
-  private setPoints(betPoints: BetPoints, position: number, race: Race): void {
-    this.db.collection("points").doc(`${betPoints.user}.${betPoints.race}`).set({
-      user: betPoints.user,
-      race: betPoints.race,
-      raceName: race.name,
-      season: race.season,
-      points: betPoints.total,
-      position: position + 1, // Start with 1
-    });
   }
 
   async getPoints(raceId: string): Promise<Array<RacePoints>> {

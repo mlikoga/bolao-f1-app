@@ -14,6 +14,7 @@ import { TimeService } from '../services/time.service';
 
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { BetService } from 'app/services/bet.service';
 
 @Component({
   selector: 'app-bet',
@@ -27,7 +28,7 @@ export class BetPage {
   db: firebase.firestore.Firestore;
   user: string;
   currentRace: Race = Race.empty();
-  currentBet: Bet = new Bet();
+  currentBet: Bet = Bet.empty();
 
   customAlertOptions: any = {
     backdropDismiss: true,
@@ -38,6 +39,7 @@ export class BetPage {
       public loadingController: LoadingController,
       public toastController: ToastController,
       public authService: AuthService,
+      public betService: BetService,
       public raceService: RaceService,
       public router: Router,
       public timeService: TimeService) {
@@ -52,14 +54,11 @@ export class BetPage {
       return;
     }
     this.currentRace = this.timeService.currentRace(await this.raceService.getAllRaces());
-    let race = this.currentRace.id;
-    let docId = `${username}.${race}`;
-    console.log(`BetId: ${docId}`);
-    this.db.collection("bets").doc(docId).get().then(doc => {
-      if(doc.exists) {
-        this.currentBet = doc.data() as Bet;
-      }
-    });
+    let bet = await this.betService.getUserBet(username, this.currentRace.id);
+    if(bet) {
+      this.currentBet = bet;
+      console.log("[BetPage] Bet found: ", this.currentBet);
+    }
   }
 
   onPositionChanged(pos: number) {

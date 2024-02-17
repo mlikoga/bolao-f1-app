@@ -38,14 +38,14 @@ export class RaceService {
             data.season, 
             data.number, 
             data.name,
-            data.flag,
+            data.qualifyingStartsAt ? data.qualifyingStartsAt.toDate() : null,
             data.practice1StartsAt ? data.practice1StartsAt.toDate() : null,
             data.practice2StartsAt ? data.practice2StartsAt.toDate() : null,
             data.practice3StartsAt ? data.practice3StartsAt.toDate() : null,
-            data.qualifyingStartsAt ? data.qualifyingStartsAt.toDate() : null,
             data.raceStartsAt ? data.raceStartsAt.toDate() : null,
             data.circuitImageUrl,
-            data.circuitName);
+            data.circuitName,
+            data.flag);
       }
     };
   }

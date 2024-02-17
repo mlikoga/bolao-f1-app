@@ -43,11 +43,11 @@ export class BetListPage implements OnInit {
   async ngOnInit() {
     this.isAdmin       = await this.authService.isSuperAdmin();
     this.currentSeason = this.timeService.currentSeason();
-    this.betLink       = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
     
-    let allRaces = await this.raceService.getAllRaces();
+    let allRaces      = await this.raceService.getAllRaces();
     this.currentRace  = this.timeService.currentRace(allRaces);
     this.selectedRace = this.currentRace;
+    this.betLink      = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
     console.log(`[bet-list] Season ${this.currentSeason} | Current race: `, this.currentRace);
 
     this.races = allRaces.filter(race => race.number <= this.currentRace.number);

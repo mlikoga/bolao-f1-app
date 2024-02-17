@@ -11,12 +11,22 @@ import 'firebase/firestore';
 export class BetService {
 
   db: firebase.firestore.Firestore;
+  converter: firebase.firestore.FirestoreDataConverter<Bet>;
 
   constructor(
     private cache : CacheService,
     private userService : UserService)
   {
     this.db = firebase.firestore();
+    this.converter = {
+      toFirestore: function(bet) {
+          return {...bet};
+      },
+      fromFirestore: function(snapshot, options){
+          const data = snapshot.data(options);
+          return Bet.from(data as Bet);
+      }
+    };
   }
 
   async getUserBet(username: string, raceId: string): Promise<Bet> {
@@ -26,11 +36,11 @@ export class BetService {
         .where("user", "==", username)
         .where("race", "==", raceId)
         .limit(1)
+        .withConverter(this.converter)
         .get();
       let result = doc.docs.pop();
       if (result) {
-        let bet = result.data() as Bet;
-        console.log(bet);
+        let bet = result.data();
         return bet;
       }
       return null;
@@ -38,8 +48,12 @@ export class BetService {
   }
 
   async getRaceBets(raceId: string): Promise<Array<Bet>> {
-    let bets = await this.db.collection('bets').where('race', '==', raceId).get();
-    return bets.docs.map(querySnap => querySnap.data() as Bet);
+    let betsQuery = await this.db.collection('bets')
+      .where('race', '==', raceId)
+      .withConverter(this.converter)
+      .get();
+    let bets = betsQuery.docs.map(querySnap => querySnap.data());
+    return bets.filter(bet => !bet.forgotten);
   }
 
   async getUsersWithoutBet(raceId: string): Promise<Array<string>> {
@@ -65,6 +79,26 @@ export class BetService {
           console.log(`Creating bet for ${copiedBet.user}`);
           console.log(copiedBet);
           betRef.set(copiedBet);
+        }
+      });
+    });
+  }
+
+  createForgottenBets(usersWithoutBet: Array<string>, raceId: string) {
+    usersWithoutBet.forEach(async username => {
+      const docId = `${username}.${raceId}`;
+      const betRef = this.db.collection('bets').doc(docId);
+      betRef.get().then(docSnapshot => {
+        if (!docSnapshot.exists) {
+          const forgottenBet = {
+            createdAt: new Date(),
+            race: raceId,
+            forgotten: true,
+            user: username
+          }
+          console.log(`[BetService] Creating bet for ${forgottenBet.user}`);
+          console.log("[BetService] ", forgottenBet);
+          betRef.set(forgottenBet);
         }
       });
     });

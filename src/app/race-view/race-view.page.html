@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-card>
-    <img class="race__image" [alt]="race.circuitName" [src]="race.circuitImageUrl" />
+    <img *ngIf="race.circuitImageUrl" class="race__image" [alt]="race.circuitName" [src]="race.circuitImageUrl" />
     <ion-card-header>
       <ion-card-title class="race__title"> {{ race.flag }} GP {{ race.name }}</ion-card-title>
       <ion-card-subtitle class="race__subtitle">{{ race.circuitName }}, Round {{ race.number }}</ion-card-subtitle>

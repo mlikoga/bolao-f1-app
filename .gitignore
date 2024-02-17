@@ -30,6 +30,6 @@ plugins/ios.json
 $RECYCLE.BIN/
 
 .DS_Store
-Thumbs.db
+*.db
 UserInterfaceState.xcuserstate
 .firebase/*

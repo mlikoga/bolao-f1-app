@@ -4,8 +4,14 @@
 
 6.0.0 - 2024.02.20
 
-- Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively;
-- Races are now in Firestore, not hard-coded;
+- NEW: Calendar screen with all races and dates!
+- Races are now in Firestore, not hard-coded; this means that changes like race cancellations can be made without a new app version;
+- Updates on bets and points:
+  - Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively;
+  - Bet deadline is now until start of qualifying
+  - No more bet on Sprint race
+  - No more extra 2 points per driver on the first 10
+  - Fastest lap changed from 10 to 1 point
 
 
 5.1.0 - 2023.07.23

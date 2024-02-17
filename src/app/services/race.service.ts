@@ -24,10 +24,12 @@ export class RaceService {
     this.converter = {
       toFirestore: function(race) {
           return {
-              name: race.name,
-              number: race.number,
-              season: race.season,
+              ...race,
+              practice1StartsAt: firebase.firestore.Timestamp.fromDate(race.practice1StartsAt),
+              practice2StartsAt: firebase.firestore.Timestamp.fromDate(race.practice2StartsAt),
+              practice3StartsAt: firebase.firestore.Timestamp.fromDate(race.practice3StartsAt),
               qualifyingStartsAt: firebase.firestore.Timestamp.fromDate(race.qualifyingStartsAt),
+              raceStartsAt: firebase.firestore.Timestamp.fromDate(race.raceStartsAt),
           };
       },
       fromFirestore: function(snapshot, options){
@@ -35,8 +37,15 @@ export class RaceService {
           return new Race(
             data.season, 
             data.number, 
-            data.name, 
-            data.qualifyingStartsAt.toDate());
+            data.name,
+            data.flag,
+            data.practice1StartsAt ? data.practice1StartsAt.toDate() : null,
+            data.practice2StartsAt ? data.practice2StartsAt.toDate() : null,
+            data.practice3StartsAt ? data.practice3StartsAt.toDate() : null,
+            data.qualifyingStartsAt ? data.qualifyingStartsAt.toDate() : null,
+            data.raceStartsAt ? data.raceStartsAt.toDate() : null,
+            data.circuitImageUrl,
+            data.circuitName);
       }
     };
   }
@@ -54,9 +63,6 @@ export class RaceService {
   } 
 
   async getRace(raceId: string): Promise<Race> {
-    return await this.cache.get_and_save(`race.${raceId}`, async () => {
-      const raceSnapshot = await this.db.collection('races').doc(raceId).withConverter(this.converter).get();
-      return raceSnapshot.data();
-    });
+    return (await this.db.collection('races').doc(raceId).withConverter(this.converter).get()).data();
   }
 }

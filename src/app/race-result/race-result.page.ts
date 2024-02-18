@@ -10,20 +10,20 @@ import { TimeService } from '../services/time.service';
 import { ToastController } from '@ionic/angular';
 import { SeasonResult } from 'app/model/seasonResult';
 import { Team } from 'app/model/team';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-race',
-  templateUrl: 'race.page.html',
-  styleUrls: ['race.page.scss']
+  selector: 'app-race-result',
+  templateUrl: 'race-result.page.html',
+  styleUrls: ['race-result.page.scss']
 })
-export class RacePage {
+export class RaceResultPage {
   drivers: Array<Driver> = Driver.all();
   result: Result = new Result("");
   seasonResult: SeasonResult = new SeasonResult(2024);
   driversOrdered: Array<Driver>;
-  isAdmin: boolean;
-  races: Array<Race>;
-  selectedRace: Race;
+  isAdmin: boolean = false;
+  selectedRace: Race = Race.empty();
   isSeason: boolean = false;
   teams: Array<Team> = Team.all();
   positions: Array<number> = [0, 1, 2, 3, 4];
@@ -32,43 +32,40 @@ export class RacePage {
     private authService: AuthService,
     private raceService: RaceService,
     private resultService: ResultService,
+    private route: ActivatedRoute,
     private seasonResultService: SeasonResultService,
     private timeService: TimeService,
     private toastController: ToastController) {
   }
 
   async ngOnInit() {
-    this.authService.isAdmin().then(value => this.isAdmin = value);
-    this.races = await this.raceService.getAllRaces();
-    let currentRace = this.timeService.currentRace(this.races);
-    this.selectedRace = currentRace;
-    console.log(`[Race Results] Current race: ${currentRace.name}`);
-
-    this.result = new Result(currentRace.id);
-    this.seasonResult = new SeasonResult(this.timeService.currentSeason());
     this.driversOrdered = Driver.all();
-    
-    this.onRaceChanged();
-  }
+    this.authService.isAdmin().then(value => this.isAdmin = value);
+    this.route.params.subscribe(async params => {
+      let raceId = params['raceid'];
+      this.selectedRace = await this.raceService.getRace(raceId);
+      this.isSeason = this.selectedRace.number === 0;
+      console.log(`[Race Results] Race: ${this.selectedRace.name}`);
 
-  onRaceChanged() {
-    console.log(`[Race Results] Race changed to: ${this.selectedRace.name}`);
-    this.isSeason = this.selectedRace.number === 0;
-
-    if(this.isSeason) {
-      this.seasonResultService.getSeasonResult(this.selectedRace).then(res => {
-        if (res) {
-          this.seasonResult = res;
-        }
-      });
-    } else {
-      this.resultService.getResult(this.selectedRace.id).then(res => {
-        if (res) {
-          this.result = res;
-          this.driversOrdered = res.positions.map(id => Driver.fromId(id));
-        }
-      });
-    }
+      if(this.isSeason) {
+        this.seasonResultService.getSeasonResult(this.selectedRace).then(res => {
+          if (res) {
+            this.seasonResult = res;
+          } else {
+            this.seasonResult = new SeasonResult(this.timeService.currentSeason());
+          }
+        });
+      } else {
+        this.resultService.getResult(this.selectedRace.id).then(res => {
+          if (res) {
+            this.result = res;
+            this.driversOrdered = res.positions.map(id => Driver.fromId(id));
+          } else {
+            this.result = new Result(this.selectedRace.id);
+          }
+        });
+      }
+    });
   }
 
   itemReorder(ev) {

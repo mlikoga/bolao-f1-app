@@ -43,3 +43,14 @@
 .col-sm {
   max-width: 3em;
 }
+
+.item__label {
+  flex-basis: min-content;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.item__value {
+  flex-basis: fit-content;
+  flex-grow: 1;
+}

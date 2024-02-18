@@ -18,26 +18,30 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngIf="race.practice1StartsAt">
-          <ion-label>Treino 1:</ion-label>
-          <ion-label class="ion-text-right">{{ formatDate(race.practice1StartsAt) }} </ion-label>
+          <ion-label class="item__label">Treino 1:</ion-label>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.practice1StartsAt) }} </ion-label>
         </ion-item>
         <ion-item *ngIf="race.practice2StartsAt">
-          <ion-label>Treino 2:</ion-label>
-          <ion-label class="ion-text-right">{{ formatDate(race.practice2StartsAt) }} </ion-label>
+          <ion-label class="item__label">Treino 2:</ion-label>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.practice2StartsAt) }} </ion-label>
         </ion-item>
         <ion-item *ngIf="race.practice3StartsAt">
-          <ion-label>Treino 3:</ion-label>
-          <ion-label class="ion-text-right">{{ formatDate(race.practice3StartsAt) }} </ion-label>
+          <ion-label class="item__label">Treino 3:</ion-label>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.practice3StartsAt) }} </ion-label>
         </ion-item>
         <ion-item *ngIf="race.qualifyingStartsAt" class="race__bold">
-          <ion-label>Qualifying:</ion-label>
-          <ion-label class="ion-text-right">{{ formatDate(race.qualifyingStartsAt) }} </ion-label>
+          <ion-label class="item__label">Qualifying:</ion-label>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.qualifyingStartsAt) }} </ion-label>
         </ion-item>
         <ion-item *ngIf="race.raceStartsAt" class="race__bold">
-          <ion-label>Corrida:</ion-label>
-          <ion-label class="ion-text-right">{{ formatDate(race.raceStartsAt) }} </ion-label>
+          <ion-label class="item__label">Corrida:</ion-label>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.raceStartsAt) }} </ion-label>
+        </ion-item>
+        <ion-item *ngIf="isAdmin || hasResult" [routerLink]="resultLink" class="race__bold">
+          <ion-label>🏁 Resultados</ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
+    
   </ion-card>
 </ion-content>

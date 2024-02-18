@@ -4,19 +4,23 @@ import { AuthService } from '../services/auth.service';
 import { RaceService } from '../services/race.service';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { ResultService } from 'app/services/result.service';
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'app-race-view',
   templateUrl: 'race-view.page.html',
   styleUrls: ['race-view.page.scss']
 })
 export class RaceViewPage {
-  isAdmin: boolean;
+  isAdmin: boolean = false;
+  hasResult: boolean = false;
   race: Race = Race.empty();
+  resultLink: Array<string>;
 
   constructor(
     private authService: AuthService,
     private raceService: RaceService,
+    private resultService: ResultService,
     private route: ActivatedRoute) {
   }
 
@@ -24,11 +28,16 @@ export class RaceViewPage {
     this.route.params.subscribe(async params => {
       let raceId = params['raceid'];
       this.race = await this.raceService.getRace(raceId);
+      this.resultLink = ['/tabs/calendar/race-result', this.race.id];
       console.log("[RaceView] Race: ", this.race);
+
+      let result = await this.resultService.getResult(this.race.id);
+      this.hasResult = result !== null;
     });
+    this.isAdmin = await this.authService.isAdmin();
   }
 
   formatDate(date: Date): string {
-    return moment(date).locale('pt-br').format("ddd DD/MM hh:mmA");
+    return moment(date).locale('pt-br').format("ddd DD/MM HH:mm");
   }
 }

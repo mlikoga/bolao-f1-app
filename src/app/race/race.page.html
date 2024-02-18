@@ -49,6 +49,23 @@
       </ion-select>
     </ion-item>
     <ion-item>
+      <ion-label>2o qualifying</ion-label>
+      <ion-select [(ngModel)]="result.qualifying2" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>3o qualifying</ion-label>
+      <ion-select [(ngModel)]="result.qualifying3" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item class="ion-text-center"><ion-label>-------------------------</ion-label></ion-item>
+    <ion-item>
       <ion-label>Volta mais rápida</ion-label>
       <ion-select [(ngModel)]="result.fastestLap" placeholder="Select driver" interface="alert">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">

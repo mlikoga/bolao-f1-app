@@ -14,6 +14,12 @@ export class PointCalculator {
     if(result.pole === bet.pole) {
       betPoints.pole = 10;
     }
+    if(result.qualifying2 === bet.qualifying2) {
+      betPoints.qualifying2 = 7;
+    }
+    if(result.qualifying3 === bet.qualifying3) {
+      betPoints.qualifying3 = 3;
+    }
     if(result.fastestLap === bet.fastestLap) {
       betPoints.fastestLap = 1;
     }

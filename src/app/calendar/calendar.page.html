@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item class="calendar__card" [class.highlight]="race.id === currentRace.id" 
               *ngFor="let race of races; index as idx"  [routerLink]="onRaceSelected(race.id)">
-      <ion-label *ngIf="race.flag" class="calendar__flag col-sm">{{ race.flag }}</ion-label> 
+      <ion-label *ngIf="race.flag" class="calendar__flag">{{ race.flag }}</ion-label> 
       <ion-label>
         <div class="calendar__title">{{ race.name }}</div>
         <div class="calendar__subtitle">{{ race.circuitName }}</div>

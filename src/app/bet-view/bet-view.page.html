@@ -22,6 +22,17 @@
         <ion-label class="col-sm ion-text-right">{{ bet.pole }}</ion-label>
         <ion-label class="col-sm ion-text-right">{{ betPoints.pole }}</ion-label>
       </ion-item>
+      <ion-item [class.bet--exact]="betPoints.qualifying2 > 0">
+        <ion-label>2o qualifying</ion-label>
+        <ion-label class="col-sm ion-text-right">{{ bet.qualifying2 }}</ion-label>
+        <ion-label class="col-sm ion-text-right">{{ betPoints.qualifying2 }}</ion-label>
+      </ion-item>
+      <ion-item [class.bet--exact]="betPoints.qualifying3 > 0">
+        <ion-label>3o qualifying</ion-label>
+        <ion-label class="col-sm ion-text-right">{{ bet.qualifying3 }}</ion-label>
+        <ion-label class="col-sm ion-text-right">{{ betPoints.qualifying3 }}</ion-label>
+      </ion-item>
+      <ion-item class="ion-text-center"><ion-label>-------------------------</ion-label></ion-item>
       <ion-item [class.bet--exact]="betPoints.fastestLap > 0">
         <ion-label>Volta mais rápida</ion-label>
         <ion-label class="col-sm ion-text-right">{{ bet.fastestLap }}</ion-label>

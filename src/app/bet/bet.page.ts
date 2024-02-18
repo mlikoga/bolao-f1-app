@@ -122,6 +122,8 @@ export class BetPage {
       user: username,
       race: race,
       pole: this.currentBet.pole,
+      qualifying2: this.currentBet.qualifying2,
+      qualifying3: this.currentBet.qualifying3,
       fastestLap: this.currentBet.fastestLap,
       positions: this.currentBet.positions,
       createdAt: new Date(),

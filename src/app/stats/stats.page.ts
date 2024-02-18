@@ -60,14 +60,22 @@ export class StatsPage implements OnInit {
     if (this.selectedRace) {
       if (this.selectedRace.number == 0) {
         this.isInitialBet = true;
-        const bets = await this.initialBetService.getInitialBets(this.timeService.currentSeason());
-        //this.cards.push(["Piloto Campeão", this.calculateDataPoints(bets.map(bet => bet.champion))]);
-        //this.cards.push(["Equipe campeã", this.calculateDataPoints(bets.map(bet => bet.championTeam))]);
+        const initialBets = await this.initialBetService.getInitialBets(this.timeService.currentSeason());
+        this.cards.push([`Piloto campeão`, this.calculateDataPoints(initialBets.map(initialBet => initialBet.driversPositions[0]))]);
+        for (var i = 1; i <= 4; i++) {
+          this.cards.push([`Piloto ${i+1}º`, this.calculateDataPoints(initialBets.map(initialBet => initialBet.driversPositions[i]))]);
+        }
+        this.cards.push([`Equipe campeã`, this.calculateDataPoints(initialBets.map(initialBet => initialBet.teamsPositions[0]))]);
+        for (var i = 1; i <= 4; i++) {
+          this.cards.push([`Equipe ${i+1}º`, this.calculateDataPoints(initialBets.map(initialBet => initialBet.teamsPositions[i]))]);
+        }
 
       } else {
         this.isInitialBet = false;
         let bets = await this.betService.getRaceBets(this.selectedRace.id);
-        this.cards.push(["Pole", this.calculateDataPoints(bets.map(bet => bet.pole))]);
+        this.cards.push(["Qualifying 1º", this.calculateDataPoints(bets.map(bet => bet.pole))]);
+        this.cards.push(["Qualifying 2º", this.calculateDataPoints(bets.map(bet => bet.qualifying2))]);
+        this.cards.push(["Qualifying 3º", this.calculateDataPoints(bets.map(bet => bet.qualifying3))]);
         this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
         this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);
         for (var i = 1; i <= 4; i++) {

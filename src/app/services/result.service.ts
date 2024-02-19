@@ -8,7 +8,7 @@ import { BetService } from '../services/bet.service';
 import { CacheService } from './cache.service';
 import { TimeService } from './time.service';
 import { UserService } from './user.service';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BetPoints } from 'app/model/betPoints';
 import { RaceService } from './race.service';

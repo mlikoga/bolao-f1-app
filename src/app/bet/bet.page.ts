@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
 import { RaceService } from '../services/race.service';
 import { TimeService } from '../services/time.service';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BetService } from 'app/services/bet.service';
 

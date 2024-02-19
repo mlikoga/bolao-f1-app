@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { Race } from '../model/race';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { TimeService } from './time.service';
 

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Race } from '../model/race';
-import { AuthService } from '../services/auth.service';
-import { RaceService } from '../services/race.service';
 import { ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import { Race } from '../model/race';
+import { AuthService } from 'app/services/auth.service';
+import { RaceService } from 'app/services/race.service';
 import { ResultService } from 'app/services/result.service';
+import { TimeService } from 'app/services/time.service';
+import { ToastController } from '@ionic/angular';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-race-view',
@@ -12,6 +14,9 @@ import { ResultService } from 'app/services/result.service';
   styleUrls: ['race-view.page.scss']
 })
 export class RaceViewPage {
+  PTBR_DAY_SHORT_NAMES: string[] = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', "Sáb"];
+
+  currentPhase: string;
   isAdmin: boolean = false;
   hasResult: boolean = false;
   race: Race = Race.empty();
@@ -21,7 +26,9 @@ export class RaceViewPage {
     private authService: AuthService,
     private raceService: RaceService,
     private resultService: ResultService,
-    private route: ActivatedRoute) {
+    private timeService: TimeService,
+    private route: ActivatedRoute,
+    private toastController: ToastController) {
   }
 
   async ngOnInit() {
@@ -31,13 +38,24 @@ export class RaceViewPage {
       this.resultLink = ['/tabs/calendar/race-result', this.race.id];
       console.log("[RaceView] Race: ", this.race);
 
+      this.currentPhase = this.timeService.currentRacePhase(this.race, this.timeService.now());
+      console.log("[RaceView] Current phase: ", this.currentPhase);
+      
       let result = await this.resultService.getResult(this.race.id);
       this.hasResult = result !== null;
     });
     this.isAdmin = await this.authService.isAdmin();
   }
 
-  formatDate(date: Date): string {
-    return moment(date).locale('pt-br').format("ddd DD/MM HH:mm");
+  saveRace() {
+    this.raceService.saveRace(this.race);
+    console.log("[RaceView] Race saved: ", this.race);
+
+    this.toastController.create({
+      message: "Dados aualizados",
+      color: "success",
+      position: "middle",
+      duration: 3000,
+    }).then(toast => toast.present());
   }
 }

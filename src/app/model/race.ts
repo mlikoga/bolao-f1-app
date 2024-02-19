@@ -5,18 +5,20 @@ export class Race {
   name: string;
   number: number;
   season: number;
-  practice1StartsAt: Date;
-  practice2StartsAt: Date;
-  practice3StartsAt: Date;
-  qualifyingStartsAt: Date; // qualifying is the only Date required
-  raceStartsAt: Date;
+  practice1StartsAt: string;
+  practice2StartsAt: string;
+  practice3StartsAt: string;
+  qualifyingStartsAt: string; // qualifying is the only Date required
+  raceStartsAt: string;
+  sprintStartsAt: string;
+  sprintShootoutStartsAt: string;
   circuitImageUrl: string;
   circuitName: string;
 
   get id(): string {
     return `${this.season}.${this.number}`;
   }
-  get betEndsAt(): Date {
+  get betEndsAt(): string {
     return this.qualifyingStartsAt;
   }
 
@@ -35,8 +37,9 @@ export class Race {
     return "";
   }
 
-  constructor(season: number, number: number, name: string, qualifyingStartsAt: Date, 
-    practice1StartsAt: Date = null, practice2StartsAt: Date = null, practice3StartsAt: Date = null, raceStartsAt: Date = null, 
+  constructor(season: number, number: number, name: string, qualifyingStartsAt: string, 
+    practice1StartsAt: string = null, practice2StartsAt: string = null, practice3StartsAt: string = null, raceStartsAt: string = null, 
+    sprintStartsAt: string = null, sprintShootoutStartsAt: string = null,
     circuitImageUrl: string = null, circuitName: string = null, flag: string = null) {
     this.season = season;
     this.number = number;
@@ -47,11 +50,13 @@ export class Race {
     this.practice3StartsAt = practice3StartsAt;
     this.qualifyingStartsAt = qualifyingStartsAt;
     this.raceStartsAt = raceStartsAt;
+    this.sprintStartsAt = sprintStartsAt;
+    this.sprintShootoutStartsAt = sprintShootoutStartsAt;
     this.circuitImageUrl = circuitImageUrl;
     this.circuitName = circuitName;
   }
 
   static empty(): Race {
-    return new Race(2024, -1, "Loading...", new Date());
+    return new Race(2024, -1, "Loading...", moment().toISOString(true));
   }
 }

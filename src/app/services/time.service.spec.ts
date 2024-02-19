@@ -2,9 +2,9 @@ import { TimeService } from './time.service';
 import { Race } from '../model/race';
 import * as moment from 'moment';
 
-const race1 = new Race(2019, 0, 'Austrália', new Date('2019-03-16T00:00:00-03:00'));
-const race2 = new Race(2019, 1, 'Bahrein', new Date('2019-03-30T00:00:00-03:00'));
-const race3 = new Race(2019, 2, 'China', new Date('2019-04-13T00:00:00-03:00'));
+const race1 = new Race(2019, 0, 'Austrália', '2019-03-16T00:00:00-03:00');
+const race2 = new Race(2019, 1, 'Bahrein', '2019-03-30T00:00:00-03:00');
+const race3 = new Race(2019, 2, 'China', '2019-04-13T00:00:00-03:00');
 
 const allRaces = [race1, race2, race3];
 
@@ -77,7 +77,7 @@ describe('bettingEnabled', () => {
 
 describe('timeToBetEnd', () => {
   const timeService = new TimeService();
-  const race = new Race(2020, 1, 'Europa', new Date('2020-08-08T00:00:00-03:00'));
+  const race = new Race(2020, 1, 'Europa', '2020-08-08T00:00:00-03:00');
 
   it('returns milisseconds to bet end', () => {
     const date = moment('2020-08-07T18:40:50-03:00');

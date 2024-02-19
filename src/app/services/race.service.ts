@@ -18,19 +18,14 @@ export class RaceService {
   constructor(private cache : CacheService, private timeService: TimeService)
   {
     this.db = firebase.firestore();
+    this.db.settings({
+      ignoreUndefinedProperties: true,
+    });
     this.currentSeason = this.timeService.currentSeason();
     // Firestore data converter
-    // Needed to convert between Firestore Timestamp and JS Date
     this.converter = {
       toFirestore: function(race) {
-          return {
-              ...race,
-              practice1StartsAt: firebase.firestore.Timestamp.fromDate(race.practice1StartsAt),
-              practice2StartsAt: firebase.firestore.Timestamp.fromDate(race.practice2StartsAt),
-              practice3StartsAt: firebase.firestore.Timestamp.fromDate(race.practice3StartsAt),
-              qualifyingStartsAt: firebase.firestore.Timestamp.fromDate(race.qualifyingStartsAt),
-              raceStartsAt: firebase.firestore.Timestamp.fromDate(race.raceStartsAt),
-          };
+          return { ...race };
       },
       fromFirestore: function(snapshot, options){
           const data = snapshot.data(options);
@@ -38,11 +33,13 @@ export class RaceService {
             data.season, 
             data.number, 
             data.name,
-            data.qualifyingStartsAt ? data.qualifyingStartsAt.toDate() : null,
-            data.practice1StartsAt ? data.practice1StartsAt.toDate() : null,
-            data.practice2StartsAt ? data.practice2StartsAt.toDate() : null,
-            data.practice3StartsAt ? data.practice3StartsAt.toDate() : null,
-            data.raceStartsAt ? data.raceStartsAt.toDate() : null,
+            data.qualifyingStartsAt,
+            data.practice1StartsAt,
+            data.practice2StartsAt,
+            data.practice3StartsAt,
+            data.raceStartsAt,
+            data.sprintStartsAt,
+            data.sprintShootoutStartsAt,
             data.circuitImageUrl,
             data.circuitName,
             data.flag);
@@ -64,5 +61,9 @@ export class RaceService {
 
   async getRace(raceId: string): Promise<Race> {
     return (await this.db.collection('races').doc(raceId).withConverter(this.converter).get()).data();
+  }
+
+  saveRace(race: Race) {
+    this.db.collection('races').doc(race.id).withConverter(this.converter).set(race, { merge: true });
   }
 }

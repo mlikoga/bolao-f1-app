@@ -91,6 +91,17 @@ export class BetPage {
     console.log(this.currentBet.positions);
     console.log(`Can submit: ${this.canSubmit()}`);
 
+    // Ensure that bet is not submitted after the end of the allowed time
+    if (this.timeService.timeToBetEnd(this.currentRace).asSeconds() <= 0) {
+      console.log("[BetPage] Betting time is over.");
+      const alert = await this.alertController.create({
+        message: "Apostas encerradas para esta corrida.",
+        buttons: ["OK"],
+      });
+      await alert.present();
+      return;
+    }
+
     // Check if all fields are filled
     if(!this.canSubmit()) {
       const alert = await this.alertController.create({

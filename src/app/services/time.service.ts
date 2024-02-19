@@ -40,6 +40,15 @@ export class TimeService {
     return allRaces[allRaces.length - 1];
   }
 
+  currentRacePhase(race: Race, time: moment.Moment = this.now()): string {
+    if (time.isBefore(race.qualifyingStartsAt)) {
+      return "qualifying";
+    } else if (time.isBefore(race.raceStartsAt)) {
+      return "race";
+    }
+    return "results";
+  }
+
   pastRaces(allRaces: Race[], time: moment.Moment = this.now()): Array<Race> {
     for(let i = allRaces.length - 1; i >= 0; i--) {
       let race = allRaces[i];
@@ -74,8 +83,8 @@ export class TimeService {
   }
 
   now(): moment.Moment {
-    return moment();
-    //return moment('2024-03-01:00:00-03:00'); // bet period for Bahrein
+    //return moment();
+    return moment('2024-03-01:00:00-03:00'); // bet period for Bahrein
     //return moment('2024-03-03T12:00:00-03:00'); // post-bet period for Bahrein
   }
 

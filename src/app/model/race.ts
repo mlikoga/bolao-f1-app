@@ -27,6 +27,10 @@ export class Race {
       let startDate = moment(this.practice1StartsAt);
       let endDate   = moment(this.raceStartsAt);
 
+      if (startDate.dayOfYear() === endDate.dayOfYear()) {
+        return `${startDate.format("MMM DD")}`;
+      }
+
       if (startDate.month() === endDate.month()) {
         return `${startDate.format("MMM DD")} - ${endDate.format("DD")}`;
       }

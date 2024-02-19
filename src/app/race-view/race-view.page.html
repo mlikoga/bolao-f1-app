@@ -22,21 +22,24 @@
   
     <ion-card-content>
       <ion-list>
-        <ion-item>
-          <ion-label class="item__label">Treino 1:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice1StartsAt" 
+        <ion-item *ngIf="isAdmin || hasResult" [routerLink]="resultLink" [ngClass]="{'race__bold': currentPhase === 'results'}">
+          <ion-label>🏁 Resultados</ion-label>
+        </ion-item>
+        <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying' || currentPhase === 'race'}">
+          <ion-label class="item__label">Corrida:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.raceStartsAt" 
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
-        <ion-item>
-          <ion-label class="item__label">Treino 2:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice2StartsAt" 
+        <ion-item *ngIf="race.sprintStartsAt">
+          <ion-label class="item__label">Sprint Race:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintStartsAt" 
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
-        <ion-item>
-          <ion-label class="item__label">Treino 3:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice3StartsAt" 
+        <ion-item *ngIf="race.sprintShootoutStartsAt">
+          <ion-label class="item__label">Sprint Shootout:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintShootoutStartsAt" 
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
@@ -46,14 +49,23 @@
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
-        <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying' || currentPhase === 'race'}">
-          <ion-label class="item__label">Corrida:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.raceStartsAt" 
+        <ion-item *ngIf="race.practice3StartsAt">
+          <ion-label class="item__label">Treino 3:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice3StartsAt" 
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
-        <ion-item *ngIf="isAdmin || hasResult" [routerLink]="resultLink" [ngClass]="{'race__bold': currentPhase === 'results'}">
-          <ion-label>🏁 Resultados</ion-label>
+        <ion-item *ngIf="race.practice2StartsAt">
+          <ion-label class="item__label">Treino 2:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice2StartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label class="item__label">Treino 1:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice1StartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
       </ion-list>
     </ion-card-content>

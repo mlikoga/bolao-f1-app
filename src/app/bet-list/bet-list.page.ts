@@ -9,6 +9,7 @@ import { ResultService } from '../services/result.service';
 import { Router } from '@angular/router';
 import { TimeService } from '../services/time.service';
 import { timer, Subscription } from 'rxjs';
+import { InitialBetService } from 'app/services/initial-bet.service';
 
 @Component({
   selector: 'app-bet-list',
@@ -35,6 +36,7 @@ export class BetListPage implements OnInit {
     private alertService: AlertService,
     private authService: AuthService,
     private betService: BetService,
+    private initialBetService: InitialBetService,
     private raceService: RaceService,
     private resultService: ResultService,
     private router: Router,
@@ -56,8 +58,13 @@ export class BetListPage implements OnInit {
     this.bettingEnabled = this.timeService.bettingEnabled(allRaces);
     console.log("[bet-list] bettingEnabled: ", this.bettingEnabled);
 
-    let bet = await this.betService.getUserBet(username, this.selectedRace.id);
-    this.userHasBet = bet != null;
+    if (this.currentRace.number == 0) {
+      let bet = await this.initialBetService.getUserInitialBet(username);  
+      this.userHasBet = bet != null;
+    } else {
+      let bet = await this.betService.getUserBet(username, this.currentRace.id);
+      this.userHasBet = bet != null;
+    }
     
     this.refresh();
     if (this.bettingEnabled) {

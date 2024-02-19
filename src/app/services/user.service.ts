@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { InitialBet } from 'app/model/initial-bet';
 import { User } from 'app/model/user';

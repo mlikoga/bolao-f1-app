@@ -32,8 +32,10 @@ export class TimeService {
     // Iterates from last to first
     for (let i = allRaces.length - 1; i >= 0; i--) {
       let race = allRaces[i];
-      if (this.timeToBetEnd(race, time).asDays() < this.DAYS_TO_OPEN_BET) {
-        return race;
+      if (race.betEndsAt) { // if betEndsAt is not undefined
+        if (this.timeToBetEnd(race, time).asDays() < this.DAYS_TO_OPEN_BET) {
+          return race;
+        }
       }
     }
     
@@ -83,8 +85,8 @@ export class TimeService {
   }
 
   now(): moment.Moment {
-    //return moment();
-    return moment('2024-03-01:00:00-03:00'); // bet period for Bahrein
+    return moment();
+    //return moment('2024-03-01:00:00-03:00'); // bet period for Bahrein
     //return moment('2024-03-03T12:00:00-03:00'); // post-bet period for Bahrein
   }
 

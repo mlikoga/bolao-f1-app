@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Race } from '../model/race';
 import { PointCalculator } from '../points/point-calculator';
 import { CacheService } from './cache.service';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { SeasonResult } from 'app/model/seasonResult';
 import { InitialBetService } from './initial-bet.service';

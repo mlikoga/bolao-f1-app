@@ -29,6 +29,7 @@ export class BetListPage implements OnInit {
   timeToBetEnd: moment.Duration;
   countdown: string;
   timer: Subscription;
+  userHasBet: boolean = false;
 
   constructor(
     private alertService: AlertService,
@@ -41,6 +42,7 @@ export class BetListPage implements OnInit {
   }
 
   async ngOnInit() {
+    let username       = await this.authService.getCurrentUsername();
     this.isAdmin       = await this.authService.isSuperAdmin();
     this.currentSeason = this.timeService.currentSeason();
     
@@ -53,6 +55,9 @@ export class BetListPage implements OnInit {
     this.races = allRaces.filter(race => race.number <= this.currentRace.number);
     this.bettingEnabled = this.timeService.bettingEnabled(allRaces);
     console.log("[bet-list] bettingEnabled: ", this.bettingEnabled);
+
+    let bet = await this.betService.getUserBet(username, this.selectedRace.id);
+    this.userHasBet = bet != null;
     
     this.refresh();
     if (this.bettingEnabled) {

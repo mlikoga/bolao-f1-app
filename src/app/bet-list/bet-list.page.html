@@ -18,7 +18,17 @@
   </ion-select>
   <div class="ion-padding bet-list__betting" *ngIf="bettingEnabled && selectedRace.id == currentRace.id; else userList">
     <div class="bet-list__message">
-      <p>Estamos no período de apostas</p>
+      <p>Estamos no período de apostas. Você pode modificar a aposta quantas vezes quiser.</p>
+      <p>
+        <ion-chip *ngIf="!userHasBet" class="chip__bet_no" color="danger">
+          <ion-icon name="close"></ion-icon>
+          <ion-label>Aposta ainda não realizada</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="userHasBet" class="chip__bet_yes" color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label>Aposta já realizada</ion-label>
+        </ion-chip>
+      </p>
       <div>Tempo restante para apostar:</div>
       <div class="countdown ion-text-center">{{ countdown }}</div>
     </div>

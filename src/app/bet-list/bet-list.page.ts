@@ -30,6 +30,7 @@ export class BetListPage implements OnInit {
   timeToBetEnd: moment.Duration;
   countdown: string;
   timer: Subscription;
+  username: string;
   userHasBet: boolean = false;
 
   constructor(
@@ -44,32 +45,37 @@ export class BetListPage implements OnInit {
   }
 
   async ngOnInit() {
-    let username       = await this.authService.getCurrentUsername();
+    this.username      = await this.authService.getCurrentUsername();
     this.isAdmin       = await this.authService.isSuperAdmin();
-    this.currentSeason = this.timeService.currentSeason();
     
-    let allRaces      = await this.raceService.getAllRaces();
-    this.currentRace  = this.timeService.currentRace(allRaces);
-    this.selectedRace = this.currentRace;
-    this.betLink      = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
+    this.currentSeason = this.timeService.currentSeason();
+    let allRaces       = await this.raceService.getAllRaces(this.currentSeason);
+    this.currentRace   = this.timeService.currentRace(allRaces);
+    this.selectedRace  = this.currentRace;
+    this.betLink       = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
+    this.races         = allRaces.filter(race => race.number <= this.currentRace.number);
     console.log(`[bet-list] Season ${this.currentSeason} | Current race: `, this.currentRace);
 
-    this.races = allRaces.filter(race => race.number <= this.currentRace.number);
+    
     this.bettingEnabled = this.timeService.bettingEnabled(allRaces);
     console.log("[bet-list] bettingEnabled: ", this.bettingEnabled);
 
-    if (this.currentRace.number == 0) {
-      let bet = await this.initialBetService.getUserInitialBet(username);  
-      this.userHasBet = bet != null;
-    } else {
-      let bet = await this.betService.getUserBet(username, this.currentRace.id);
-      this.userHasBet = bet != null;
-    }
-    
     this.refresh();
     if (this.bettingEnabled) {
       this.startTimer();
     }
+  }
+
+  async ionViewDidEnter() {
+    // Check if user has bet
+    if (this.currentRace.number == 0) {
+      let bet = await this.initialBetService.getUserInitialBet(this.username);  
+      this.userHasBet = bet != null;
+    } else {
+      let bet = await this.betService.getUserBet(this.username, this.currentRace.id);
+      this.userHasBet = bet != null;
+    }
+    console.log("[bet-list] User has bet: ", this.userHasBet);
   }
 
   ngOnDestroy() {

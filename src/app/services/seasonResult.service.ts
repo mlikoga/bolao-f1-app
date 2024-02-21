@@ -40,7 +40,7 @@ export class SeasonResultService {
     const initialBets = await this.initialBetService.getInitialBets(seasonResult.season);
     initialBets
       .map(initialBet => PointCalculator.calculateSeasonPoints(seasonResult, initialBet))
-      .sort((a, b) => a.total - b.total)
+      .sort((a, b) => a.total - b.total || a.user.toLowerCase().localeCompare(b.user.toLowerCase()))
       .reverse()
       .forEach((betPoints, position) => this.setPoints(race.id, betPoints, position));
   }

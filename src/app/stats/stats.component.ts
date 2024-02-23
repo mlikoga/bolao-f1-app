@@ -1,19 +1,17 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DataPoint } from './data-point';
-import { Bet } from '../model/bet';
 import { Race } from '../model/race';
 import { BetService } from '../services/bet.service';
 import { InitialBetService } from '../services/initial-bet.service';
-import { RaceService } from '../services/race.service';
 import { TimeService } from '../services/time.service';
 import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'stats',
-  templateUrl: './stats.page.html',
-  styleUrls: ['./stats.page.scss'],
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.scss'],
 })
-export class StatsPage implements OnInit {
+export class StatsComponent implements OnInit {
 
   @Input() selectedRace: Race = Race.empty();
   

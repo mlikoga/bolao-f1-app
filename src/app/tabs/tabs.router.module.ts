@@ -50,15 +50,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'stats',
-        children: [
-          {
-            path: '',
-            loadChildren: '../stats/stats.module#StatsPageModule'
-          }
-        ]
-      },
-      {
         path: 'standings',
         children: [
           {

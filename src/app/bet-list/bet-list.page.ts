@@ -18,6 +18,8 @@ import { InitialBetService } from 'app/services/initial-bet.service';
 })
 export class BetListPage implements OnInit {
 
+  content: string = 'bets';
+
   races: Array<Race> = [];
   racePoints: Array<RacePoints> = []
 
@@ -129,5 +131,9 @@ export class BetListPage implements OnInit {
       return ['/tabs/bet/initial', user]
     }
     return ['/tabs/bet/bet-view', user, this.selectedRace.id]
+  }
+
+  selectContent(contentName: string) {
+    this.content = contentName;
   }
 }

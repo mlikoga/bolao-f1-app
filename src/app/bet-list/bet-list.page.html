@@ -36,7 +36,16 @@
     <div></div>
   </div>
   <ng-template #userList>
-    <ion-list>
+    <div class="subtabs__bar">
+      <ion-chip class="subtabs__chip" [ngClass]="{'subtabs__chip--selected': content === 'bets'}" outline=true color="light" (click)="selectContent('bets')">
+        <ion-label>Apostas</ion-label>
+      </ion-chip>
+      <ion-chip class="subtabs__chip" [ngClass]="{'subtabs__chip--selected': content === 'stats'}" outline=true color="light" (click)="selectContent('stats')">
+        <ion-label>Estatísticas</ion-label>
+      </ion-chip>
+    </div>
+    <stats *ngIf="content === 'stats'" [(selectedRace)]="selectedRace"></stats>
+    <ion-list *ngIf="content === 'bets'">
       <ion-item *ngFor="let racePoint of racePoints; index as idx" [routerLink]="onUserSelected(racePoint.user)" type="button"
                 [class.standings__user]="username == racePoint.user">
         <ion-label class="standings__position">{{ idx + 1 }}</ion-label>

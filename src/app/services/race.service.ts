@@ -54,8 +54,6 @@ export class RaceService {
       .withConverter(this.converter)
       .get();
     let result = races.docs.map(querySnap => querySnap.data())
-
-    console.log("getAllRaces | ", result);
     return result;
   } 
 

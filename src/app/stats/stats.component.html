@@ -1,24 +1,10 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>
-      Bolão F1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div *ngIf="!selectedRace || selectedRace.number < 0" class="stats__message">
     <p>Aguarde início da temporada!</p>
   </div>
   <div *ngIf="selectedRace.number >= 0">
-    <ion-select class="title" [(ngModel)]="selectedRace" (ionChange)="onRaceChanged()">
-      <ion-select-option *ngFor="let race of races" [value]="race">GP {{ race.name }}</ion-select-option>
-    </ion-select>
-
     <div class="ion-padding">
       <stats-card *ngFor="let card of cards" [title]="card[0]" [(dataRows)]="card[1]"></stats-card>
     </div>
   </div>
-  
-
 </ion-content>

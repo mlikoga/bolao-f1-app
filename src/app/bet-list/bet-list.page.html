@@ -46,8 +46,10 @@
     </div>
     <!--<app-stats *ngIf="content === 'stats'"></app-stats>-->
     <ion-list *ngIf="content === 'bets'">
-      <ion-item *ngFor="let racePoint of racePoints" [routerLink]="onUserSelected(racePoint.user)" type="button">
-        <ion-label>{{ racePoint.user }}</ion-label>
+      <ion-item *ngFor="let racePoint of racePoints; index as idx" [routerLink]="onUserSelected(racePoint.user)" type="button"
+                [class.standings__user]="username == racePoint.user">
+        <ion-label class="standings__position">{{ idx + 1 }}</ion-label>
+        <ion-label class="standings__username">{{ racePoint.user }}</ion-label>
         <ion-label class="ion-text-right">{{ racePoint.points | number }}</ion-label>
       </ion-item>
     </ion-list>

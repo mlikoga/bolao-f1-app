@@ -28,6 +28,9 @@ export class StandingsPage {
 
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUsername();
+  }
+
+  ionViewWillEnter() {
     this.refresh();
   }
 

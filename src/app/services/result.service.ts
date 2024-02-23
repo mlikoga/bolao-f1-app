@@ -51,7 +51,7 @@ export class ResultService {
     // Once the race result is set, calculate everyone's points
     let betPoints = bets
       .map(bet => PointCalculator.calculatePoints(result, bet))
-      .sort((a, b) => a.total - b.total)
+      .sort((a, b) => a.total - b.total || a.user.toLowerCase().localeCompare(b.user.toLowerCase())) 
       .reverse();
 
     // Get user with least points
@@ -111,7 +111,7 @@ export class ResultService {
         racePoints.push(RacePoints.empty(user.username, raceId));
       }
     }
-    return racePoints;
+    return racePoints.sort((a, b) => b.points - a.points || a.user.toLowerCase().localeCompare(b.user.toLowerCase()));
   }
 
   async getPointsPerRace(username: string, season: number): Promise<Array<RacePoints>> {
@@ -137,15 +137,19 @@ export class ResultService {
       const untilNow = total - lastRacePoints;
       return { user, untilNow, total };
     }));
-    const lastStandings = [...userPoints].sort((u1, u2) => u2.untilNow - u1.untilNow).map(up => up.user.username);
-    const standings = [...userPoints].sort((u1, u2) => u2.total - u1.total).map(up => up.user.username);
+    const lastStandings = [...userPoints]
+      .sort((u1, u2) => u2.untilNow - u1.untilNow || u1.user.username.toLowerCase().localeCompare(u2.user.username.toLowerCase()))
+      .map(up => up.user.username);
+    const standings = [...userPoints]
+      .sort((u1, u2) => u2.total - u1.total || u1.user.username.toLowerCase().localeCompare(u2.user.username.toLowerCase()))
+      .map(up => up.user.username);
     const result = userPoints.map( ({user, total}) => {
       return {
         ...user,
         points: total,
         diff: lastStandings.findIndex(username => username === user.username) - standings.findIndex(username => username === user.username)
       };
-    }).sort((u1, u2) => u2.points - u1.points);
+    }).sort((u1, u2) => u2.points - u1.points || u1.username.toLowerCase().localeCompare(u2.username.toLowerCase()));
     return result;
   }
 

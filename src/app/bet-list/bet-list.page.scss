@@ -17,3 +17,15 @@
   font-weight: bold;
   margin-top: 8px;
 }
+
+.standings__position {
+  max-width: 2rem;
+}
+
+.standings__user {
+  color: yellow;
+}
+
+.standings__username {
+  flex-grow: 1;
+}

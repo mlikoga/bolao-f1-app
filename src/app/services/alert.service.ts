@@ -9,9 +9,9 @@ export class AlertService {
   constructor(private alertController: AlertController) {
   }
 
-  async confirm(message: string, okHandler) {
+  async confirm(header: string, message: string, okHandler) {
     const alert = await this.alertController.create({
-      header: 'Confirmation',
+      header: header,
       message: message,
       buttons: [
         {
@@ -28,7 +28,7 @@ export class AlertService {
     await alert.present();
   }
 
-  async alert(message: string, header: string) {
+  async alert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
       message: message,

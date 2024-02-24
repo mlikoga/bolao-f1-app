@@ -47,6 +47,23 @@ export class BetService {
     });
   }
 
+  async getLastUserBet(username: string, season: number): Promise<Bet> {
+    let doc = await this.db.collection('bets')
+      .where("user", "==", username)
+      .where("forgotten", "==", false)
+      .where("race", ">", season.toString()) // here we assume race starts with season number
+      .orderBy("race", "desc")
+      .limit(1)
+      .withConverter(this.converter)
+      .get();
+    let result = doc.docs.pop();
+    if (result) {
+      let bet = result.data();
+      return bet;
+    }
+    return null;
+  }
+
   async getRaceBets(raceId: string): Promise<Array<Bet>> {
     let betsQuery = await this.db.collection('bets')
       .where('race', '==', raceId)

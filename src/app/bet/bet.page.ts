@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
@@ -15,6 +14,7 @@ import { TimeService } from '../services/time.service';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BetService } from 'app/services/bet.service';
+import { AlertService } from 'app/services/alert.service';
 
 @Component({
   selector: 'app-bet',
@@ -35,9 +35,9 @@ export class BetPage {
   };
 
   constructor(
-      public alertController: AlertController,
       public loadingController: LoadingController,
       public toastController: ToastController,
+      public alertService: AlertService,
       public authService: AuthService,
       public betService: BetService,
       public raceService: RaceService,
@@ -58,6 +58,13 @@ export class BetPage {
     if(bet) {
       this.currentBet = bet;
       console.log("[BetPage] Bet found: ", this.currentBet);
+    } else {
+      // No current bet, try to get the last one
+      let lastBet = await this.betService.getLastUserBet(username, this.currentRace.season);
+      console.log("[BetPage] Getting last bet: ", lastBet);
+      if (lastBet) {
+        this.currentBet = lastBet;
+      }
     }
   }
 
@@ -78,6 +85,12 @@ export class BetPage {
       }
     }
   }
+  
+  clearAllFields() {
+    this.alertService.confirm("Limpar todos os campos?", "", () => {
+      this.currentBet = Bet.empty();
+    });
+  }
 
   canSubmit() {
     return !!this.currentBet.pole &&
@@ -94,21 +107,13 @@ export class BetPage {
     // Ensure that bet is not submitted after the end of the allowed time
     if (this.timeService.timeToBetEnd(this.currentRace).asSeconds() <= 0) {
       console.log("[BetPage] Betting time is over.");
-      const alert = await this.alertController.create({
-        message: "Apostas encerradas para esta corrida.",
-        buttons: ["OK"],
-      });
-      await alert.present();
+      this.alertService.alert("Apostas encerradas", "O período de apostas encerrou para esta corrida.");
       return;
     }
 
     // Check if all fields are filled
     if(!this.canSubmit()) {
-      const alert = await this.alertController.create({
-        message: "Preencha todos os campos.",
-        buttons: ["OK"],
-      });
-      await alert.present();
+      this.alertService.alert("Aposta incompleta", "Preencha todos os campos.");
       return;
     }
 
@@ -137,6 +142,7 @@ export class BetPage {
       qualifying3: this.currentBet.qualifying3,
       fastestLap: this.currentBet.fastestLap,
       positions: this.currentBet.positions,
+      forgotten: false,
       createdAt: new Date(),
     }, { merge: true })
     .then(() => {

@@ -110,12 +110,12 @@ export class BetListPage implements OnInit {
     const raceId = this.currentRace.id;
     const usersWithoutBet = await this.betService.getUsersWithoutBet(raceId);
     if (usersWithoutBet.length > 0) {
-      this.alertService.confirm(`Deseja criar apostas para ${usersWithoutBet}?`, () => {
+      this.alertService.confirm(`Deseja criar apostas para ${usersWithoutBet}?`, "", () => {
         console.log(`[bet-list] Resposta confirm: ok`);
         this.betService.createBets(usersWithoutBet, this.currentRace.season, this.currentRace.number - 1);
       });
     } else {
-      this.alertService.alert('Nenhum usuário deixou de apostar!', 'Apostas');
+      this.alertService.alert('Nenhum usuário deixou de apostar!', '');
     }
   }
 

@@ -27,7 +27,6 @@ export class BetListPage implements OnInit {
   currentRace: Race = Race.empty();
   currentSeason: number;
   bettingEnabled: boolean = true;
-  betLink: string;
   isAdmin: boolean;
   timeToBetEnd: moment.Duration;
   countdown: string;
@@ -56,7 +55,6 @@ export class BetListPage implements OnInit {
     let allRaces       = await this.raceService.getAllRaces(this.currentSeason);
     this.currentRace   = this.timeService.currentRace(allRaces);
     this.selectedRace  = this.currentRace;
-    this.betLink       = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
     this.races         = allRaces.filter(race => race.number <= this.currentRace.number);
     console.log(`[bet-list] Season ${this.currentSeason} | Current race: `, this.currentRace);
 
@@ -104,6 +102,13 @@ export class BetListPage implements OnInit {
     console.log("[bet-list] User has bet: ", this.userHasBet);
     
     if (event) event.target.complete();
+  }
+
+  betLink(race: Race): string {
+    if (race.number == 0) {
+      return '/tabs/bet/initial';
+    }
+    return `/tabs/bet/bet/${race.id}`;
   }
 
   async checkMissingBets() {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
@@ -27,7 +27,7 @@ export class BetPage {
   drivers: Array<Driver> = Driver.all();
   db: firebase.firestore.Firestore;
   user: string;
-  currentRace: Race = Race.empty();
+  race: Race = Race.empty();
   currentBet: Bet = Bet.empty();
 
   customAlertOptions: any = {
@@ -41,6 +41,7 @@ export class BetPage {
       public authService: AuthService,
       public betService: BetService,
       public raceService: RaceService,
+      public route: ActivatedRoute,
       public router: Router,
       public timeService: TimeService) {
 
@@ -49,23 +50,26 @@ export class BetPage {
 
   async ngOnInit() {
     let username = await this.authService.getCurrentUsername();
-    if (!username) {
-      this.router.navigate(['login']);
-      return;
-    }
-    this.currentRace = this.timeService.currentRace(await this.raceService.getAllRaces());
-    let bet = await this.betService.getUserBet(username, this.currentRace.id);
-    if(bet) {
-      this.currentBet = bet;
-      console.log("[BetPage] Bet found: ", this.currentBet);
-    } else {
-      // No current bet, try to get the last one
-      let lastBet = await this.betService.getLastUserBet(username, this.currentRace.season);
-      console.log("[BetPage] Getting last bet: ", lastBet);
-      if (lastBet) {
-        this.currentBet = lastBet;
+      if (!username) {
+        this.router.navigate(['login']);
+        return;
       }
-    }
+    this.route.params.subscribe(async params => {
+      let raceId = params['raceid'];
+      this.race = await this.raceService.getRace(raceId);
+      let bet   = await this.betService.getUserBet(username, raceId);
+      if (bet) {
+        this.currentBet = bet;
+        console.log("[BetPage] Bet found: ", this.currentBet);
+      } else {
+        // No current bet, try to get the last one
+        let lastBet = await this.betService.getLastUserBet(username, this.race.season);
+        console.log("[BetPage] Getting last bet: ", lastBet);
+        if (lastBet) {
+          this.currentBet = lastBet;
+        }
+      }
+    });
   }
 
   onPositionChanged(pos: number) {
@@ -105,7 +109,7 @@ export class BetPage {
     console.log(`Can submit: ${this.canSubmit()}`);
 
     // Ensure that bet is not submitted after the end of the allowed time
-    if (this.timeService.timeToBetEnd(this.currentRace).asSeconds() <= 0) {
+    if (this.timeService.timeToBetEnd(this.race).asSeconds() <= 0) {
       console.log("[BetPage] Betting time is over.");
       this.alertService.alert("Apostas encerradas", "O período de apostas encerrou para esta corrida.");
       return;
@@ -124,7 +128,7 @@ export class BetPage {
       return;
     }
 
-    let race = this.currentRace.id;
+    let race = this.race.id;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);
 

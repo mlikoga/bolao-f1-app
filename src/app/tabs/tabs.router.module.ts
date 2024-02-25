@@ -40,7 +40,7 @@ const routes: Routes = [
             loadChildren: '../initial-bet-view/initial-bet-view.module#InitialBetViewPageModule'
           },
           {
-            path: 'bet',
+            path: 'bet/:raceid',
             loadChildren: '../bet/bet.module#BetPageModule'
           },
           {

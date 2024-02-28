@@ -33,7 +33,7 @@ export class ProfilePage implements OnInit {
     private toastController: ToastController,
     private swUpdate: SwUpdate) {
 
-    this.version = "6.0.0-alpha4";
+    this.version = "6.0.0-alpha5";
     this.user = new User('','');
   }
 

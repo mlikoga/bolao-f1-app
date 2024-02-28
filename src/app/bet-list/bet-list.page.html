@@ -16,7 +16,7 @@
   <ion-select class="title" [(ngModel)]="selectedRace" (ionChange)="onRaceChanged()">
     <ion-select-option *ngFor="let race of races" [value]="race">GP {{ race.name }}</ion-select-option>
   </ion-select>
-  <div class="ion-padding bet-list__betting" *ngIf="showBet">
+  <div class="ion-padding bet-list__betting" *ngIf="showBet; else userList">
     <div class="bet-list__message">
       <p>Estamos no período de apostas. Você pode modificar a aposta quantas vezes quiser.</p>
       <p>
@@ -37,7 +37,7 @@
     <ion-button size="large" shape="round" [routerLink]="betLink(selectedRace)">Fazer aposta</ion-button>
     <div></div>
   </div>
-  <div *ngIf="!showBet">
+  <ng-template #userList>
     <div class="subtabs__bar">
       <ion-chip class="subtabs__chip" [ngClass]="{'subtabs__chip--selected': content === 'bets'}" outline=true color="light" (click)="selectContent('bets')">
         <ion-label>Apostas</ion-label>
@@ -46,7 +46,6 @@
         <ion-label>Estatísticas</ion-label>
       </ion-chip>
     </div>
-    <p>{{ content }}</p>
     <stats *ngIf="content === 'stats'" [(selectedRace)]="selectedRace"></stats>
     <ion-list *ngIf="content === 'bets'">
       <ion-item *ngFor="let racePoint of racePoints; index as idx" [routerLink]="onUserSelected(racePoint.user)" type="button"
@@ -56,5 +55,5 @@
         <ion-label class="ion-text-right">{{ racePoint.points | number }}</ion-label>
       </ion-item>
     </ion-list>
-  </div>
+  </ng-template>
 </ion-content>

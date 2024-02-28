@@ -60,6 +60,10 @@ export class Race {
     this.circuitName = circuitName;
   }
 
+  isBetOpen(time: moment.Moment = moment()): boolean {
+    return time.isBefore(this.betEndsAt);
+  }
+
   static empty(): Race {
     return new Race(2024, -1, "Loading...", moment().toISOString(true));
   }

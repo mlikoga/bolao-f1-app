@@ -25,9 +25,10 @@ export class StatsComponent implements OnInit {
 
   async ngOnInit() {
     console.log("[Stats] Selected race: ", this.selectedRace.name);
-    this.updateStats();
+    //this.updateStats();
   }
 
+  // Listen to changes on the selectedRace input
   ngOnChanges() {
     console.log(`[Stats] Race changed to: ${this.selectedRace.name}`);
     this.updateStats();
@@ -39,7 +40,7 @@ export class StatsComponent implements OnInit {
       translucent: true,
     });
     loading.present();
-
+    console.log("[Stats] Updating stats");
     this.cards = [];
     if (this.selectedRace) {
       if (this.selectedRace.number == 0) {

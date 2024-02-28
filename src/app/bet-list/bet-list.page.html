@@ -16,7 +16,7 @@
   <ion-select class="title" [(ngModel)]="selectedRace" (ionChange)="onRaceChanged()">
     <ion-select-option *ngFor="let race of races" [value]="race">GP {{ race.name }}</ion-select-option>
   </ion-select>
-  <div class="ion-padding bet-list__betting" *ngIf="bettingEnabled && selectedRace.id == currentRace.id; else userList">
+  <div class="ion-padding bet-list__betting" *ngIf="showBet; else userList">
     <div class="bet-list__message">
       <p>Estamos no período de apostas. Você pode modificar a aposta quantas vezes quiser.</p>
       <p>
@@ -29,10 +29,12 @@
           <ion-label>Aposta já realizada</ion-label>
         </ion-chip>
       </p>
-      <div>Tempo restante para apostar:</div>
-      <div class="countdown ion-text-center">{{ countdown }}</div>
+      <div *ngIf="selectedRace.id == currentRace.id">
+        <div>Tempo restante para apostar:</div>
+        <div class="countdown ion-text-center">{{ countdown }}</div>
+      </div>
     </div>
-    <ion-button size="large" shape="round" [routerLink]="betLink">Fazer aposta</ion-button>
+    <ion-button size="large" shape="round" [routerLink]="betLink(selectedRace)">Fazer aposta</ion-button>
     <div></div>
   </div>
   <ng-template #userList>

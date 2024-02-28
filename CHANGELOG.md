@@ -16,6 +16,7 @@
   - No more extra 2 points per driver on the first 10
   - Fastest lap changed from 10 to 1 point  
   - Bet on first 3 of qualifying
+  - User can bet in any future race, not just the next one
 
 5.1.0 - 2023.07.23
 - Chrome recently rolled out the Popover API. Unfortunately some old code that Ionic had used in ion-popover conflicted with the Popover API, causing a bug. We removed the use of popover. More info: https://github.com/ionic-team/ionic-framework/issues/27599#issuecomment-1584711091 

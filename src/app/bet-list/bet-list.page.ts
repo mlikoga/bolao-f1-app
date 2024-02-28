@@ -18,6 +18,7 @@ import { InitialBetService } from 'app/services/initial-bet.service';
 })
 export class BetListPage implements OnInit {
 
+  showBet: boolean = true;
   content: string = 'bets';
 
   races: Array<Race> = [];
@@ -27,7 +28,6 @@ export class BetListPage implements OnInit {
   currentRace: Race = Race.empty();
   currentSeason: number;
   bettingEnabled: boolean = true;
-  betLink: string;
   isAdmin: boolean;
   timeToBetEnd: moment.Duration;
   countdown: string;
@@ -49,23 +49,21 @@ export class BetListPage implements OnInit {
   async ngOnInit() {
     this.username      = await this.authService.getCurrentUsername();
     this.isAdmin       = await this.authService.isSuperAdmin();
-  }
-
-  async ionViewDidEnter() {
     this.currentSeason = this.timeService.currentSeason();
     let allRaces       = await this.raceService.getAllRaces(this.currentSeason);
     this.currentRace   = this.timeService.currentRace(allRaces);
     this.selectedRace  = this.currentRace;
-    this.betLink       = this.currentRace.number == 0 ? '/tabs/bet/initial' : '/tabs/bet/bet';
-    this.races         = allRaces.filter(race => race.number <= this.currentRace.number);
+    //this.races         = allRaces.filter(race => race.number <= this.currentRace.number);
+    this.races         = allRaces;
     console.log(`[bet-list] Season ${this.currentSeason} | Current race: `, this.currentRace);
 
-    // If betting is enabled, start countdown
-    this.bettingEnabled = this.timeService.bettingEnabled(this.races);
-    console.log("[bet-list] bettingEnabled: ", this.bettingEnabled);
+    this.ionViewDidEnter();
+  }
 
+  async ionViewDidEnter() {
     this.refresh();
-    if (this.bettingEnabled) {
+    // If betting is enabled, start countdown
+    if (this.currentRace.isBetOpen()) {
       this.startTimer();
     }
   }
@@ -88,22 +86,32 @@ export class BetListPage implements OnInit {
   }
 
   async refresh(event?) : Promise<void> {
+    if(!this.username || this.selectedRace.number < 0)
+      return; // Page not initialized yet
+
     console.log('[bet-list] Refreshing bet list...')
     this.resultService.getPoints(this.selectedRace.id).then(racePoints => {
       this.racePoints = racePoints;
     });
 
     // Check if user has bet
-    if (this.currentRace.number == 0) {
+    if (this.selectedRace.number == 0) {
       let bet = await this.initialBetService.getUserInitialBet(this.username);  
       this.userHasBet = bet != null;
     } else {
-      let bet = await this.betService.getUserBet(this.username, this.currentRace.id);
+      let bet = await this.betService.getUserBet(this.username, this.selectedRace.id);
       this.userHasBet = bet != null;
     }
     console.log("[bet-list] User has bet: ", this.userHasBet);
     
     if (event) event.target.complete();
+  }
+
+  betLink(race: Race): string {
+    if (race.number == 0) {
+      return '/tabs/bet/initial';
+    }
+    return `/tabs/bet/bet/${race.id}`;
   }
 
   async checkMissingBets() {
@@ -120,10 +128,9 @@ export class BetListPage implements OnInit {
   }
 
   onRaceChanged() {
-    console.log(`[bet-list] Race changed to: ${this.selectedRace.name}`);
-    this.resultService.getPoints(this.selectedRace.id).then(racePoints => {
-      this.racePoints = racePoints;
-    });
+    this.showBet = this.selectedRace.isBetOpen(this.timeService.now());
+    console.log(`[bet-list] Race changed to: ${this.selectedRace.name}; showBet: ${this.showBet}`);
+    this.refresh();
   }
 
   onUserSelected(user: string) {

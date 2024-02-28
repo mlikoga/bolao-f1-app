@@ -31,21 +31,21 @@
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
+        <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying'}">
+          <ion-label class="item__label">Qualifying:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.qualifyingStartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
         <ion-item *ngIf="race.sprintStartsAt">
-          <ion-label class="item__label">Sprint Race:</ion-label>
+          <ion-label class="item__label">Sprint:</ion-label>
           <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintStartsAt" 
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>
         <ion-item *ngIf="race.sprintShootoutStartsAt">
-          <ion-label class="item__label">Sprint Shootout:</ion-label>
+          <ion-label class="item__label">Sprint Qualifying:</ion-label>
           <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintShootoutStartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
-        </ion-item>
-        <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying'}">
-          <ion-label class="item__label">Qualifying:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.qualifyingStartsAt" 
                         displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
                         [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
         </ion-item>

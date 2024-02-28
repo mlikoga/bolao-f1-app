@@ -50,10 +50,10 @@ export class BetPage {
 
   async ngOnInit() {
     let username = await this.authService.getCurrentUsername();
-      if (!username) {
-        this.router.navigate(['login']);
-        return;
-      }
+    if (!username) {
+      this.router.navigate(['login']);
+      return;
+    }
     this.route.params.subscribe(async params => {
       let raceId = params['raceid'];
       this.race = await this.raceService.getRace(raceId);

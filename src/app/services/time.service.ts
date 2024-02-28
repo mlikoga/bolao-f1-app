@@ -88,6 +88,7 @@ export class TimeService {
     return moment();
     //return moment('2024-03-01:00:00-03:00'); // bet period for Bahrein
     //return moment('2024-03-03T12:00:00-03:00'); // post-bet period for Bahrein
+    //return moment('2024-03-06T12:00:00-03:00'); // bet period for Arabia
   }
 
 }

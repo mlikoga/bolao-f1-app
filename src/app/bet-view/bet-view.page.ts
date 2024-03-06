@@ -17,7 +17,7 @@ import { BetPoints } from '../model/betPoints';
 })
 export class BetViewPage implements OnInit {
   bet$: Observable<Bet>;
-  betPoints: BetPoints = new BetPoints();
+  betPoints: BetPoints = new BetPoints("", "");
   race: Race;
   pointsRef = PointCalculator.racePoints;
 
@@ -31,14 +31,14 @@ export class BetViewPage implements OnInit {
     this.bet$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         let username = params.get('username');
-        let raceId = parseInt(params.get('race'));
-        this.race = Race.withId(raceId);
+        let raceId = params.get('race');
         return this.betService.getUserBet(username, raceId);
       })
     );
     this.bet$.subscribe(
       bet => {
-        this.resultService.getResult(this.race).then(result => {
+        this.resultService.getResult(bet.race).then(result => {
+          console.log("[bet-view] Result: ", result);
           if (result) {
             this.betPoints = PointCalculator.calculatePoints(result, bet);
           }

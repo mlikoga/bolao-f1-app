@@ -1,3 +1,3 @@
 #!/bin/bash
-ionic build --prod
+./node_modules/@ionic/cli/bin/ionic build --prod
 firebase deploy

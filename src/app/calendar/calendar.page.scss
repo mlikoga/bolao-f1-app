@@ -1,0 +1,20 @@
+.calendar__card.highlight {
+  border-radius: 10px;
+  border: outset rgba(251, 255, 0, 0.864) 4px;
+}
+
+.calendar__date {
+  background: rgb(234, 234, 234);
+}
+
+.calendar__flag {
+  font-size: 28px;
+  max-width: 2rem;
+  margin-right: 8px;
+}
+
+.calendar__title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}

@@ -9,40 +9,58 @@
   background: lightcoral;
 
   &--1 {
-    width: calc(1 * 6%);
+    width: calc(1 * 4%);
   }
   &--2 {
-    width: calc(2 * 6%);
+    width: calc(2 * 4%);
   }
   &--3 {
-    width: calc(3 * 6%);
+    width: calc(3 * 4%);
   }
   &--4 {
-    width: calc(4 * 6%);
+    width: calc(4 * 4%);
   }
   &--5 {
-    width: calc(5 * 6%);
+    width: calc(5 * 4%);
   }
   &--6 {
-    width: calc(6 * 6%);
+    width: calc(6 * 4%);
   }
   &--7 {
-    width: calc(7 * 6%);
+    width: calc(7 * 4%);
   }
   &--8 {
-    width: calc(8 * 6%);
+    width: calc(8 * 4%);
   }
   &--9 {
-    width: calc(9 * 6%);
+    width: calc(9 * 4%);
   }
   &--10 {
-    width: calc(10 * 6%);
+    width: calc(10 * 4%);
   }
   &--11 {
-    width: calc(11 * 6%);
+    width: calc(11 * 4%);
   }
-  &--12, &--13, &--14, &--15, &--16, &--17, &--18, &--19, &--20 {
-    width: calc(12 * 6%);
+  &--12 {
+    width: calc(12 * 4%);
+  }
+  &--13 {
+    width: calc(13 * 4%);
+  }
+  &--14 {
+    width: calc(14 * 4%);
+  }
+  &--15 {
+    width: calc(15 * 4%);
+  }
+  &--16 {
+    width: calc(16 * 4%);
+  }
+  &--17 {
+    width: calc(17 * 4%);
+  }
+  &--18, &--19, &--20, &--21, &--22, &--23, &--24, &--25, &--26, &--27, &--28, &--29, &--30 {
+    width: calc(18 * 4%);
   }
 
   &--Mercedes,
@@ -105,12 +123,12 @@
     background: #f2f2f2;
   }
 
-  &--AlphaTauri,
+  &--RB,
   &--RIC {
-    background: #2B4562;
+    background: #1334cb;
   }
   &--TSU {
-    background: #FFFFFF;
+    background: #5e8faa;
   }
 
   &--Williams,
@@ -121,12 +139,12 @@
     background: #1aa1dc;
   }
 
-  &--Alfa.Romeo.Racing,
+  &--Kick.Sauber,
   &--BOT {
-    background: #C92D4B;
+    background: #00E701;
   }
   &--ZHO {
-    background: #C92D4B;
+    background: #041c06;
   }
 }
 

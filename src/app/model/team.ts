@@ -3,16 +3,16 @@ export class Team {
 
   static all() : Array<Team> {
     return [
-      { name: "Mercedes" },
       { name: "Red Bull Racing" },
+      { name: "Mercedes" },
+      { name: "Ferrari" },
       { name: "McLaren" },
       { name: "Aston Martin" },
       { name: "Alpine" },
-      { name: "Ferrari" },
-      { name: "AlphaTauri" },
-      { name: "Alfa Romeo Racing" },
-      { name: "Haas F1 Team" },
       { name: "Williams" },
+      { name: "RB" },
+      { name: "Kick Sauber" },
+      { name: "Haas F1 Team" },
     ];
   }
 }

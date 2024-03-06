@@ -13,22 +13,45 @@
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-select class="title" [(ngModel)]="selectedRaceId" (ionChange)="onRaceChanged()">
-    <ion-select-option *ngFor="let race of races" [value]="race.id">GP {{ race.name }}</ion-select-option>
+  <ion-select class="title" [(ngModel)]="selectedRace" (ionChange)="onRaceChanged()">
+    <ion-select-option *ngFor="let race of races" [value]="race">GP {{ race.name }}</ion-select-option>
   </ion-select>
-  <div class="ion-padding bet-list__betting" *ngIf="bettingEnabled && selectedRaceId == currentRace.id; else userList">
+  <div class="ion-padding bet-list__betting" *ngIf="showBet; else userList">
     <div class="bet-list__message">
-      <p>Estamos no período de apostas</p>
-      <div>Tempo restante para apostar:</div>
-      <div class="countdown ion-text-center">{{ countdown }}</div>
+      <p>Estamos no período de apostas. Você pode modificar a aposta quantas vezes quiser.</p>
+      <p>
+        <ion-chip *ngIf="!userHasBet" class="chip__bet_no" color="danger">
+          <ion-icon name="close"></ion-icon>
+          <ion-label>Aposta ainda não realizada</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="userHasBet" class="chip__bet_yes" color="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <ion-label>Aposta já realizada</ion-label>
+        </ion-chip>
+      </p>
+      <div *ngIf="selectedRace.id == currentRace.id">
+        <div>Tempo restante para apostar:</div>
+        <div class="countdown ion-text-center">{{ countdown }}</div>
+      </div>
     </div>
-    <ion-button size="large" shape="round" [routerLink]="betLink">Fazer aposta</ion-button>
+    <ion-button size="large" shape="round" [routerLink]="betLink(selectedRace)">Fazer aposta</ion-button>
     <div></div>
   </div>
   <ng-template #userList>
-    <ion-list>
-      <ion-item *ngFor="let racePoint of racePoints" [routerLink]="onUserSelected(racePoint.user)" type="button">
-        <ion-label>{{ racePoint.user }}</ion-label>
+    <div class="subtabs__bar">
+      <ion-chip class="subtabs__chip" [ngClass]="{'subtabs__chip--selected': content === 'bets'}" outline=true color="light" (click)="selectContent('bets')">
+        <ion-label>Apostas</ion-label>
+      </ion-chip>
+      <ion-chip class="subtabs__chip" [ngClass]="{'subtabs__chip--selected': content === 'stats'}" outline=true color="light" (click)="selectContent('stats')">
+        <ion-label>Estatísticas</ion-label>
+      </ion-chip>
+    </div>
+    <stats *ngIf="content === 'stats'" [(selectedRace)]="selectedRace"></stats>
+    <ion-list *ngIf="content === 'bets'">
+      <ion-item *ngFor="let racePoint of racePoints; index as idx" [routerLink]="onUserSelected(racePoint.user)" type="button"
+                [class.standings__user]="username == racePoint.user">
+        <ion-label class="standings__position">{{ idx + 1 }}</ion-label>
+        <ion-label class="standings__username">{{ racePoint.user }}</ion-label>
         <ion-label class="ion-text-right">{{ racePoint.points | number }}</ion-label>
       </ion-item>
     </ion-list>

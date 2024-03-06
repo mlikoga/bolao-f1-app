@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Race } from '../model/race';
 import { PointCalculator } from '../points/point-calculator';
 import { CacheService } from './cache.service';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { SeasonResult } from 'app/model/seasonResult';
 import { InitialBetService } from './initial-bet.service';
@@ -40,12 +40,12 @@ export class SeasonResultService {
     const initialBets = await this.initialBetService.getInitialBets(seasonResult.season);
     initialBets
       .map(initialBet => PointCalculator.calculateSeasonPoints(seasonResult, initialBet))
-      .sort((a, b) => a.total - b.total)
+      .sort((a, b) => a.total - b.total || a.user.toLowerCase().localeCompare(b.user.toLowerCase()))
       .reverse()
       .forEach((betPoints, position) => this.setPoints(race.id, betPoints, position));
   }
 
-  private setPoints(raceId: number, initialBetPoints: InitialBetPoints, position: number): void {
+  private setPoints(raceId: string, initialBetPoints: InitialBetPoints, position: number): void {
     const seasonPoints = {
       user: initialBetPoints.user,
       race: raceId,

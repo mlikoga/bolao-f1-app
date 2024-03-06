@@ -1,17 +1,18 @@
+
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RacePage } from './race.page';
+import { RaceViewPage } from './race-view.page';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: RacePage }])
+    RouterModule.forChild([{ path: '', component: RaceViewPage }])
   ],
-  declarations: [RacePage]
+  declarations: [RaceViewPage]
 })
-export class RacePageModule {}
+export class RaceViewPageModule {}

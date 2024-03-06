@@ -2,26 +2,33 @@ import { Race } from "./race";
 
 export class RacePoints {
   user: string;
-  race: number;
+  race: string;
+  raceName: string;
+  season: number;
   points: number;
   position?: number;
 
-  constructor(user: string, raceId: number, points: number, position: number = 0) {
+  constructor(user: string, raceId: string, raceName: string, season: number, points: number, position: number = 0) {
     this.user = user;
     this.race = raceId;
+    this.raceName = raceName;
+    this.season = season;
     this.points = points || 0;
     this.position = position;
   }
 
-  get raceObj(): Race {
-    return Race.withId(this.race);
-  }
-
-  static empty(user: string, raceId: number) {
-    return new RacePoints(user, raceId, 0)
+  static empty(user: string, raceId: string) {
+    return new RacePoints(user, raceId, "", 2024, 0)
   }
 
   static from(racePoints: RacePoints) {
-    return new RacePoints(racePoints.user, racePoints.race, racePoints.points, racePoints.position);
+    return new RacePoints(
+      racePoints.user,
+      racePoints.race,
+      racePoints.raceName,
+      racePoints.season,
+      racePoints.points,
+      racePoints.position,
+    );
   }
 }

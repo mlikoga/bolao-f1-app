@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/calendar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      GP {{ selectedRace.name }}
+    </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="uploadResult()" *ngIf="isAdmin">
+        <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isSeason">
+    <ion-list>
+      <ion-item><ion-label>Classificação final dos pilotos</ion-label></ion-item>
+      <ion-item *ngFor="let pos of positions">
+        <ion-label>{{ pos + 1 }}</ion-label>
+        <ion-select [(ngModel)]="seasonResult.driversPositions[pos]" placeholder="Select driver"
+          interface="alert" [interfaceOptions]="customAlertOptions">
+          <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+            {{ driver.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item><ion-label>Classificação final das equipes</ion-label></ion-item>
+      <ion-item *ngFor="let pos of positions">
+        <ion-label>{{ pos + 1 }}</ion-label>
+        <ion-select *ngIf="isAdmin" [(ngModel)]="seasonResult.teamsPositions[pos]" placeholder="Select team"
+          interface="alert" [interfaceOptions]="customAlertOptions">
+          <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
+            {{ team.name }}
+          </ion-select-option>
+        </ion-select>
+        <ion-label *ngIf="!isAdmin">seasonResult.teamsPositions[pos]</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ion-list *ngIf="!isSeason">
+    <div class="race_result__title">Resultados GP {{ selectedRace.name }}</div>
+    <ion-item>
+      <ion-label>1o qualifying</ion-label>
+      <ion-select *ngIf="isAdmin" [(ngModel)]="result.pole" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+      <ion-label *ngIf="!isAdmin" class="ion-text-right">{{ result.pole }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>2o qualifying</ion-label>
+      <ion-select *ngIf="isAdmin" [(ngModel)]="result.qualifying2" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+      <ion-label *ngIf="!isAdmin" class="ion-text-right">{{ result.qualifying2 }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>3o qualifying</ion-label>
+      <ion-select *ngIf="isAdmin" [(ngModel)]="result.qualifying3" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+      <ion-label *ngIf="!isAdmin" class="ion-text-right">{{ result.qualifying3 }}</ion-label>
+    </ion-item>
+    <ion-item class="ion-text-center"><ion-label>-------------------------</ion-label></ion-item>
+    <ion-item>
+      <ion-label>Volta mais rápida</ion-label>
+      <ion-select *ngIf="isAdmin" [(ngModel)]="result.fastestLap" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+      <ion-label *ngIf="!isAdmin" class="ion-text-right">{{ result.fastestLap }}</ion-label>
+    </ion-item>
+    <ion-reorder-group (ionItemReorder)="itemReorder($event)" [disabled]="!isAdmin">
+      <ion-item *ngFor="let driver of driversOrdered; index as idx">
+        <ion-label class="position">{{ idx + 1}}</ion-label>
+        <ion-label>{{ driver.name }}</ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/calendar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>GP {{ race.name }}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="saveRace()" *ngIf="isAdmin">
+        <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img *ngIf="race.circuitImageUrl" class="race__image" [alt]="race.circuitName" [src]="race.circuitImageUrl" />
+    <ion-card-header>
+      <ion-card-title class="race__title"> {{ race.flag }} GP {{ race.name }}</ion-card-title>
+      <ion-card-subtitle class="race__subtitle">{{ race.circuitName }}, Round {{ race.number }}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngIf="isAdmin || hasResult" [routerLink]="resultLink" [ngClass]="{'race__bold': currentPhase === 'results'}">
+          <ion-label>🏁 Resultados</ion-label>
+        </ion-item>
+        <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying' || currentPhase === 'race'}">
+          <ion-label class="item__label">Corrida:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.raceStartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying'}">
+          <ion-label class="item__label">Qualifying:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.qualifyingStartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="race.sprintStartsAt">
+          <ion-label class="item__label">Sprint:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintStartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="race.sprintShootoutStartsAt">
+          <ion-label class="item__label">Sprint Qualifying:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintShootoutStartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="race.practice3StartsAt">
+          <ion-label class="item__label">Treino 3:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice3StartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="race.practice2StartsAt">
+          <ion-label class="item__label">Treino 2:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice2StartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label class="item__label">Treino 1:</ion-label>
+          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice1StartsAt" 
+                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
+                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+    
+  </ion-card>
+</ion-content>

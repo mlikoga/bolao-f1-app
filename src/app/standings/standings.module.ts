@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { StandingsPage } from './standings.page';
 import { AbsPipe } from '../abs.pipe';
 import { WinnersComponent } from './winners/winners.component';
+import { HallOfFameComponent } from './hall-of-fame/hall-of-fame.component';
 
 
 @NgModule({
@@ -15,6 +16,6 @@ import { WinnersComponent } from './winners/winners.component';
     FormsModule,
     RouterModule.forChild([{ path: '', component: StandingsPage }])
   ],
-  declarations: [StandingsPage, AbsPipe, WinnersComponent]
+  declarations: [StandingsPage, AbsPipe, WinnersComponent, HallOfFameComponent]
 })
 export class StandingsPageModule {}

@@ -8,6 +8,23 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'calendar',
+        children: [
+          {
+            path: '',
+            loadChildren: '../calendar/calendar.module#CalendarPageModule'
+          },
+          {
+            path: 'race-view/:raceid',
+            loadChildren: '../race-view/race-view.module#RaceViewPageModule'
+          },
+          {
+            path: 'race-result/:raceid',
+            loadChildren: '../race-result/race-result.module#RaceResultPageModule'
+          },
+        ]
+      },
+      {
         path: 'bet',
         children: [
           {
@@ -23,31 +40,13 @@ const routes: Routes = [
             loadChildren: '../initial-bet-view/initial-bet-view.module#InitialBetViewPageModule'
           },
           {
-            path: 'bet',
+            path: 'bet/:raceid',
             loadChildren: '../bet/bet.module#BetPageModule'
           },
           {
             path: 'bet-view/:username/:race',
             loadChildren: '../bet-view/bet-view.module#BetViewPageModule'
           },
-        ]
-      },
-      {
-        path: 'stats',
-        children: [
-          {
-            path: '',
-            loadChildren: '../stats/stats.module#StatsPageModule'
-          }
-        ]
-      },
-      {
-        path: 'race',
-        children: [
-          {
-            path: '',
-            loadChildren: '../race/race.module#RacePageModule'
-          }
         ]
       },
       {

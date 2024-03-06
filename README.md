@@ -13,8 +13,8 @@ Check the full changelog [here](CHANGELOG.md).
 
 **Requirements:**
 - node v10
-- ionic `npm install -g @ionic/cli`
-- Firebase CLI (to deploy) `npm install -g firebase-tools`
+- ionic-cli v6 `npm install @ionic/cli@6`
+- Firebase CLI v9 (to deploy) `npm install firebase-tools@9`
 
 **To initialize:**
 `npm install`

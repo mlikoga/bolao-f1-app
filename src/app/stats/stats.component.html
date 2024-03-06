@@ -1,0 +1,10 @@
+<ion-content>
+  <div *ngIf="!selectedRace || selectedRace.number < 0" class="stats__message">
+    <p>Aguarde início da temporada!</p>
+  </div>
+  <div *ngIf="selectedRace.number >= 0">
+    <div class="ion-padding">
+      <stats-card *ngFor="let card of cards" [title]="card[0]" [(dataRows)]="card[1]"></stats-card>
+    </div>
+  </div>
+</ion-content>

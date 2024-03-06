@@ -14,13 +14,15 @@
     <div>Usuário: {{ username }}</div>
   </div>
   <ion-list>
-    <ion-item>
-      <ion-label class="f1-label">Piloto campeão</ion-label>
-      <ion-label class="ion-text-right">{{ initialBet.champion }}</ion-label>
+    <ion-item><ion-label>Classificação final dos pilotos</ion-label></ion-item>
+    <ion-item *ngFor="let betPos of initialBet.driversPositions; index as pos">
+      <ion-label>{{ pos + 1 }}</ion-label>
+      <ion-label class="ion-text-right">{{ betPos }}</ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label class="f1-label">Equipe campeã</ion-label>
-      <ion-label class="ion-text-right">{{ initialBet.championTeam }}</ion-label>
+    <ion-item><ion-label>Classificação final das equipes</ion-label></ion-item> 
+    <ion-item *ngFor="let betPos of initialBet.teamsPositions; index as pos">
+      <ion-label>{{ pos + 1 }}</ion-label>
+      <ion-label class="ion-text-right">{{ betPos }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

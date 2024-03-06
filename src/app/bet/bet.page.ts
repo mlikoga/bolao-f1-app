@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
@@ -9,10 +8,13 @@ import { Bet } from '../model/bet';
 import { Driver } from '../model/driver';
 import { Race } from '../model/race';
 import { AuthService } from '../services/auth.service';
+import { RaceService } from '../services/race.service';
 import { TimeService } from '../services/time.service';
 
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import { BetService } from 'app/services/bet.service';
+import { AlertService } from 'app/services/alert.service';
 
 @Component({
   selector: 'app-bet',
@@ -25,23 +27,25 @@ export class BetPage {
   drivers: Array<Driver> = Driver.all();
   db: firebase.firestore.Firestore;
   user: string;
-  currentRace: Race;
-  currentBet: Bet = new Bet();
+  race: Race = Race.empty();
+  currentBet: Bet = Bet.empty();
 
   customAlertOptions: any = {
     backdropDismiss: true,
   };
 
   constructor(
-      public alertController: AlertController,
       public loadingController: LoadingController,
       public toastController: ToastController,
+      public alertService: AlertService,
       public authService: AuthService,
+      public betService: BetService,
+      public raceService: RaceService,
+      public route: ActivatedRoute,
       public router: Router,
       public timeService: TimeService) {
 
     this.db = firebase.firestore();
-    this.currentRace = timeService.currentRace();
   }
 
   async ngOnInit() {
@@ -50,12 +54,20 @@ export class BetPage {
       this.router.navigate(['login']);
       return;
     }
-    let race = this.currentRace.id;
-    let docId = `${username}.${race}`;
-    console.log(`BetId: ${docId}`);
-    this.db.collection("bets").doc(docId).get().then(doc => {
-      if(doc.exists) {
-        this.currentBet = doc.data() as Bet;
+    this.route.params.subscribe(async params => {
+      let raceId = params['raceid'];
+      this.race = await this.raceService.getRace(raceId);
+      let bet   = await this.betService.getUserBet(username, raceId);
+      if (bet) {
+        this.currentBet = bet;
+        console.log("[BetPage] Bet found: ", this.currentBet);
+      } else {
+        // No current bet, try to get the last one
+        let lastBet = await this.betService.getLastUserBet(username, this.race.season);
+        console.log("[BetPage] Getting last bet: ", lastBet);
+        if (lastBet) {
+          this.currentBet = lastBet;
+        }
       }
     });
   }
@@ -77,11 +89,18 @@ export class BetPage {
       }
     }
   }
+  
+  clearAllFields() {
+    this.alertService.confirm("Limpar todos os campos?", "", () => {
+      this.currentBet = Bet.empty();
+    });
+  }
 
   canSubmit() {
     return !!this.currentBet.pole &&
       !!this.currentBet.fastestLap &&
-      this.currentBet.positions.every(x => !!x);
+      !this.currentBet.positions.includes(undefined) &&
+      !this.currentBet.positions.includes(null);
   }
 
   async onSubmitClicked() {
@@ -89,13 +108,16 @@ export class BetPage {
     console.log(this.currentBet.positions);
     console.log(`Can submit: ${this.canSubmit()}`);
 
+    // Ensure that bet is not submitted after the end of the allowed time
+    if (this.timeService.timeToBetEnd(this.race).asSeconds() <= 0) {
+      console.log("[BetPage] Betting time is over.");
+      this.alertService.alert("Apostas encerradas", "O período de apostas encerrou para esta corrida.");
+      return;
+    }
+
     // Check if all fields are filled
     if(!this.canSubmit()) {
-      const alert = await this.alertController.create({
-        message: "Preencha todos os campos.",
-        buttons: ["OK"],
-      });
-      await alert.present();
+      this.alertService.alert("Aposta incompleta", "Preencha todos os campos.");
       return;
     }
 
@@ -106,7 +128,7 @@ export class BetPage {
       return;
     }
 
-    let race = this.currentRace.id;
+    let race = this.race.id;
     let docId = `${username}.${race}`;
     console.log(`BetId: ${docId}`);
 
@@ -120,8 +142,11 @@ export class BetPage {
       user: username,
       race: race,
       pole: this.currentBet.pole,
+      qualifying2: this.currentBet.qualifying2,
+      qualifying3: this.currentBet.qualifying3,
       fastestLap: this.currentBet.fastestLap,
       positions: this.currentBet.positions,
+      forgotten: false,
       createdAt: new Date(),
     }, { merge: true })
     .then(() => {

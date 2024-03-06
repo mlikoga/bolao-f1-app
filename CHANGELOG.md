@@ -1,7 +1,25 @@
 # bolao-f1-app
 
 ## Changelog
-5.1.0 - 2023.07.23 
+
+6.0.0 - 2024.02.20
+
+- NEW: Calendar screen with all races and dates!
+  - Each race has its own screen with circuit image, times for all practices, qualifying and race
+  - Times are editable by Admins
+- NEW: Indicator if user has already done bet or not while in bet period
+- Races are now in Firestore, not hard-coded; this means that changes like race cancellations can be made without a new app version;
+- NEW: Hall of Fame
+- Updates on bets and points:
+  - Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively;
+  - Bet deadline is now until start of qualifying
+  - No more bet on Sprint race
+  - No more extra 2 points per driver on the first 10
+  - Fastest lap changed from 10 to 1 point  
+  - Bet on first 3 of qualifying
+  - User can bet in any future race, not just the next one
+
+5.1.0 - 2023.07.23
 - Chrome recently rolled out the Popover API. Unfortunately some old code that Ionic had used in ion-popover conflicted with the Popover API, causing a bug. We removed the use of popover. More info: https://github.com/ionic-team/ionic-framework/issues/27599#issuecomment-1584711091 
 - Fixed bug in stats screen that prevented frow showing bars with more than 12 people.
 - Updated drivers colors

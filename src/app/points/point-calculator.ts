@@ -14,9 +14,18 @@ export class PointCalculator {
     if(result.pole === bet.pole) {
       betPoints.pole = 10;
     }
-    if(result.fastestLap === bet.fastestLap) {
-      betPoints.fastestLap = 10;
+    if(result.qualifying2 === bet.qualifying2) {
+      betPoints.qualifying2 = 7;
     }
+    if(result.qualifying3 === bet.qualifying3) {
+      betPoints.qualifying3 = 3;
+    }
+    if(result.fastestLap === bet.fastestLap) {
+      betPoints.fastestLap = 1;
+    }
+    
+    // Exact match gets 100% of points; 1 position of difference gets 60%; 
+    // 2 positions of difference gets 30%; 3 positions of difference gets 10%
     for (let i = 0; i < 10; i++) {
       let bet_i = bet.positions[i];
       let result_i = result.positions[i];
@@ -35,25 +44,24 @@ export class PointCalculator {
       } else if (bet_i === result.positions[i+3] && i < 7) {
         betPoints.positions[i] = 0.1 * this.racePoints[i+3];
       }
-
-      if (result.positions.slice(0, 10).includes(bet_i)) {
-        betPoints.extra[i] = 2;
-      }
     }
     return betPoints;
   }
 
   static calculateSeasonPoints(seasonResult: SeasonResult, initialBet: InitialBet): InitialBetPoints {
     let initialBetPoints = new InitialBetPoints(initialBet.user, initialBet.season);
-
-    if (seasonResult.champion === initialBet.champion) {
-      initialBetPoints.champion = 60;
+    
+    for (let i = 0; i < seasonResult.driversPositions.length; i++) {
+      if (seasonResult.driversPositions[i] === initialBet.driversPositions[i]) {
+        initialBetPoints.driversPositions[i] = 10 * (5 - i);  // 50, 40, 30, 20, 10
+      }
     }
 
-    if (seasonResult.championTeam === initialBet.championTeam) {
-      initialBetPoints.championTeam = 40;
+    for (let i = 0; i < seasonResult.teamsPositions.length; i++) {
+      if (seasonResult.teamsPositions[i] === initialBet.teamsPositions[i]) {
+        initialBetPoints.teamsPositions[i] = 10 * (5 - i);  // 50, 40, 30, 20, 10
+      }
     }
-
     return initialBetPoints;
   }
 }

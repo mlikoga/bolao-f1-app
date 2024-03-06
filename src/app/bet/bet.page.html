@@ -6,21 +6,42 @@
     <ion-title>
       Aposta
     </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="clearAllFields()">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="title">GP {{ currentRace.name }}</div>
+  <div class="title">GP {{ race.name }}</div>
   <ion-list>
     <ion-item>
-      <ion-label *ngIf="!currentRace.hasSprint">1o qualifying</ion-label>
-      <ion-label *ngIf="currentRace.hasSprint">1o sprint</ion-label>
+      <ion-label>1o qualifying</ion-label>
       <ion-select [(ngModel)]="currentBet.pole" placeholder="Select driver" interface="alert">
         <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
           {{ driver.name }}
         </ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-label>2o qualifying</ion-label>
+      <ion-select [(ngModel)]="currentBet.qualifying2" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>3o qualifying</ion-label>
+      <ion-select [(ngModel)]="currentBet.qualifying3" placeholder="Select driver" interface="alert">
+        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
+          {{ driver.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item class="ion-text-center"><ion-label>-------------------------</ion-label></ion-item>
     <ion-item>
       <ion-label>Volta mais rápida</ion-label>
       <ion-select [(ngModel)]="currentBet.fastestLap" placeholder="Select driver" interface="alert">

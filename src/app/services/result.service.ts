@@ -12,6 +12,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BetPoints } from 'app/model/betPoints';
 import { RaceService } from './race.service';
+import { SeasonStanding } from 'app/model/seasonStanding';
 
 @Injectable({
   providedIn: 'root'
@@ -163,5 +164,81 @@ export class ResultService {
 
     const racePoints = queryResult.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
     return racePoints;
+  }
+
+  async getSeasonStandings(season: number): Promise<SeasonStanding> {
+    let key = `seasonStandings.${season}`;
+    let cachedValue = await this.cache.get(key);
+    if (cachedValue)
+      return cachedValue;
+
+    const queryResult = await this.db.collection("seasonStandings")
+                        .doc(season.toString())
+                        .get();
+
+    if (queryResult.exists) {
+      let result = queryResult.data() as SeasonStanding;
+      if (result.finished) {
+        this.cache.set(key, result);
+      }
+      return result
+    }
+
+    return null;
+  }
+
+  async legacySeasonStandings(firstRace: number, season: number) {
+    const queryResult = await this.db.collection("points")
+                       .where("race", ">=", firstRace)
+                       .where("race", "<", firstRace + 100)
+                       .get();
+
+    const points = queryResult.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
+    this.setSeasonStandings(season, points, true);
+  }
+
+  async updateSeasonStandings(season: number, finished: boolean = false) {
+    const queryResult = await this.db.collection("points")
+                       .where("season", "==", season)
+                       .get();
+
+    const points = queryResult.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
+    this.setSeasonStandings(season, points, finished);
+  }
+
+  setSeasonStandings(season: number, points: RacePoints[], finished: boolean = false) {
+    let winners = {};
+    let totals = {};
+    for (var point of points) {
+      if (!totals[point.user]) {
+        totals[point.user] = point.points;
+      } else {
+        totals[point.user] += point.points;
+      }
+      if (point.position == 1) {
+        if (!winners[point.user]) {
+          winners[point.user] = 1  
+        } else {
+          winners[point.user] += 1
+        }
+      }
+    }
+
+    let userStandings = Object.entries(totals)
+      .sort((a, b) =>  +b[1] - +a[1])
+      .map(([user, points]) => Object.assign({ user: user, number: points }));
+
+    let victories = Object.entries(winners)
+      .sort((a, b) =>  +b[1] - +a[1])
+      .map(([user, wins]) => Object.assign({ user: user, number: wins }));
+
+    this.db.collection("seasonStandings").doc(`${season}`).set({
+      season: season,
+      finished: finished,
+      userStandings: userStandings,
+      victories: victories
+    });
+
+    console.log("[ResultService] Updated seasonStandings for season ", season);
   }
 }

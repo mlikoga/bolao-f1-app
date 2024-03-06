@@ -15,12 +15,13 @@ export class HallOfFameComponent implements OnInit {
   top2Winner: UserNumber = {user: '', number: 0};
   top3Winner: UserNumber = {user: '', number: 0};
 
+  firstSeason = 2018;
+
   constructor(private resultService: ResultService, private timeService: TimeService) { }
 
   async ngOnInit() {
     const thisSeason = this.timeService.currentSeason();
-    const firstSeason = 2019;
-    const seasons = Array.from({length: thisSeason - firstSeason + 1}, (v, k) => thisSeason - k);
+    const seasons = Array.from({length: thisSeason - this.firstSeason + 1}, (v, k) => thisSeason - k);
 
     // exception for YuriBarb - merge his users
     const yuriUsers = ["Hoje não!!!", "Marea98", "YuriBarb"];

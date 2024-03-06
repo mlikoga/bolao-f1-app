@@ -79,10 +79,12 @@ export class RaceResultPage {
       console.log('Uploading season result...');
       console.log(this.seasonResult);
       await this.seasonResultService.setSeasonResult(this.selectedRace, this.seasonResult);
+      this.resultService.updateSeasonStandings(this.selectedRace.season, true);
     } else {
       console.log('Uploading result...');
       console.log(this.result);
       await this.resultService.setRaceResult(this.selectedRace, this.result);
+      this.resultService.updateSeasonStandings(this.selectedRace.season, false);
     }
     this.toastController.create({
       message: "Resultado enviado",

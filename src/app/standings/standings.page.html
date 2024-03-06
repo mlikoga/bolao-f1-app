@@ -9,13 +9,17 @@
 <ion-content>
   <div class="standings__buttons">
     <ion-chip class="standings__chip" [ngClass]="{'standings__chip--selected': content === 'standings'}" outline=true color="light" (click)="selectContent('standings')">
-      <ion-label>Classificação geral</ion-label>
+      <ion-label>Classificação</ion-label>
     </ion-chip>
     <ion-chip class="standings__chip" [ngClass]="{'standings__chip--selected': content === 'winners'}" outline=true color="light" (click)="selectContent('winners')">
       <ion-label>Vencedores</ion-label>
     </ion-chip>
+    <ion-chip class="standings__chip" [ngClass]="{'standings__chip--selected': content === 'hall-of-fame'}" outline=true color="light" (click)="selectContent('hall-of-fame')">
+      <ion-label>Hall of Fame</ion-label>
+    </ion-chip>
   </div>
   <app-winners *ngIf="content === 'winners'"></app-winners>
+  <app-hall-of-fame *ngIf="content === 'hall-of-fame'"></app-hall-of-fame> 
   <div *ngIf="content === 'standings'">
     <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
       <ion-refresher-content></ion-refresher-content>

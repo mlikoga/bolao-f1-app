@@ -9,6 +9,7 @@
   - Times are editable by Admins
 - NEW: Indicator if user has already done bet or not while in bet period
 - Races are now in Firestore, not hard-coded; this means that changes like race cancellations can be made without a new app version;
+- NEW: Hall of Fame
 - Updates on bets and points:
   - Pre-season initial bet update: bet on 5 first drivers and teams. Points are 50, 40, 30, 20 and 10 respectively;
   - Bet deadline is now until start of qualifying

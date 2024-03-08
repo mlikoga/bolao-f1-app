@@ -12,15 +12,15 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../calendar/calendar.module#CalendarPageModule'
+            loadChildren: () => import('../calendar/calendar.module').then(m => m.CalendarPageModule)
           },
           {
             path: 'race-view/:raceid',
-            loadChildren: '../race-view/race-view.module#RaceViewPageModule'
+            loadChildren: () => import('../race-view/race-view.module').then(m => m.RaceViewPageModule)
           },
           {
             path: 'race-result/:raceid',
-            loadChildren: '../race-result/race-result.module#RaceResultPageModule'
+            loadChildren: () => import('../race-result/race-result.module').then(m => m.RaceResultPageModule)
           },
         ]
       },
@@ -29,23 +29,23 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../bet-list/bet-list.module#BetListPageModule'
+            loadChildren: () => import('../bet-list/bet-list.module').then(m => m.BetListPageModule)
           },
           {
             path: 'initial',
-            loadChildren: '../initial-bet/initial-bet.module#InitialBetPageModule'
+            loadChildren: () => import('../initial-bet/initial-bet.module').then(m => m.InitialBetPageModule)
           },
           {
             path: 'initial/:username',
-            loadChildren: '../initial-bet-view/initial-bet-view.module#InitialBetViewPageModule'
+            loadChildren: () => import('../initial-bet-view/initial-bet-view.module').then(m => m.InitialBetViewPageModule)
           },
           {
             path: 'bet/:raceid',
-            loadChildren: '../bet/bet.module#BetPageModule'
+            loadChildren: () => import('../bet/bet.module').then(m => m.BetPageModule)
           },
           {
             path: 'bet-view/:username/:race',
-            loadChildren: '../bet-view/bet-view.module#BetViewPageModule'
+            loadChildren: () => import('../bet-view/bet-view.module').then(m => m.BetViewPageModule)
           },
         ]
       },
@@ -54,7 +54,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../standings/standings.module#StandingsPageModule'
+            loadChildren: () => import('../standings/standings.module').then(m => m.StandingsPageModule)
           },
         ]
       },
@@ -63,13 +63,13 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../profile/profile.module#ProfilePageModule'
+            loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
           }
         ]
       },
       {
         path: 'user-points/:username',
-        loadChildren: '../user-points/user-points.module#UserPointsPageModule'
+        loadChildren: () => import('../user-points/user-points.module').then(m => m.UserPointsPageModule)
       },
       {
         path: '',

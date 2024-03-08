@@ -37,13 +37,16 @@ export class BetViewPage implements OnInit {
     );
     this.bet$.subscribe(
       bet => {
-        this.resultService.getResult(bet.race).then(result => {
-          console.log("[bet-view] Result: ", result);
-          if (result) {
-            this.betPoints = PointCalculator.calculatePoints(result, bet);
-          }
-        })
-      });
+        if (bet) {
+          this.resultService.getResult(bet.race).then(result => {
+            console.log("[bet-view] Result: ", result);
+            if (result) {
+              this.betPoints = PointCalculator.calculatePoints(result, bet);
+            }
+          })
+        }
+      }
+    );
   }
 
 }

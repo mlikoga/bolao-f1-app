@@ -2,7 +2,12 @@
 
 ## Changelog
 
-6.0.0 - 2024.02.20
+6.0.1 - 2024.03.08
+
+- FIX: when changing bet during bet period, the prior bet was being read from cache.
+- FIX: No bet message when user did not place a bet.
+
+6.0.0 - 2024.03.05
 
 - NEW: Calendar screen with all races and dates!
   - Each race has its own screen with circuit image, times for all practices, qualifying and race

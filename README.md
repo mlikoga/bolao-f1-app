@@ -12,7 +12,7 @@ Check the full changelog [here](CHANGELOG.md).
 ## Development
 
 **Requirements:**
-- node v10
+- node v10 `nvm use 10`
 - ionic-cli v6 `npm install @ionic/cli@6`
 - Firebase CLI v9 (to deploy) `npm install firebase-tools@9`
 

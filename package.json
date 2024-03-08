@@ -33,7 +33,7 @@
     "core-js": "^2.6.5",
     "firebase": "^7.2",
     "moment": "^2.29.4",
-    "rxjs": "~6.3.3",
+    "rxjs": "^7.5.0",
     "zone.js": "~0.8.29"
   },
   "devDependencies": {

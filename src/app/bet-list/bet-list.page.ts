@@ -63,7 +63,7 @@ export class BetListPage implements OnInit {
   async ionViewDidEnter() {
     this.refresh();
     // If betting is enabled, start countdown
-    if (this.currentRace.isBetOpen()) {
+    if (this.currentRace.isBetOpen(this.timeService.now())) {
       this.startTimer();
     }
   }
@@ -95,14 +95,16 @@ export class BetListPage implements OnInit {
     });
 
     // Check if user has bet
-    if (this.selectedRace.number == 0) {
-      let bet = await this.initialBetService.getUserInitialBet(this.username);  
-      this.userHasBet = bet != null;
-    } else {
-      let bet = await this.betService.getUserBet(this.username, this.selectedRace.id);
-      this.userHasBet = bet != null;
+    if (this.showBet) {
+      if (this.selectedRace.number == 0) {
+        let bet = await this.initialBetService.getUserInitialBet(this.username);  
+        this.userHasBet = bet != null;
+      } else {
+        let bet = await this.betService.getUserBet(this.username, this.selectedRace.id, false);
+        this.userHasBet = bet != null;
+      }
+      console.log("[bet-list] User has bet: ", this.userHasBet);
     }
-    console.log("[bet-list] User has bet: ", this.userHasBet);
     
     if (event) event.target.complete();
   }

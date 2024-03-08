@@ -29,22 +29,27 @@ export class BetService {
     };
   }
 
-  async getUserBet(username: string, raceId: string): Promise<Bet> {
+  async fetchBet(username: string, raceId: string): Promise<Bet> {
+    let doc = await this.db.collection('bets')
+      .where("user", "==", username)
+      .where("race", "==", raceId)
+      .limit(1)
+      .withConverter(this.converter)
+      .get();
+    let result = doc.docs.pop();
+    if (result) {
+      let bet = result.data();
+      return bet;
+    }
+    return null;
+  }
+
+  async getUserBet(username: string, raceId: string, useCache: boolean = true): Promise<Bet> {
     let docId = `${username}.${raceId}`;
-    return this.cache.get_and_save(docId, async () => {
-      let doc = await this.db.collection('bets')
-        .where("user", "==", username)
-        .where("race", "==", raceId)
-        .limit(1)
-        .withConverter(this.converter)
-        .get();
-      let result = doc.docs.pop();
-      if (result) {
-        let bet = result.data();
-        return bet;
-      }
-      return null;
-    });
+    if (useCache) {
+      return this.cache.get_and_save(docId, async () => await this.fetchBet(username, raceId));
+    }
+    return this.fetchBet(username, raceId);
   }
 
   async getLastUserBet(username: string, season: number): Promise<Bet> {

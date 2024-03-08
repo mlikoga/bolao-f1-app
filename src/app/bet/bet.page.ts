@@ -57,7 +57,7 @@ export class BetPage {
     this.route.params.subscribe(async params => {
       let raceId = params['raceid'];
       this.race = await this.raceService.getRace(raceId);
-      let bet   = await this.betService.getUserBet(username, raceId);
+      let bet   = await this.betService.getUserBet(username, raceId, false);
       if (bet) {
         this.currentBet = bet;
         console.log("[BetPage] Bet found: ", this.currentBet);

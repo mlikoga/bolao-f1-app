@@ -47,4 +47,7 @@
       </ion-item>
     </ion-list>
   </div>
+  <div *ngIf="!(bet$ | async)" class="bet__message">
+    <p>Usuário não apostou. Vai receber o mesmo número de pontos que o último colocado no GP.</p>
+  </div>
 </ion-content>

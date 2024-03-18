@@ -27,45 +27,129 @@
         </ion-item>
         <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying' || currentPhase === 'race'}">
           <ion-label class="item__label">Corrida:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.raceStartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.raceStartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('race')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-race"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'race'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-race" [(ngModel)]="race.raceStartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Corrida</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>    
         </ion-item>
         <ion-item [ngClass]="{'race__bold': currentPhase === 'qualifying'}">
           <ion-label class="item__label">Qualifying:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.qualifyingStartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.qualifyingStartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('qualifying')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-qualifying"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'qualifying'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-qualifying" [(ngModel)]="race.qualifyingStartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Qualifying</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal> 
         </ion-item>
         <ion-item *ngIf="race.sprintStartsAt">
           <ion-label class="item__label">Sprint:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintStartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.sprintStartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('sprint')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-sprint"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'sprint'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-sprint" [(ngModel)]="race.sprintStartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Sprint</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
         </ion-item>
         <ion-item *ngIf="race.sprintShootoutStartsAt">
           <ion-label class="item__label">Sprint Qualifying:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.sprintShootoutStartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.sprintShootoutStartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('sprint-qualifying')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-sprint-qualifying"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'sprint-qualifying'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-sprint-qualifying" [(ngModel)]="race.sprintShootoutStartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Sprint Qualifying</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
         </ion-item>
         <ion-item *ngIf="race.practice3StartsAt">
           <ion-label class="item__label">Treino 3:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice3StartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.practice3StartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('practice3')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-practice3"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'practice3'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-practice3" [(ngModel)]="race.practice3StartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Treino 3</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
         </ion-item>
         <ion-item *ngIf="race.practice2StartsAt">
           <ion-label class="item__label">Treino 2:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice2StartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.practice2StartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('practice2')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-practice2"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'practice2'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-practice2" [(ngModel)]="race.practice2StartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Treino 2</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
         </ion-item>
         <ion-item>
           <ion-label class="item__label">Treino 1:</ion-label>
-          <ion-datetime class="item__value ion-text-right" [(ngModel)]="race.practice1StartsAt" 
-                        displayFormat="DDD DD/MM HH:mm" pickerFormat="DD MMM HH:mm" [readonly]="!isAdmin"
-                        [dayShortNames]="PTBR_DAY_SHORT_NAMES" minuteValues="0,15,30,45"></ion-datetime>
+          <ion-label class="item__value ion-text-right">{{ formatDate(race.practice1StartsAt) }}</ion-label>
+          <ion-button fill="clear" color="light" *ngIf="isAdmin" (click)="openDatePicker('practice1')">
+            <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-datetime-button class="hidden" datetime="datetime-practice1"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true" [isOpen]="popupOpen == 'practice1'" (didDismiss)="closeDatePicker()">
+            <ng-template>
+              <ion-datetime id="datetime-practice1" [(ngModel)]="race.practice1StartsAt"
+                      color="primary" locale="pt-BR"
+                      showDefaultButtons="true"
+                      [preferWheel]="true" minuteValues="0,15,30,45">
+                <span slot="title">Treino 1</span>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
         </ion-item>
       </ion-list>
     </ion-card-content>

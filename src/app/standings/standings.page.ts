@@ -55,8 +55,8 @@ export class StandingsPage {
   }
 
   diffIcon(diff: number) {
-    if (diff < 0) return "arrow-dropdown";
-    if (diff > 0) return "arrow-dropup";
+    if (diff < 0) return "caret-down-outline";
+    if (diff > 0) return "caret-up-outline";
     return "remove";
   }
 }

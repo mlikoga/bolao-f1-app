@@ -13,11 +13,12 @@ Check the full changelog [here](CHANGELOG.md).
 
 **Requirements:**
 
-- node v14 `nvm use 14`
+- node v14+ `nvm use 20` (tested until v20.11.1)
 - ionic v6
-- ionic-cli v6 `npm install @ionic/cli@6`
-- Angular v12
-- Firebase CLI v9 (to deploy) `npm install firebase-tools@9`
+- ionic-cli v6 `npm install @ionic/cli@6 --save-dev`
+- Angular v15
+- Firebase CLI v9+ (to deploy) `npm install firebase-tools --save-dev` (tested until v13)
+- Typescript 4.9
 
 **To initialize:**
 `npm install`

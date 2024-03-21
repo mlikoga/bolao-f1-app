@@ -22,7 +22,7 @@
     <ion-item *ngIf="seasonStanding.finished">
       <ion-label color="light">
         <h2 class="winner">{{ seasonStanding.season }} - {{ seasonStanding.userStandings[0].user }} 🏆</h2>
-        <p>{{ seasonStanding.userStandings[1].user }} (2º), {{ seasonStanding.userStandings[2].user }} (3º)</p>
+        <p class="light">{{ seasonStanding.userStandings[1].user }} (2º), {{ seasonStanding.userStandings[2].user }} (3º)</p>
       </ion-label>
     </ion-item>
   </ng-container>

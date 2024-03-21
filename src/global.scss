@@ -44,6 +44,10 @@
   max-width: 3em;
 }
 
+.hidden {
+  display: none;
+}
+
 .item__label {
   flex-basis: min-content;
   flex-shrink: 1;

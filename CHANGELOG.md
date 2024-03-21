@@ -2,6 +2,13 @@
 
 ## Changelog
 
+7.0.0 - 2024.03.19 - Big lib versions update!
+
+- ionic from v4 to v6
+- Angular from v7 to v15
+- node compatibility v14+ (it only worked in v10 before)
+- Typescript from v3 to v4.9
+
 6.0.1 - 2024.03.08
 
 - FIX: when changing bet during bet period, the prior bet was being read from cache.

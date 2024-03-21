@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CacheService {
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: Storage) {
+    this.init();
+  }
+
+  async init() {
+    await this.storage.create();
+  }
 
   set(key: string, value: any) {
     this.storage.set(key, value);

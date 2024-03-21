@@ -21,6 +21,7 @@ export class RaceViewPage {
   hasResult: boolean = false;
   race: Race = Race.empty();
   resultLink: Array<string>;
+  popupOpen: string = null;
 
   constructor(
     private authService: AuthService,
@@ -57,5 +58,17 @@ export class RaceViewPage {
       position: "middle",
       duration: 3000,
     }).then(toast => toast.present());
+  }
+
+  formatDate(date: string): string {
+    return moment(date).locale('pt-br').format("ddd DD/MM HH:mm");
+  }
+
+  openDatePicker(datePickerName: string) {
+    this.popupOpen = datePickerName;
+  }
+
+  closeDatePicker() {
+    this.popupOpen = null;
   }
 }

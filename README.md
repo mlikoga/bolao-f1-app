@@ -15,10 +15,13 @@ Check the full changelog [here](CHANGELOG.md).
 
 - node v14+ `nvm use 20` (tested until v20.11.1)
 - ionic v6
-- ionic-cli v6 `npm install @ionic/cli@6 --save-dev`
 - Angular v15
-- Firebase CLI v9+ (to deploy) `npm install firebase-tools --save-dev` (tested until v13)
 - Typescript 4.9
+
+These CLI versions were tested to work. You can try the latest as it is usually recommeded, but if you encounter any issues, you can use those that are guaranteed to work:
+
+- ionic-cli v7 `npm install @ionic/cli@7.2 --save-dev`
+- Firebase CLI v13 (to deploy) `npm install firebase-tools@v13 --save-dev`
 
 **To initialize:**
 `npm install`

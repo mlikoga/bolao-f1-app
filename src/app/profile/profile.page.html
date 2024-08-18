@@ -35,5 +35,8 @@
     <ion-item class="profile__item--clickable" (click)="backup()" *ngIf="isSuperAdmin">
       <ion-label>Backup</ion-label>
     </ion-item>
+    <ion-item class="profile__item--clickable" (click)="duplicateRace()" *ngIf="isSuperAdmin">
+      <ion-label>Duplicate</ion-label>
+    </ion-item>
   </ion-list>
 </ion-content>

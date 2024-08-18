@@ -122,7 +122,13 @@ export class ResultService {
                        .orderBy("race", "asc")
                        .get();
 
-    return userPoints.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
+    const racePoints = userPoints.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
+
+    // Reorder by race, removing the year and sorting by the number
+    const regexRemoveYear = /(20\d\d|[^\d])/g;
+    racePoints.sort((a, b) => parseInt(a.race.replace(regexRemoveYear, "")) - parseInt(b.race.replace(regexRemoveYear, "")));
+
+    return racePoints;
   }
 
   getTotalPoints(userRacePoints: Array<RacePoints>): number {
@@ -163,6 +169,10 @@ export class ResultService {
                         .get();
 
     const racePoints = queryResult.docs.map(querySnap => RacePoints.from(querySnap.data() as RacePoints));
+    // Reorder by race, removing the year and sorting by the number
+    const regexRemoveYear = /(20\d\d|[^\d])/g;
+    racePoints.sort((a, b) => parseInt(a.race.replace(regexRemoveYear, "")) - parseInt(b.race.replace(regexRemoveYear, "")));
+
     return racePoints;
   }
 

@@ -93,6 +93,10 @@ export class ProfilePage implements OnInit {
     await this.presentUsernamePrompt();
   }
 
+  async duplicateRace() {
+    await this.presentDuplicateRacePrompt();
+  }
+
   async logout() {
     await this.authService.logout();
     this.router.navigate(['login']);
@@ -121,6 +125,39 @@ export class ProfilePage implements OnInit {
             if (username && username !== '') {
               this.authService.updateUsername(username);
             }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private async presentDuplicateRacePrompt() {
+    const alert = await this.alertController.create({
+      header: 'Nome',
+      inputs: [
+        {
+          name: 'srcRace',
+          type: 'text',
+        },
+        {
+          name: 'dstRace',
+          type: 'text',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Ok',
+          handler: (inputs) => {
+            const srcRace = inputs.srcRace;
+            const dstRace = inputs.dstRace;
+            console.log(`Duplicating race ${srcRace} into ${dstRace}`);
+            this.raceService.copyRace(srcRace, dstRace);
           }
         }
       ]

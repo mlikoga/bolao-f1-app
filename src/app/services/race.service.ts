@@ -42,7 +42,8 @@ export class RaceService {
             data.sprintShootoutStartsAt,
             data.circuitImageUrl,
             data.circuitName,
-            data.flag);
+            data.flag,
+            data.linkName);
       }
     };
   }
@@ -63,5 +64,21 @@ export class RaceService {
 
   saveRace(race: Race) {
     this.db.collection('races').doc(race.id).withConverter(this.converter).set(race, { merge: true });
+  }
+
+  async copyRace(srcRaceNumber: string, dstRaceNumber: string) {
+    const dstRaceId = `${this.currentSeason}.${dstRaceNumber}`;
+    let dstRace = await this.getRace(dstRaceId);
+
+    if (dstRace) {
+      console.log(`dstRace ${dstRaceId} already exists, stop operation`);
+      return;
+    } else {
+      const scrRaceId = `${this.currentSeason}.${srcRaceNumber}`;
+      console.log(`dstRace ${dstRaceId} does not exist, creating it from ${scrRaceId}`);
+      let srcRace = await this.getRace(scrRaceId);
+      srcRace.number = Number(dstRaceNumber);
+      this.saveRace(srcRace);
+    }
   }
 }

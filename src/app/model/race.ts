@@ -14,6 +14,7 @@ export class Race {
   sprintShootoutStartsAt: string;
   circuitImageUrl: string;
   circuitName: string;
+  linkName: string;
 
   get id(): string {
     return `${this.season}.${this.number}`;
@@ -44,7 +45,7 @@ export class Race {
   constructor(season: number, number: number, name: string, qualifyingStartsAt: string, 
     practice1StartsAt: string = null, practice2StartsAt: string = null, practice3StartsAt: string = null, raceStartsAt: string = null, 
     sprintStartsAt: string = null, sprintShootoutStartsAt: string = null,
-    circuitImageUrl: string = null, circuitName: string = null, flag: string = null) {
+    circuitImageUrl: string = null, circuitName: string = null, flag: string = null, linkName: string = null) {
     this.season = season;
     this.number = number;
     this.name = name;
@@ -58,6 +59,7 @@ export class Race {
     this.sprintShootoutStartsAt = sprintShootoutStartsAt;
     this.circuitImageUrl = circuitImageUrl;
     this.circuitName = circuitName;
+    this.linkName = linkName;
   }
 
   isBetOpen(time: moment.Moment = moment()): boolean {

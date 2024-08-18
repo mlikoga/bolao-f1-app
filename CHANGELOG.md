@@ -2,6 +2,11 @@
 
 ## Changelog
 
+7.0.1 - 2024.08.18 - Bugfix race order
+
+- FIX: races were being ordered as string, so 10, 11, 12, etc would come before 2 in some screens
+- Changed circuit name in Calendar screen to lightgray
+
 7.0.0 - 2024.03.19 - Big lib versions update!
 
 - ionic from v4 to v6

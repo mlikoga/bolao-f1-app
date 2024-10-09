@@ -2,6 +2,10 @@
 
 ## Changelog
 
+7.0.2 - 2024.10.09 - Added new drivers
+
+- Added Franco Colapinto, Oliver Bearman and Liam Lawson
+
 7.0.1 - 2024.08.18 - Bugfix race order
 
 - FIX: races were being ordered as string, so 10, 11, 12, etc would come before 2 in some screens

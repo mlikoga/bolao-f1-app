@@ -35,7 +35,7 @@ These CLI versions were tested to work. You can try the latest as it is usually 
 **To deploy:**
 
 The first time you have to config Firebase, with:
-`firebase login`
+`./node_modules/firebase-tools/lib/bin/firebase.js login`
 
 Then, just run:
 `./deploy.sh`

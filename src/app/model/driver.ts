@@ -20,12 +20,15 @@ export class Driver {
       { id: "GAS", name: "Pierre Gasly",       number: 10, team: "Alpine" },
       { id: "ALB", name: "Alexander Albon",    number: 23, team: "Williams" },
       { id: "SAR", name: "Logan Sargeant",     number:  2, team: "Williams" },
+      { id: "COL", name: "Franco Colapinto",   number: 43, team: "Williams" },
       { id: "RIC", name: "Daniel Ricciardo",   number:  3, team: "RB" },
       { id: "TSU", name: "Yuki Tsunoda",       number: 22, team: "RB" },
+      { id: "LAW", name: "Liam Lawson",        number: 30, team: "RB" },
       { id: "BOT", name: "Valtteri Bottas",    number: 77, team: "Kick Sauber" },
       { id: "ZHO", name: "Zhou Guanyu",        number: 24, team: "Kick Sauber" },
       { id: "MAG", name: "Kevin Magnussen",    number: 20, team: "Haas F1 Team" },
       { id: "HUL", name: "Niko Hulkenberg",    number: 27, team: "Haas F1 Team" },
+      { id: "BEA", name: "Oliver Bearman",     number: 50, team: "Haas F1 Team" },
       
       
       { id: "SUB", name: "Piloto substituto",  number: 99, team: "-" },

@@ -55,6 +55,6 @@ export class SeasonResultService {
       position: position + 1, // Start with 1
     }
     console.log("Saving: ", seasonPoints);
-    this.db.collection("points").doc(`${initialBetPoints.user}.${raceId}`).set(seasonPoints);
+    this.db.collection("points").doc(`${initialBetPoints.user}.${race.id}`).set(seasonPoints);
   }
 }

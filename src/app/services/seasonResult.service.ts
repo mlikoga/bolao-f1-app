@@ -42,17 +42,19 @@ export class SeasonResultService {
       .map(initialBet => PointCalculator.calculateSeasonPoints(seasonResult, initialBet))
       .sort((a, b) => a.total - b.total || a.user.toLowerCase().localeCompare(b.user.toLowerCase()))
       .reverse()
-      .forEach((betPoints, position) => this.setPoints(race.id, betPoints, position));
+      .forEach((betPoints, position) => this.setPoints(race, betPoints, position));
   }
 
-  private setPoints(raceId: string, initialBetPoints: InitialBetPoints, position: number): void {
+  private setPoints(race: Race, initialBetPoints: InitialBetPoints, position: number): void {
     const seasonPoints = {
       user: initialBetPoints.user,
-      race: raceId,
+      race: race.id,
+      raceName: race.name,
+      season: race.season,
       points: initialBetPoints.total,
       position: position + 1, // Start with 1
     }
     console.log("Saving: ", seasonPoints);
-    this.db.collection("points").doc(`${initialBetPoints.user}.${raceId}`).set(seasonPoints);
+    this.db.collection("points").doc(`${initialBetPoints.user}.${race.id}`).set(seasonPoints);
   }
 }

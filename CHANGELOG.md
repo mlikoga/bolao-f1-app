@@ -2,6 +2,10 @@
 
 ## Changelog
 
+7.0.3 - 2024.12.08 - Bugfix Season Points
+
+- FIX: Season points were not being added to the total sum
+
 7.0.2 - 2024.10.09 - Added new drivers
 
 - Added Franco Colapinto, Oliver Bearman and Liam Lawson

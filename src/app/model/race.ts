@@ -67,6 +67,6 @@ export class Race {
   }
 
   static empty(): Race {
-    return new Race(2024, -1, "Loading...", moment().toISOString(true));
+    return new Race(2025, -1, "Loading...", moment().toISOString(true));
   }
 }

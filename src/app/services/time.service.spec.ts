@@ -8,6 +8,20 @@ const race3 = new Race(2019, 2, 'China', '2019-04-13T00:00:00-03:00');
 
 const allRaces = [race1, race2, race3];
 
+describe('currentSeason', () => {
+  let timeService = new TimeService();
+
+  it('returns previous year if February', () => {
+    let date = moment('2025-02-28T12:00:00-03:00');
+    expect(timeService.currentSeason(date)).toBe(2024);
+  });
+
+  it('returns current year if after March', () => {
+    let date = moment('2025-03-01T12:00:00-03:00');
+    expect(timeService.currentSeason(date)).toBe(2025);
+  });
+});
+
 describe('currentRace', () => {
   let timeService = new TimeService();
 

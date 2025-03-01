@@ -195,7 +195,7 @@ export class ResultService {
       return result
     }
 
-    return null;
+    return SeasonStanding.empty(season);
   }
 
   async legacySeasonStandings(firstRace: number, season: number) {

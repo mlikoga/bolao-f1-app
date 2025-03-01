@@ -2,6 +2,10 @@
 
 ## Changelog
 
+7.1.0 - 2025.02.18 - Season starts in March
+
+- The season results were not accessible after January 1st. Now, last season results are shown until March 1st.
+
 7.0.3 - 2024.12.08 - Bugfix Season Points
 
 - FIX: Season points were not being added to the total sum

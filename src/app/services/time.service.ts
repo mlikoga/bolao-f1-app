@@ -21,6 +21,9 @@ export class TimeService {
   }
 
   currentSeason(time: moment.Moment = this.now()): number {
+    if (time.month() < 2) {
+      return time.year() - 1; // F1 season starts in March (month 2 because it's zero-based)
+    }
     return time.year();
   }
 

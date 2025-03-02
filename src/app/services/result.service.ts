@@ -107,9 +107,10 @@ export class ResultService {
     let racePoints = queryResult.docs.map(querySnap => querySnap.data() as RacePoints);
     if (racePoints.length == 0) {
       // Se não tem ainda, cria array de RacePoints zerados
-      let users = await this.userService.getUsers(this.timeService.currentSeason());
+      let season = this.timeService.currentSeason();
+      let users = await this.userService.getUsers(season);
       for (var user of users) {
-        racePoints.push(RacePoints.empty(user.username, raceId));
+        racePoints.push(RacePoints.empty(user.username, raceId, season));
       }
     }
     return racePoints.sort((a, b) => b.points - a.points || a.user.toLowerCase().localeCompare(b.user.toLowerCase()));
@@ -194,7 +195,7 @@ export class ResultService {
       return result
     }
 
-    return null;
+    return SeasonStanding.empty(season);
   }
 
   async legacySeasonStandings(firstRace: number, season: number) {

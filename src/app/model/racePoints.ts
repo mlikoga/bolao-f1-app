@@ -17,8 +17,8 @@ export class RacePoints {
     this.position = position;
   }
 
-  static empty(user: string, raceId: string) {
-    return new RacePoints(user, raceId, "", 2024, 0)
+  static empty(user: string, raceId: string, season: number) {
+    return new RacePoints(user, raceId, "", season, 0)
   }
 
   static from(racePoints: RacePoints) {

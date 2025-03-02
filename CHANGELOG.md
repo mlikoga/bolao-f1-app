@@ -2,6 +2,11 @@
 
 ## Changelog
 
+7.2.0 - 2025.03.01 - Season 2025 starting
+
+- Updated drivers for 2025
+- Fix: bug of empty Hall of Fame when season has just started
+
 7.1.0 - 2025.02.18 - Season starts in March
 
 - The season results were not accessible after January 1st. Now, last season results are shown until March 1st.

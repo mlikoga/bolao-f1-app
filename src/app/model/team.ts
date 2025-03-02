@@ -12,7 +12,7 @@ export class Team {
       { name: "Williams" },
       { name: "RB" },
       { name: "Kick Sauber" },
-      { name: "Haas F1 Team" },
+      { name: "Haas" },
     ];
   }
 }

@@ -2,7 +2,15 @@
 
 ## Changelog
 
+8.0.1 - 2026.03.04 - Bugfix teams
+
+- Changed teams from hard-coded list to get it from Drivers list
+
 8.0.0 - 2026.03.04 - Season 2026 starting
+
+- Updated drivers for 2025
+- Added script to populate races
+- Removed fastest lap on bets
 
 7.2.0 - 2025.03.01 - Season 2025 starting
 

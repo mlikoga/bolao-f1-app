@@ -41,7 +41,7 @@ export class TimeService {
         }
       }
     }
-    
+
     return allRaces[allRaces.length - 1];
   }
 
@@ -67,7 +67,7 @@ export class TimeService {
   timeToBetEnd(race: Race, time: moment.Moment = this.now()): moment.Duration {
     const betEnd = moment(race.betEndsAt);
     const diff   = moment.duration(betEnd.diff(time, 'seconds'), 'seconds');
-    
+
     return diff;
   }
 
@@ -89,9 +89,7 @@ export class TimeService {
 
   now(): moment.Moment {
     return moment();
-    //return moment('2024-03-01:00:00-03:00'); // bet period for Bahrein
-    //return moment('2024-03-03T12:00:00-03:00'); // post-bet period for Bahrein
-    //return moment('2024-03-06T12:00:00-03:00'); // bet period for Arabia
+    //return moment('2026-03-06:00:00-03:00'); // bet period for Australia
   }
 
 }

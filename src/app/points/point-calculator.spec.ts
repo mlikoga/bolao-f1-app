@@ -7,7 +7,6 @@ describe("Australia GP 2019", function() {
     pole: "HAM",
     qualifying2: "BOT",
     qualifying3: "VER",
-    fastestLap: "BOT",
     positions: ["BOT", "HAM", "VER", "VET", "LEC", "MAG", "HUL", "RAI", "STR", "KVY", "GAS"],
     race: "1",
   };
@@ -17,7 +16,6 @@ describe("Australia GP 2019", function() {
       pole: "GAS",
       qualifying2: "NOR",
       qualifying3: "PER",
-      fastestLap: "GAS",
       positions: ["GAS", "NOR", "PER", "ALB", "GIO", "RUS", "KUB", "GRO", "RIC", "SAI"],
       user: "user",
       race: "1",
@@ -25,30 +23,28 @@ describe("Australia GP 2019", function() {
     expect(PointCalculator.calculatePoints(result, bet).total).toBe(0);
   });
 
-  it("pole and fastest lap - 11 pts", function() {
+  it("pole - 5 pts", function() {
     let bet = Bet.from({
-      pole: "HAM", // 10
+      pole: "HAM", // 5
       qualifying2: "NOR",
       qualifying3: "LEC",
-      fastestLap: "BOT", // 1
       positions: ["GAS", "NOR", "PER", "ALB", "GIO", "RUS", "KUB", "GRO", "RIC", "SAI"],
       user: "user",
       race: "1",
     } as Bet);
-    expect(PointCalculator.calculatePoints(result, bet).total).toBe(11);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBe(5);
   });
 
-  it("2nd and 3rd of qualifying - 10 pts", function() {
+  it("2nd and 3rd of qualifying - 4 pts", function() {
     let bet = Bet.from({
       pole: "NOR",
-      qualifying2: "BOT", // 7
-      qualifying3: "VER", // 3
-      fastestLap: "GAS",
+      qualifying2: "BOT", // 3
+      qualifying3: "VER", // 1
       positions: ["GAS", "NOR", "PER", "ALB", "GIO", "RUS", "KUB", "GRO", "RIC", "SAI"],
       user: "user",
       race: "1",
     } as Bet);
-    expect(PointCalculator.calculatePoints(result, bet).total).toBe(10);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBe(4);
   });
 
   it("Just winner - 25 pts", function() {
@@ -56,7 +52,6 @@ describe("Australia GP 2019", function() {
       pole: "GAS",
       qualifying2: "NOR",
       qualifying3: "PER",
-      fastestLap: "GAS",
       positions: ["BOT", "NOR", "PER", "ALB", "GIO", "RUS", "KUB", "GRO", "RIC", "SAI"],
       user: "user",
       race: "1",
@@ -69,7 +64,6 @@ describe("Australia GP 2019", function() {
       pole: "GAS",
       qualifying2: "NOR",
       qualifying3: "PER",
-      fastestLap: "GAS",
       positions: ["GAS", "BOT", "PER", "ALB", "GIO", "RUS", "KUB", "GRO", "RIC", "SAI"],
       user: "user",
       race: "1",
@@ -80,15 +74,14 @@ describe("Australia GP 2019", function() {
   it("Yuri bet", function() {
     let bet = Bet.from({
       pole: "LEC",
-      qualifying2: "BOT",
-      qualifying3: "PER", // 7,
-      fastestLap: "HAM",
+      qualifying2: "BOT", // 3
+      qualifying3: "PER",
       //points:  [    0,  10.8,   1.5,   1.2,     1,     0,     6,     0,     0,     0],
       positions: ["VET", "LEC", "HAM", "RAI", "BOT", "VER", "HUL", "GAS", "RIC", "MAG"],
       user: "Yuri",
       race: "1",
     } as Bet);
-    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(27.5);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(23.5);
   });
 });
 
@@ -97,7 +90,6 @@ describe("Exemplo do regulamento", function() {
     pole: "VET",
     qualifying2: "RIC",
     qualifying3: "BOT",
-    fastestLap: "VET",
     positions: ["RIC", "BOT", "RAI", "HAM", "VER", "HUL", "ALO", "VET", "SAI", "MAG"],
     user: "resultado",
     race: "1",
@@ -108,7 +100,6 @@ describe("Exemplo do regulamento", function() {
       pole: "HAM",
       qualifying2: "NOR",
       qualifying3: "PER",
-      fastestLap: "RIC",
       positions: ["HAM", "BOT", "RAI", "VET", "HUL", "MAG", "VAN", "VER", "ALO", "SAI"],
       user: "user",
       race: "1",
@@ -118,16 +109,15 @@ describe("Exemplo do regulamento", function() {
 
   it("Apostador 2", function() {
     let bet = Bet.from({
-      pole: "VET", // 10
+      pole: "VET", // 5
       qualifying2: "NOR",
       qualifying3: "PER",
-      fastestLap: "VET", // 1
       // points: [    0,   5.4,    15,   1.2,    10,     0,   1.8,     0,    1.2,   0]
       positions: ["HAM", "VET", "RAI", "BOT", "VER", "RIC", "GAS", "SAI", "ALO", "HUL"],
       user: "user",
       race: "1",
     } as Bet);
-    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(45.6);
+    expect(PointCalculator.calculatePoints(result, bet).total).toBeCloseTo(39.6);
   });
 });
 

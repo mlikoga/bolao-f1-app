@@ -12,19 +12,16 @@ export class PointCalculator {
   static calculatePoints(result: Result, bet: Bet): BetPoints {
     let betPoints = new BetPoints(bet.user, bet.race);
     if(result.pole === bet.pole) {
-      betPoints.pole = 10;
+      betPoints.pole = 5;
     }
     if(result.qualifying2 === bet.qualifying2) {
-      betPoints.qualifying2 = 7;
+      betPoints.qualifying2 = 3;
     }
     if(result.qualifying3 === bet.qualifying3) {
-      betPoints.qualifying3 = 3;
+      betPoints.qualifying3 = 1;
     }
-    if(result.fastestLap === bet.fastestLap) {
-      betPoints.fastestLap = 1;
-    }
-    
-    // Exact match gets 100% of points; 1 position of difference gets 60%; 
+
+    // Exact match gets 100% of points; 1 position of difference gets 60%;
     // 2 positions of difference gets 30%; 3 positions of difference gets 10%
     for (let i = 0; i < 10; i++) {
       let bet_i = bet.positions[i];
@@ -50,7 +47,7 @@ export class PointCalculator {
 
   static calculateSeasonPoints(seasonResult: SeasonResult, initialBet: InitialBet): InitialBetPoints {
     let initialBetPoints = new InitialBetPoints(initialBet.user, initialBet.season);
-    
+
     for (let i = 0; i < seasonResult.driversPositions.length; i++) {
       if (seasonResult.driversPositions[i] === initialBet.driversPositions[i]) {
         initialBetPoints.driversPositions[i] = 10 * (5 - i);  // 50, 40, 30, 20, 10

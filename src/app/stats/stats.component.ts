@@ -14,7 +14,7 @@ import { LoadingController } from '@ionic/angular';
 export class StatsComponent implements OnInit {
 
   @Input() selectedRace: Race = Race.empty();
-  
+
   cards: Array<[string, Array<DataPoint>]> = []
 
   constructor(
@@ -59,7 +59,6 @@ export class StatsComponent implements OnInit {
         this.cards.push(["Qualifying 1º", this.calculateDataPoints(bets.map(bet => bet.pole))]);
         this.cards.push(["Qualifying 2º", this.calculateDataPoints(bets.map(bet => bet.qualifying2))]);
         this.cards.push(["Qualifying 3º", this.calculateDataPoints(bets.map(bet => bet.qualifying3))]);
-        this.cards.push(["Volta mais rápida", this.calculateDataPoints(bets.map(bet => bet.fastestLap))]);
         this.cards.push(["Vencedor", this.calculateDataPoints(bets.map(bet => bet.positions[0]))]);
         for (var i = 1; i <= 4; i++) {
           this.cards.push([`${i+1}º`, this.calculateDataPoints(bets.map(bet => bet.positions[i]))]);

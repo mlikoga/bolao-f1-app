@@ -70,15 +70,6 @@
       <ion-label *ngIf="!isAdmin" class="ion-text-right">{{ result.qualifying3 }}</ion-label>
     </ion-item>
     <ion-item class="ion-text-center"><ion-label>-------------------------</ion-label></ion-item>
-    <ion-item>
-      <ion-label>Volta mais rápida</ion-label>
-      <ion-select *ngIf="isAdmin" [(ngModel)]="result.fastestLap" placeholder="Select driver" interface="alert">
-        <ion-select-option *ngFor="let driver of drivers" value="{{driver.id}}">
-          {{ driver.name }}
-        </ion-select-option>
-      </ion-select>
-      <ion-label *ngIf="!isAdmin" class="ion-text-right">{{ result.fastestLap }}</ion-label>
-    </ion-item>
     <ion-reorder-group (ionItemReorder)="itemReorder($event)" [disabled]="!isAdmin">
       <ion-item *ngFor="let driver of driversOrdered; index as idx">
         <ion-label class="position">{{ idx + 1}}</ion-label>

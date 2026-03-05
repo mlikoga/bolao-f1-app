@@ -89,7 +89,7 @@ export class BetPage {
       }
     }
   }
-  
+
   clearAllFields() {
     this.alertService.confirm("Limpar todos os campos?", "", () => {
       this.currentBet = Bet.empty();
@@ -98,7 +98,6 @@ export class BetPage {
 
   canSubmit() {
     return !!this.currentBet.pole &&
-      !!this.currentBet.fastestLap &&
       !this.currentBet.positions.includes(undefined) &&
       !this.currentBet.positions.includes(null);
   }
@@ -144,7 +143,6 @@ export class BetPage {
       pole: this.currentBet.pole,
       qualifying2: this.currentBet.qualifying2,
       qualifying3: this.currentBet.qualifying3,
-      fastestLap: this.currentBet.fastestLap,
       positions: this.currentBet.positions,
       forgotten: false,
       createdAt: new Date(),

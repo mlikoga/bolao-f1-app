@@ -35,15 +35,15 @@ export class Race {
       if (startDate.month() === endDate.month()) {
         return `${startDate.format("MMM DD")} - ${endDate.format("DD")}`;
       }
-     
+
       return `${startDate.format("MMM DD")} - ${endDate.format("MMM DD")}`;
     }
-    
+
     return "";
   }
 
-  constructor(season: number, number: number, name: string, qualifyingStartsAt: string, 
-    practice1StartsAt: string = null, practice2StartsAt: string = null, practice3StartsAt: string = null, raceStartsAt: string = null, 
+  constructor(season: number, number: number, name: string, qualifyingStartsAt: string,
+    practice1StartsAt: string = null, practice2StartsAt: string = null, practice3StartsAt: string = null, raceStartsAt: string = null,
     sprintStartsAt: string = null, sprintShootoutStartsAt: string = null,
     circuitImageUrl: string = null, circuitName: string = null, flag: string = null, linkName: string = null) {
     this.season = season;
@@ -67,6 +67,6 @@ export class Race {
   }
 
   static empty(): Race {
-    return new Race(2025, -1, "Loading...", moment().toISOString(true));
+    return new Race(2026, -1, "Loading...", moment().toISOString(true));
   }
 }

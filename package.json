@@ -1,6 +1,6 @@
 {
   "name": "bolao-f1",
-  "version": "7.2.0",
+  "version": "8.0.0",
   "author": "Marcelo Li Koga",
   "homepage": "https://bolao-f1-2019.web.app/",
   "scripts": {
@@ -42,7 +42,7 @@
     "@angular/compiler-cli": "^15.2.10",
     "@angular/language-service": "^15.2.10",
     "@ionic/angular-toolkit": "^4.0.0",
-    "@ionic/cli": "^7.2.0",
+    "@ionic/cli": "^7.2.1",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",

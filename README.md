@@ -13,7 +13,7 @@ Check the full changelog [here](CHANGELOG.md).
 
 **Requirements:**
 
-- node v14+ `nvm use 20` (tested until v20.11.1)
+- node v14+ `nvm use 20` (tested until v20.17.0)
 - ionic v6
 - Angular v15
 - Typescript 4.9

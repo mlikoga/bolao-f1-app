@@ -2,6 +2,8 @@
 
 ## Changelog
 
+8.0.0 - 2026.03.04 - Season 2026 starting
+
 7.2.0 - 2025.03.01 - Season 2025 starting
 
 - Updated drivers for 2025
@@ -49,12 +51,12 @@
   - Bet deadline is now until start of qualifying
   - No more bet on Sprint race
   - No more extra 2 points per driver on the first 10
-  - Fastest lap changed from 10 to 1 point  
+  - Fastest lap changed from 10 to 1 point
   - Bet on first 3 of qualifying
   - User can bet in any future race, not just the next one
 
 5.1.0 - 2023.07.23
-- Chrome recently rolled out the Popover API. Unfortunately some old code that Ionic had used in ion-popover conflicted with the Popover API, causing a bug. We removed the use of popover. More info: https://github.com/ionic-team/ionic-framework/issues/27599#issuecomment-1584711091 
+- Chrome recently rolled out the Popover API. Unfortunately some old code that Ionic had used in ion-popover conflicted with the Popover API, causing a bug. We removed the use of popover. More info: https://github.com/ionic-team/ionic-framework/issues/27599#issuecomment-1584711091
 - Fixed bug in stats screen that prevented frow showing bars with more than 12 people.
 - Updated drivers colors
 

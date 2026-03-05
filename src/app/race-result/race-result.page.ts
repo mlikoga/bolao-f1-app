@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 export class RaceResultPage {
   drivers: Array<Driver> = Driver.all();
   result: Result = new Result("");
-  seasonResult: SeasonResult = new SeasonResult(2025);
+  seasonResult: SeasonResult = new SeasonResult(2026);
   driversOrdered: Array<Driver>;
   isAdmin: boolean = false;
   selectedRace: Race = Race.empty();

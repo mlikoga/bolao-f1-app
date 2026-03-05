@@ -1,6 +1,6 @@
 {
   "name": "bolao-f1",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "author": "Marcelo Li Koga",
   "homepage": "https://bolao-f1-2019.web.app/",
   "scripts": {
@@ -49,7 +49,7 @@
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "firebase-admin": "^13.7.0",
-    "firebase-tools": "^13.6.0",
+    "firebase-tools": "^13.32.0",
     "jasmine-core": "~3.8.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.4.3",

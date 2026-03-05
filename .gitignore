@@ -34,3 +34,4 @@ $RECYCLE.BIN/
 *.db
 UserInterfaceState.xcuserstate
 .firebase/*
+service-account.json

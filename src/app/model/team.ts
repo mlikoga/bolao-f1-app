@@ -1,18 +1,11 @@
+import { Driver } from './driver';
 export class Team {
   name: string;
 
   static all() : Array<Team> {
-    return [
-      { name: "Red Bull Racing" },
-      { name: "Mercedes" },
-      { name: "Ferrari" },
-      { name: "McLaren" },
-      { name: "Aston Martin" },
-      { name: "Alpine" },
-      { name: "Williams" },
-      { name: "RB" },
-      { name: "Kick Sauber" },
-      { name: "Haas" },
-    ];
+    const teams = Array.from(new Set(Driver.all().map(driver => driver.team)))
+      .filter(team => team && team !== '-')
+      .map(team => ({ name: team }));
+    return teams;
   }
 }

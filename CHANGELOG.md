@@ -2,7 +2,7 @@
 
 ## Changelog
 
-8.0.2 - 2026.09.12 - Fix stuck loading on bet submit
+8.1.0 - 2026.09.12 - Firebase SDK upgrade and bet submit fixes
 
 - Fixed infinite loading when submitting bets (await loader present/dismiss race)
 - Added 15s timeout on bet submit Firestore writes

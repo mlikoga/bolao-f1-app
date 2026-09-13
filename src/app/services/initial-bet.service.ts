@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { InitialBet } from '../model/initial-bet';
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 import { TimeService } from './time.service';
 
 @Injectable({
@@ -37,9 +37,9 @@ export class InitialBetService {
     return await this.getUserInitialBet(username, season) != null;
   }
 
-  async setUserInitialBet(initialBet: InitialBet) {
+  async setUserInitialBet(initialBet: InitialBet): Promise<void> {
     let docId = `${initialBet.season}.${initialBet.user}`;
-    this.db.collection('initialBets').doc(docId).set(Object.assign(initialBet, {
+    await this.db.collection('initialBets').doc(docId).set(Object.assign(initialBet, {
       createdAt: new Date(),
     }), { merge: true });
   }

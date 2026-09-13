@@ -2,6 +2,14 @@
 
 ## Changelog
 
+8.1.0 - 2026.09.12 - Firebase SDK upgrade and bet submit fixes
+
+- Fixed infinite loading when submitting bets (await loader present/dismiss race)
+- Added 15s timeout on bet submit Firestore writes
+- Require qualifying 2 and 3 before allowing race bet submit
+- Fixed initial bet submit not awaiting Firestore write
+- Upgraded Firebase JavaScript SDK from 7.24.0 to 12.19.0
+
 8.0.1 - 2026.03.04 - Bugfix teams
 
 - Changed teams from hard-coded list to get it from Drivers list

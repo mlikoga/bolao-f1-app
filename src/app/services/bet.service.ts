@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 import { Bet } from '../model/bet';
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
 @Injectable({
   providedIn: 'root'

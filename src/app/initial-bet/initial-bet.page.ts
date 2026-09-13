@@ -11,6 +11,9 @@ import { Team } from '../model/team';
 import { AuthService } from '../services/auth.service';
 import { InitialBetService } from '../services/initial-bet.service';
 import { TimeService } from '../services/time.service';
+import { withTimeout } from 'app/utils/promise.util';
+
+const SUBMIT_TIMEOUT_MS = 15000;
 
 
 @Component({
@@ -105,35 +108,36 @@ export class InitialBetPage {
       spinner: "circles",
       translucent: true,
     });
-    loading.present();
+    await loading.present();
 
-    this.initialBetService.setUserInitialBet({
-      ...this.initialBet,
-      user: username,
-      season: season,
-    })
-    .then(() => {
+    try {
+      await withTimeout(
+        this.initialBetService.setUserInitialBet({
+          ...this.initialBet,
+          user: username,
+          season: season,
+        }),
+        SUBMIT_TIMEOUT_MS
+      );
       console.log("Initial Bet registered!");
-      this.toastController.create({
+      const toast = await this.toastController.create({
         message: "Aposta enviada com sucesso!",
         color: "success",
         position: "middle",
         duration: 5000,
-      })
-      .then(toast => toast.present())
-      .then(() => this.router.navigate(['tabs']));
-    })
-    .catch(error => {
+      });
+      await toast.present();
+      this.router.navigate(['tabs']);
+    } catch (error) {
       console.error("Error on submitting bet: ", error);
-      this.toastController.create({
+      const toast = await this.toastController.create({
         message: `Erro ao enviar aposta :( ${error}`,
         color: "danger",
         duration: 5000,
-      })
-      .then(toast => toast.present());
-    })
-    .finally(() => {
-      loading.dismiss();
-    });
+      });
+      await toast.present();
+    } finally {
+      await loading.dismiss();
+    }
   }
 }

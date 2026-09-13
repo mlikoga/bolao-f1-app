@@ -1,6 +1,6 @@
 {
   "name": "bolao-f1",
-  "version": "8.0.1",
+  "version": "8.1.0",
   "author": "Marcelo Li Koga",
   "homepage": "https://bolao-f1-2019.web.app/",
   "scripts": {
@@ -29,7 +29,7 @@
     "@ionic/storage-angular": "^4.0.0",
     "cordova-plugin-ionic": "^5.5.3",
     "core-js": "^2.6.5",
-    "firebase": "^7.24.0",
+    "firebase": "^12.19.0",
     "moment": "^2.30.1",
     "rxjs": "^6.6.7",
     "tslib": "^2.0.0",

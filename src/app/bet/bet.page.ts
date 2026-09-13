@@ -15,6 +15,9 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import { BetService } from 'app/services/bet.service';
 import { AlertService } from 'app/services/alert.service';
+import { withTimeout } from 'app/utils/promise.util';
+
+const SUBMIT_TIMEOUT_MS = 15000;
 
 @Component({
   selector: 'app-bet',
@@ -98,6 +101,8 @@ export class BetPage {
 
   canSubmit() {
     return !!this.currentBet.pole &&
+      !!this.currentBet.qualifying2 &&
+      !!this.currentBet.qualifying3 &&
       !this.currentBet.positions.includes(undefined) &&
       !this.currentBet.positions.includes(null);
   }
@@ -135,39 +140,40 @@ export class BetPage {
       spinner: "circles",
       translucent: true,
     });
-    loading.present();
+    await loading.present();
 
-    this.db.collection("bets").doc(docId).set({
-      user: username,
-      race: race,
-      pole: this.currentBet.pole,
-      qualifying2: this.currentBet.qualifying2,
-      qualifying3: this.currentBet.qualifying3,
-      positions: this.currentBet.positions,
-      forgotten: false,
-      createdAt: new Date(),
-    }, { merge: true })
-    .then(() => {
+    try {
+      await withTimeout(
+        this.db.collection("bets").doc(docId).set({
+          user: username,
+          race: race,
+          pole: this.currentBet.pole,
+          qualifying2: this.currentBet.qualifying2,
+          qualifying3: this.currentBet.qualifying3,
+          positions: this.currentBet.positions,
+          forgotten: false,
+          createdAt: new Date(),
+        }, { merge: true }),
+        SUBMIT_TIMEOUT_MS
+      );
       console.log("Bet registered!");
-      this.toastController.create({
+      const toast = await this.toastController.create({
         message: "Aposta enviada com sucesso!",
         color: "success",
         position: "middle",
         duration: 5000,
-      })
-      .then(toast => toast.present());
-    })
-    .catch(error => {
+      });
+      await toast.present();
+    } catch (error) {
       console.error("Error on submitting bet: ", error);
-      this.toastController.create({
+      const toast = await this.toastController.create({
         message: `Erro ao enviar aposta :( ${error}`,
         color: "danger",
         duration: 5000,
-      })
-      .then(toast => toast.present());
-    })
-    .finally(() => {
-      loading.dismiss();
-    });
+      });
+      await toast.present();
+    } finally {
+      await loading.dismiss();
+    }
   }
 }

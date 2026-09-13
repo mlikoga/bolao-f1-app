@@ -37,9 +37,9 @@ export class InitialBetService {
     return await this.getUserInitialBet(username, season) != null;
   }
 
-  async setUserInitialBet(initialBet: InitialBet) {
+  async setUserInitialBet(initialBet: InitialBet): Promise<void> {
     let docId = `${initialBet.season}.${initialBet.user}`;
-    this.db.collection('initialBets').doc(docId).set(Object.assign(initialBet, {
+    await this.db.collection('initialBets').doc(docId).set(Object.assign(initialBet, {
       createdAt: new Date(),
     }), { merge: true });
   }

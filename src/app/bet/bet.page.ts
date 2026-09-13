@@ -11,8 +11,8 @@ import { AuthService } from '../services/auth.service';
 import { RaceService } from '../services/race.service';
 import { TimeService } from '../services/time.service';
 
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 import { BetService } from 'app/services/bet.service';
 import { AlertService } from 'app/services/alert.service';
 import { withTimeout } from 'app/utils/promise.util';

@@ -32,6 +32,23 @@ These CLI versions were tested to work. You can try the latest as it is usually 
 **To run tests:**
 `npm test`
 
+**Admin scripts (Firestore):**
+
+Scripts under `src/scripts/` use `firebase-admin` and need a service account key at the project root:
+
+1. Firebase Console → Project Settings → Service Accounts
+2. Generate a new private key and save it as `service-account.json` (do not commit this file)
+
+Then run with `tsx`:
+
+```bash
+# Populate all 2026 races
+npm run populate-races
+
+# Save a single race (edit the race object in the file first)
+npx tsx src/scripts/save-race.ts
+```
+
 **To deploy:**
 
 The first time you have to config Firebase, with:
